@@ -18,6 +18,7 @@ namespace CustomWise.Data.Migrations
                         IsActive = c.Boolean(nullable: false),
                         Deleted = c.Boolean(nullable: false),
                         Order = c.Int(nullable: false),
+                        ReferenceId = c.Int(nullable: false),
                         CreatedBy = c.String(nullable: false, maxLength: 64),
                         CreatedDate = c.DateTime(nullable: false),
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
@@ -35,6 +36,7 @@ namespace CustomWise.Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         SpecificationId = c.Int(nullable: false),
+                        MetaDataTypeId = c.Int(nullable: false),
                         Key = c.String(nullable: false, maxLength: 64),
                         Value = c.String(nullable: false, maxLength: 256),
                         CreatedBy = c.String(nullable: false, maxLength: 64),
@@ -44,10 +46,25 @@ namespace CustomWise.Data.Migrations
                         Artifact_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.MetaDataTypes", t => t.MetaDataTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.Specifications", t => t.SpecificationId, cascadeDelete: true)
                 .ForeignKey("dbo.Artifacts", t => t.Artifact_Id)
                 .Index(t => t.SpecificationId)
+                .Index(t => t.MetaDataTypeId)
                 .Index(t => t.Artifact_Id);
+            
+            CreateTable(
+                "dbo.MetaDataTypes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false, maxLength: 64),
+                        CreatedBy = c.String(nullable: false, maxLength: 64),
+                        CreatedDate = c.DateTime(nullable: false),
+                        ModifiedBy = c.String(nullable: false, maxLength: 64),
+                        ModifiedDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Specifications",
@@ -60,6 +77,7 @@ namespace CustomWise.Data.Migrations
                         IsActive = c.Boolean(nullable: false),
                         Deleted = c.Boolean(nullable: false),
                         Order = c.Int(nullable: false),
+                        ReferenceId = c.Int(nullable: false),
                         SpecificationVersionId = c.Int(nullable: false),
                         CreatedBy = c.String(nullable: false, maxLength: 64),
                         CreatedDate = c.DateTime(nullable: false),
@@ -95,24 +113,8 @@ namespace CustomWise.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        MetaDataTypeId = c.Int(nullable: false),
                         DisplayName = c.String(nullable: false, maxLength: 64),
                         SystemName = c.String(nullable: false, maxLength: 64),
-                        CreatedBy = c.String(nullable: false, maxLength: 64),
-                        CreatedDate = c.DateTime(nullable: false),
-                        ModifiedBy = c.String(nullable: false, maxLength: 64),
-                        ModifiedDate = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MetaDataTypes", t => t.MetaDataTypeId, cascadeDelete: true)
-                .Index(t => t.MetaDataTypeId);
-            
-            CreateTable(
-                "dbo.MetaDataTypes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 64),
                         CreatedBy = c.String(nullable: false, maxLength: 64),
                         CreatedDate = c.DateTime(nullable: false),
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
@@ -125,14 +127,14 @@ namespace CustomWise.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false),
-                        LanguageCode = c.String(nullable: false, maxLength: 128),
+                        LocalCode = c.String(nullable: false, maxLength: 128),
                         DisplayName = c.String(nullable: false, maxLength: 64),
                         CreatedBy = c.String(nullable: false, maxLength: 64),
                         CreatedDate = c.DateTime(nullable: false),
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
                         ModifiedDate = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => new { t.Id, t.LanguageCode })
+                .PrimaryKey(t => new { t.Id, t.LocalCode })
                 .ForeignKey("dbo.Specifications", t => t.Id, cascadeDelete: true)
                 .Index(t => t.Id);
             
@@ -162,25 +164,25 @@ namespace CustomWise.Data.Migrations
             DropForeignKey("dbo.Specifications", "SpecificationVersionId", "dbo.SpecificationVersions");
             DropForeignKey("dbo.SpecificationLocals", "Id", "dbo.Specifications");
             DropForeignKey("dbo.Specifications", "RecordTypeId", "dbo.RecordTypes");
-            DropForeignKey("dbo.RecordTypes", "MetaDataTypeId", "dbo.MetaDataTypes");
             DropForeignKey("dbo.Specifications", "ParentSpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.Configurations", "SpecificationId", "dbo.Specifications");
+            DropForeignKey("dbo.MetaData", "MetaDataTypeId", "dbo.MetaDataTypes");
             DropIndex("dbo.SpecificationLocals", new[] { "Id" });
-            DropIndex("dbo.RecordTypes", new[] { "MetaDataTypeId" });
             DropIndex("dbo.Configurations", new[] { "SpecificationId" });
             DropIndex("dbo.Specifications", new[] { "SpecificationVersionId" });
             DropIndex("dbo.Specifications", new[] { "RecordTypeId" });
             DropIndex("dbo.Specifications", new[] { "ParentSpecificationId" });
             DropIndex("dbo.MetaData", new[] { "Artifact_Id" });
+            DropIndex("dbo.MetaData", new[] { "MetaDataTypeId" });
             DropIndex("dbo.MetaData", new[] { "SpecificationId" });
             DropIndex("dbo.Artifacts", new[] { "RecordTypeId" });
             DropIndex("dbo.Artifacts", new[] { "ParentArtifactId" });
             DropTable("dbo.SpecificationVersions");
             DropTable("dbo.SpecificationLocals");
-            DropTable("dbo.MetaDataTypes");
             DropTable("dbo.RecordTypes");
             DropTable("dbo.Configurations");
             DropTable("dbo.Specifications");
+            DropTable("dbo.MetaDataTypes");
             DropTable("dbo.MetaData");
             DropTable("dbo.Artifacts");
         }

@@ -10,7 +10,7 @@
         [ForeignKey("Specification")]
         public int Id { get; set; }
         [Key, Column(Order = 2)]
-        public string LanguageCode { get; set; }
+        public string LocalCode { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
         public virtual Specification Specification { get; set; }

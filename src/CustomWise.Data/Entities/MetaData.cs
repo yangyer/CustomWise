@@ -10,10 +10,13 @@
         public int Id { get; set; }
         [ForeignKey("Specification")]
         public int SpecificationId { get; set; }
+        [ForeignKey("MetaDataType")]
+        public int MetaDataTypeId { get; set; }
         [Required, MaxLength(64)]
         public string Key { get; set; }
         [Required, MaxLength(256)]
         public string Value { get; set; }
+        public MetaDataType MetaDataType { get; set; }
         public virtual Specification Specification { get; set; }
 
         public MetaData()

@@ -18,6 +18,7 @@
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public int Order { get; set; }
+        public int ReferenceId { get; set; }
         public virtual RecordType RecordType { get; set; }
         public virtual Artifact ParentArtifact { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();

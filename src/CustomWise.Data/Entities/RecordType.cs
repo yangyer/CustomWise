@@ -11,13 +11,10 @@ namespace CustomWise.Data.Entities {
         : BaseEntity {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("MetaDataType")]
-        public int MetaDataTypeId { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
         [Required, MaxLength(64)]
         public string SystemName { get; set; }
-        public MetaDataType MetaDataType { get; set; }
         public virtual ICollection<Specification> Specifications { get; set; } = new HashSet<Specification>();
         public virtual ICollection<Artifact> Artifacts { get; set; } = new HashSet<Artifact>();
 
