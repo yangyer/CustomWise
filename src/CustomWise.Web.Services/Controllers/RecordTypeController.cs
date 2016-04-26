@@ -6,6 +6,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System;
 
 namespace CustomWise.Web.Services.Controllers {
     public class RecordTypeController 
@@ -35,18 +36,17 @@ namespace CustomWise.Web.Services.Controllers {
         }
 
         public async Task<DtoEntities.RecordType> Get(int id) {
-            return await _context.RecordTypes
+            return (await Get())
                 .Where(r => r.Id == id)
-                .Select(r => new DtoEntities.RecordType {
-                    Id = r.Id,
-                    DisplayName = r.DisplayName,
-                    SystemName = r.SystemName,
-                    CreatedBy = r.CreatedBy,
-                    CreatedDate = r.CreatedDate,
-                    ModifiedBy = r.ModifiedBy,
-                    ModifiedDate = r.ModifiedDate
-                })
-                .SingleAsync();
+                .Single();
+        }
+
+        public async Task Put(DtoEntities.RecordType recordType) {
+            //var recordTypeToUpdate = await Get(recordType.Id);
+            //if(recordTypeToUpdate == null) {
+            //    throw new NullReferenceException("The RecordTykpe does not exist in the system.");
+            //}
+            throw new NotImplementedException();
         }
     }
 }
