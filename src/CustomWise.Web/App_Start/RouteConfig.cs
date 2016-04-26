@@ -13,10 +13,5 @@ namespace CustomWise.Web {
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
-
-        public static void Register(HttpConfiguration config) {
-            // Web API routes
-            config.MapHttpAttributeRoutes();
-        }
     }
 }
