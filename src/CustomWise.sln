@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWise.Data", "CustomWi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWise.Web.Services", "CustomWise.Web.Services\CustomWise.Web.Services.csproj", "{A0A85C06-CD12-4CD0-A9E6-127100532623}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWise.Web", "CustomWise.Web\CustomWise.Web.csproj", "{BF9E7AB7-0FC1-432F-97AD-85BD6E10BBD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A0A85C06-CD12-4CD0-A9E6-127100532623}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A85C06-CD12-4CD0-A9E6-127100532623}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A85C06-CD12-4CD0-A9E6-127100532623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF9E7AB7-0FC1-432F-97AD-85BD6E10BBD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF9E7AB7-0FC1-432F-97AD-85BD6E10BBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF9E7AB7-0FC1-432F-97AD-85BD6E10BBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF9E7AB7-0FC1-432F-97AD-85BD6E10BBD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

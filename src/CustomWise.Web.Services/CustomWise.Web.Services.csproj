@@ -60,7 +60,7 @@
     <Compile Include="Models\Specification.cs" />
     <Compile Include="Models\SpecificationLocal.cs" />
     <Compile Include="Models\SpecificationVersion.cs" />
-    <Compile Include="SpecificationController.cs" />
+    <Compile Include="Controllers\SpecificationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
