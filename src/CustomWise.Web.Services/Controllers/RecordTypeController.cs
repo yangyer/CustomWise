@@ -7,6 +7,8 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 
 namespace CustomWise.Web.Services.Controllers {
     public class RecordTypeController 
@@ -41,12 +43,58 @@ namespace CustomWise.Web.Services.Controllers {
                 .Single();
         }
 
+        public async Task<int> Post(DtoEntities.RecordType recordType) {
+            if (await _context.RecordTypes.AnyAsync(r => r.Id == recordType.Id)) {
+                throw new NullReferenceException($"The {nameof(recordType)} already exist in the system.");
+            }
+
+            try {
+                var recordTypeToAdd = new DalEntities.RecordType {
+                    DisplayName = recordType.DisplayName,
+                    SystemName = recordType.SystemName
+                };
+                _context.RecordTypes.Add(recordTypeToAdd);
+                var result = await _context.SaveChangesAsync();
+                return recordTypeToAdd.Id;
+            } catch (DbUpdateConcurrencyException dbUpdateConcurrencyExc) {
+                throw;
+            } catch (DbUpdateException dbUpdateExc) {
+                throw;
+            } catch (DbEntityValidationException dbEntityValidationEx) {
+                throw;
+            } catch (NotSupportedException notSupportedEx) {
+                throw;
+            } catch (ObjectDisposedException objectDisposiedEx) {
+                throw;
+            } catch (InvalidOperationException invalidOpperationEx) {
+                throw;
+            }
+        }
+
         public async Task Put(DtoEntities.RecordType recordType) {
-            //var recordTypeToUpdate = await Get(recordType.Id);
-            //if(recordTypeToUpdate == null) {
-            //    throw new NullReferenceException("The RecordTykpe does not exist in the system.");
-            //}
-            throw new NotImplementedException();
+            var recordTypeToUpdate = await _context.RecordTypes.SingleOrDefaultAsync(r => r.Id == recordType.Id);
+
+            if (recordTypeToUpdate == null) {
+                throw new NullReferenceException($"The {nameof(recordType)} does not exist in the system.");
+            }
+            try {
+                recordTypeToUpdate.DisplayName = recordType.DisplayName;
+                recordTypeToUpdate.SystemName = recordType.SystemName;
+
+                var result = await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException dbUpdateConcurrencyExc) {
+                throw;
+            } catch (DbUpdateException dbUpdateExc) {
+                throw;
+            } catch (DbEntityValidationException dbEntityValidationEx) {
+                throw;
+            } catch (NotSupportedException notSupportedEx) {
+                throw;
+            } catch (ObjectDisposedException objectDisposiedEx) {
+                throw;
+            } catch (InvalidOperationException invalidOpperationEx) {
+                throw;
+            }
         }
     }
 }
