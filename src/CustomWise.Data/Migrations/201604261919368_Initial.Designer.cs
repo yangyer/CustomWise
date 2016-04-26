@@ -13,7 +13,7 @@ namespace CustomWise.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201604261735012_Initial"; }
+            get { return "201604261919368_Initial"; }
         }
         
         string IMigrationMetadata.Source

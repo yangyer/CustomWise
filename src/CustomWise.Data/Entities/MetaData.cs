@@ -3,8 +3,8 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("SpecificationMetaData")]
-    public class SpecificationMetaData 
+    [Table("MetaData")]
+    public class MetaData 
         : BaseEntity {
         [Key]
         public int Id { get; set; }
@@ -16,7 +16,7 @@
         public string Value { get; set; }
         public virtual Specification Specification { get; set; }
 
-        public SpecificationMetaData()
+        public MetaData()
             : base() { }
     }
 }

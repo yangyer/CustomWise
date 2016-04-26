@@ -6,18 +6,22 @@ namespace CustomWise.Data.Entities {
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Runtime.Serialization;
 
-    [Table("SpecificationType"), DataContract]
-    public class SpecificationType 
+    [Table("RecordTypes"), DataContract]
+    public class RecordType 
         : BaseEntity {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("MetaDataType")]
+        public int MetaDataTypeId { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
         [Required, MaxLength(64)]
         public string SystemName { get; set; }
-        public virtual ICollection<SpecificationTypeLanguage> SpecificationTypeLanguages { get; set; } = new HashSet<SpecificationTypeLanguage>();
+        public MetaDataType MetaDataType { get; set; }
+        public virtual ICollection<Specification> Specifications { get; set; } = new HashSet<Specification>();
+        public virtual ICollection<Artifact> Artifacts { get; set; } = new HashSet<Artifact>();
 
-        public SpecificationType() 
+        public RecordType() 
             : base() { }
     }
 }

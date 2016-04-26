@@ -6,7 +6,7 @@ namespace CustomWise.Data.Entities {
     using System.Runtime.Serialization;
     using Base;
 
-    [Table("Configuration")]
+    [Table("Configurations")]
     public class Configuration 
         : BaseEntity {
         [Key]

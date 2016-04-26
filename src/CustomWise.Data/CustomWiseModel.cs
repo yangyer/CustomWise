@@ -20,12 +20,13 @@ namespace CustomWise.Data {
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
 
+        public virtual DbSet<Artifact> Artifacts { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
-        public virtual DbSet<SpecificationMetaData> SpecificationMetaData { get; set; }
+        public virtual DbSet<MetaData> MetaData { get; set; }
+        public virtual DbSet<MetaDataType> MetaDataTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
-        public virtual DbSet<SpecificationLanguage> SpecificationLanguages { get; set; }
-        public virtual DbSet<SpecificationType> SpecificationTypes { get; set; }
-        public virtual DbSet<SpecificationTypeLanguage> SpecificationTypeLanguages { get; set; }
+        public virtual DbSet<SpecificationLocal> SpecificationLocals { get; set; }
+        public virtual DbSet<RecordType> RecordTypes { get; set; }
         public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
     }
 }
