@@ -64,6 +64,11 @@
     <Compile Include="Entities\SpecificationType.cs" />
     <Compile Include="Entities\SpecificationTypeLanguage.cs" />
     <Compile Include="Entities\SpecificationVersion.cs" />
+    <Compile Include="Migrations\201604261735012_Initial.cs" />
+    <Compile Include="Migrations\201604261735012_Initial.Designer.cs">
+      <DependentUpon>201604261735012_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +78,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604261735012_Initial.resx">
+      <DependentUpon>201604261735012_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
