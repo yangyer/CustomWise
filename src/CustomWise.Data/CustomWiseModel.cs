@@ -25,13 +25,41 @@ namespace CustomWise.Data {
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
 
         public virtual DbSet<Artifact> Artifacts { get; set; }
+        public virtual DbSet<ArtifactType> ArtifactTypes { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<MetaData> MetaData { get; set; }
         public virtual DbSet<MetaDataType> MetaDataTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
         public virtual DbSet<SpecificationLocal> SpecificationLocals { get; set; }
-        public virtual DbSet<RecordType> RecordTypes { get; set; }
+        public virtual DbSet<SpecificationType> RecordTypes { get; set; }
         public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
+
+        public struct SaveToken {
+            public bool ExistSave { get; private set; }
+            public bool ExitAll { get; private set; }
+            public void ThrowExitSave() => ExistSave = true;
+            public void ThrowExitAll() => ExitAll = ExistSave = true;
+            public static SaveToken Empty() => new SaveToken();
+        }
+
+        public async Task<int> SaveChangesAsync<T>(Action<IEnumerable<T>, SaveToken> preSave, Action<IEnumerable<T>> postSave)
+            where T : BaseEntity {
+            var entities = this.ChangeTracker.Entries()
+                                             .Where(e => e.State != EntityState.Unchanged && e.State != EntityState.Detached)
+                                             .Select(e => (T)e.Entity);
+            var token = SaveToken.Empty();
+            preSave(entities, token);
+
+            var result = await SaveChangesAsync(new CancellationToken(token.ExistSave));
+
+            if(token.ExitAll) {
+                return result;
+            }
+
+            postSave(entities);
+
+            return result;
+        }
 
         public override int SaveChanges() {
             ProccessEntities(this.ChangeTracker.Entries());

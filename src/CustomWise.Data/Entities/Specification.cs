@@ -14,15 +14,15 @@
         public int? ParentSpecificationId { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
-        [ForeignKey("RecordType")]
-        public int RecordTypeId { get; set; }
+        [ForeignKey("SpecificationType")]
+        public int SpecificationTypeId { get; set; }
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public int Order { get; set; }
         public int ReferenceId { get; set; }
         [ForeignKey("SpecificationVersion")]
         public int SpecificationVersionId { get; set; }
-        public virtual RecordType RecordType { get; set; }
+        public virtual SpecificationType SpecificationType { get; set; }
         public virtual Specification ParentSpecification { get; set; }
         public virtual SpecificationVersion SpecificationVersion { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();

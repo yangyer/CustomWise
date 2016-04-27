@@ -77,7 +77,7 @@ namespace CustomWise.Web.Services.Controllers {
             }
 
             try {
-                var recordTypeToAdd = new DalEntities.RecordType {
+                var recordTypeToAdd = new DalEntities.SpecificationType {
                     DisplayName = recordType.DisplayName,
                     SystemName = recordType.SystemName
                 };

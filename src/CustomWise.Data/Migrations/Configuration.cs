@@ -25,11 +25,11 @@ namespace CustomWise.Data.Migrations {
             //    );
             //
 
-            context.RecordTypes.AddOrUpdate(new RecordType[] {
-                new RecordType { Id = 1, DisplayName = "Root",              SystemName = "root",         CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
-                new RecordType { Id = 2, DisplayName = "Group",             SystemName = "group",        CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
-                new RecordType { Id = 3, DisplayName = "Item",              SystemName = "item",         CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
-                new RecordType { Id = 4, DisplayName = "Reference Item",    SystemName = "ref_item",     CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now }
+            context.RecordTypes.AddOrUpdate(new SpecificationType[] {
+                new SpecificationType { Id = 1, DisplayName = "Root",              SystemName = "root",         CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
+                new SpecificationType { Id = 2, DisplayName = "Group",             SystemName = "group",        CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
+                new SpecificationType { Id = 3, DisplayName = "Item",              SystemName = "item",         CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now },
+                new SpecificationType { Id = 4, DisplayName = "Reference Item",    SystemName = "ref_item",     CreatedBy = _system, CreatedDate = _now, ModifiedBy = _system, ModifiedDate = _now }
             });
 
             context.MetaDataTypes.AddOrUpdate(new MetaDataType[] {

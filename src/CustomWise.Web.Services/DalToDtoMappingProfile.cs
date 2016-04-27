@@ -12,7 +12,7 @@
             CreateMap<DalEntities.Configuration, DtoEntities.Configuration>();
             CreateMap<DalEntities.MetaData, DtoEntities.MetaData>();
             CreateMap<DalEntities.MetaDataType, DtoEntities.MetaDataType>();
-            CreateMap<DalEntities.RecordType, DtoEntities.RecordType>();
+            CreateMap<DalEntities.SpecificationType, DtoEntities.RecordType>();
             CreateMap<DalEntities.Specification, DtoEntities.Specification>();
             CreateMap<DalEntities.SpecificationLocal, DtoEntities.SpecificationLocal>();
             CreateMap<DalEntities.SpecificationVersion, DtoEntities.SpecificationVersion>();
