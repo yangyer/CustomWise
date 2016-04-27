@@ -1,17 +1,17 @@
 ﻿using CustomWise.Data.Entities.Base;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CustomWise.Web.Services.Models {
-    public class MetaDataType
+    public class SpecificationType
         : BaseEntity {
 
         public int Id { get; set; }
         [Required, MaxLength(64)]
-        public string Name { get; set; }
-        public IEnumerable<MetaData> MetaData { get; set; } = new List<MetaData>();
+        public string DisplayName { get; set; }
+        [Required, MaxLength(64)]
+        public string SystemName { get; set; }
 
-        public MetaDataType()
+        public SpecificationType()
             : base() { }
     }
 }

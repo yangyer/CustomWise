@@ -83,14 +83,14 @@
   <ItemGroup>
     <Compile Include="AutoMapperFactory.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
-    <Compile Include="Controllers\RecordTypeController.cs" />
+    <Compile Include="Controllers\SpecificationTypeController.cs" />
     <Compile Include="DalToDtoMappingProfile.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\MetaData.cs" />
-    <Compile Include="Models\MetaDataType.cs" />
-    <Compile Include="Models\RecordType.cs" />
+    <Compile Include="Models\MetaDataDefinition.cs" />
+    <Compile Include="Models\SpecificationType.cs" />
     <Compile Include="Models\Specification.cs" />
-    <Compile Include="Models\SpecificationLocal.cs" />
+    <Compile Include="Models\MetaDataDefinitionDetail.cs" />
     <Compile Include="Models\SpecificationVersion.cs" />
     <Compile Include="Controllers\SpecificationController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

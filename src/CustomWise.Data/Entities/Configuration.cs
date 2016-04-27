@@ -11,7 +11,7 @@ namespace CustomWise.Data.Entities {
         : BaseEntity {
         [Key]
         public int Id { get; set; }
-        [ForeignKey("Specification")]
+        [ForeignKey(nameof(Specification))]
         public int SpecificationId { get; set; }
         [Required, MaxLength(256)]
         public string Value { get; set; }

@@ -61,9 +61,9 @@
     <Compile Include="Entities\Base\BaseEntity.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\MetaData.cs" />
-    <Compile Include="Entities\MetaDataType.cs" />
+    <Compile Include="Entities\MetaDataDefinition.cs" />
+    <Compile Include="Entities\MetaDataDefinitionDetail.cs" />
     <Compile Include="Entities\Specification.cs" />
-    <Compile Include="Entities\SpecificationLocal.cs" />
     <Compile Include="Entities\SpecificationType.cs" />
     <Compile Include="Entities\SpecificationVersion.cs" />
     <Compile Include="Migrations\201604261919368_Initial.cs" />

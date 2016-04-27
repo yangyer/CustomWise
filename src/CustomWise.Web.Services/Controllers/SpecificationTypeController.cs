@@ -13,25 +13,25 @@ using DalEntities = CustomWise.Data.Entities;
 using DtoEntities = CustomWise.Web.Services.Models;
 
 namespace CustomWise.Web.Services.Controllers {
-    [RoutePrefix("api/customwise/recordtype")]
-    public class RecordTypeController 
+    [RoutePrefix("api/customwise/specificationType")]
+    public class SpecificationTypeController 
         : BaseController {
         private CustomWiseModel _context;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordTypeController"/> class.
+        /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
-        public RecordTypeController()
+        public SpecificationTypeController()
             : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance()) {
             _context = new CustomWiseModel();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecordTypeController"/> class.
+        /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="configProvider">The configuration provider.</param>
-        public RecordTypeController(CustomWiseModel context, IConfigurationProvider autoMapperConfigProvier)
+        public SpecificationTypeController(CustomWiseModel context, IConfigurationProvider autoMapperConfigProvier)
             : base(autoMapperConfigProvier) {
             _context = context;
         }
@@ -41,47 +41,43 @@ namespace CustomWise.Web.Services.Controllers {
         /// </summary>
         /// <returns>Returns <see cref="IEnumerable{T}"/>.</returns>
         [Route]
-        public async Task<IEnumerable<DtoEntities.RecordType>> Get() {
-            return await _context.RecordTypes
-                .ProjectToListAsync<DtoEntities.RecordType>(AutoMapperConfigProvier);
+        public async Task<IEnumerable<DtoEntities.SpecificationType>> Get() {
+            return await _context.SpecificationTypes
+                .ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvier);
         }
 
         /// <summary>
-        /// Get a single <see cref="DtoEntities.RecordType"/> for specified identifier.
+        /// Get a single <see cref="DtoEntities.SpecificationType"/> for specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns>Returns <see cref="DtoEntities.RecordType"/></returns>
+        /// <returns>Returns <see cref="DtoEntities.SpecificationType"/></returns>
         [Route("{id:int}")]
-        public async Task<DtoEntities.RecordType> Get(int id) {
-            var result = await _context.RecordTypes
+        public async Task<DtoEntities.SpecificationType> Get(int id) {
+            return await _context.SpecificationTypes
                                        .Where(r => r.Id == id)
-                                       .ProjectToSingleAsync<DtoEntities.RecordType>(AutoMapperConfigProvier);
-
-            //if(result == default(DtoEntities.RecordType)) {
-            //    return NotFound();
-            //}
-
-            return result;
+                                       .ProjectToSingleAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvier);
         }
 
         /// <summary>
-        /// Posts the specified record type.
+        /// Posts the specified <see cref="DtoEntities.SpecificationType" />.
         /// </summary>
-        /// <param name="recordType">The <see cref="DtoEntities.RecordType"/></param>
-        /// <returns>Returns the new identifier of the <see cref="DtoEntities.RecordType"/></returns>
+        /// <param name="specificationType">The <see cref="DtoEntities.SpecificationType" /></param>
+        /// <returns>
+        /// Returns the new identifier of the <see cref="DtoEntities.SpecificationType" />
+        /// </returns>
         /// <exception cref="System.NullReferenceException"></exception>
         [Route]
-        public async Task<int> Post(DtoEntities.RecordType recordType) {
-            if (await _context.RecordTypes.AnyAsync(r => r.Id == recordType.Id)) {
-                throw new NullReferenceException($"The {nameof(recordType)} already exist in the system.");
+        public async Task<int> Post(DtoEntities.SpecificationType specificationType) {
+            if (await _context.SpecificationTypes.AnyAsync(r => r.Id == specificationType.Id)) {
+                throw new NullReferenceException($"The {nameof(specificationType)} already exist in the system.");
             }
 
             try {
                 var recordTypeToAdd = new DalEntities.SpecificationType {
-                    DisplayName = recordType.DisplayName,
-                    SystemName = recordType.SystemName
+                    DisplayName = specificationType.DisplayName,
+                    SystemName = specificationType.SystemName
                 };
-                _context.RecordTypes.Add(recordTypeToAdd);
+                _context.SpecificationTypes.Add(recordTypeToAdd);
                 var result = await _context.SaveChangesAsync();
 
                 return recordTypeToAdd.Id;
@@ -101,21 +97,21 @@ namespace CustomWise.Web.Services.Controllers {
         }
 
         /// <summary>
-        /// Puts the specified record type.
+        /// Update the specified <see cref="DtoEntities.SpecificationType"/>.
         /// </summary>
-        /// <param name="recordType">Type of the record.</param>
+        /// <param name="specificationType">Type of the specification type.</param>
         /// <returns></returns>
         /// <exception cref="System.NullReferenceException"></exception>
         [Route]
-        public async Task Put(DtoEntities.RecordType recordType) {
-            var recordTypeToUpdate = await _context.RecordTypes.SingleOrDefaultAsync(r => r.Id == recordType.Id);
+        public async Task Put(DtoEntities.SpecificationType specificationType) {
+            var recordTypeToUpdate = await _context.SpecificationTypes.SingleOrDefaultAsync(r => r.Id == specificationType.Id);
 
             if (recordTypeToUpdate == null) {
-                throw new NullReferenceException($"The {nameof(recordType)} does not exist in the system.");
+                throw new NullReferenceException($"The {nameof(specificationType)} does not exist in the system.");
             }
             try {
-                recordTypeToUpdate.DisplayName = recordType.DisplayName;
-                recordTypeToUpdate.SystemName = recordType.SystemName;
+                recordTypeToUpdate.DisplayName = specificationType.DisplayName;
+                recordTypeToUpdate.SystemName = specificationType.SystemName;
 
                 var result = await _context.SaveChangesAsync();
             } catch (DbUpdateConcurrencyException dbUpdateConcurrencyExc) {

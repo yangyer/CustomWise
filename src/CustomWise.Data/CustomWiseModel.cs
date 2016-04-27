@@ -28,10 +28,10 @@ namespace CustomWise.Data {
         public virtual DbSet<ArtifactType> ArtifactTypes { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<MetaData> MetaData { get; set; }
-        public virtual DbSet<MetaDataType> MetaDataTypes { get; set; }
+        public virtual DbSet<MetaDataDefinition> MetaDataDefinitions { get; set; }
+        public virtual DbSet<MetaDataDefinitionDetail> MetaDataDefinitionDetails { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
-        public virtual DbSet<SpecificationLocal> SpecificationLocals { get; set; }
-        public virtual DbSet<SpecificationType> RecordTypes { get; set; }
+        public virtual DbSet<SpecificationType> SpecificationTypes { get; set; }
         public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
 
         public struct SaveToken {
