@@ -60,7 +60,7 @@ namespace CustomWise.Data.Migrations
                         Artifact_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MetaDataTypes", t => t.MetaDataDefinitionId, cascadeDelete: true)
+                .ForeignKey("dbo.MetaDataDefinitions", t => t.MetaDataDefinitionId, cascadeDelete: true)
                 .ForeignKey("dbo.Specifications", t => t.SpecificationId, cascadeDelete: true)
                 .ForeignKey("dbo.Artifacts", t => t.Artifact_Id)
                 .Index(t => t.SpecificationId)
@@ -68,7 +68,7 @@ namespace CustomWise.Data.Migrations
                 .Index(t => t.Artifact_Id);
             
             CreateTable(
-                "dbo.MetaDataTypes",
+                "dbo.MetaDataDefinitions",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -93,7 +93,7 @@ namespace CustomWise.Data.Migrations
                         ModifiedDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.MetaDataTypes", t => t.MetaDataDefinitionId, cascadeDelete: true)
+                .ForeignKey("dbo.MetaDataDefinitions", t => t.MetaDataDefinitionId, cascadeDelete: true)
                 .Index(t => t.MetaDataDefinitionId);
             
             CreateTable(
@@ -116,7 +116,7 @@ namespace CustomWise.Data.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Specifications", t => t.ParentSpecificationId)
-                .ForeignKey("dbo.SpecificationType", t => t.SpecificationTypeId, cascadeDelete: true)
+                .ForeignKey("dbo.SpecificationTypes", t => t.SpecificationTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.SpecificationVersions", t => t.SpecificationVersionId, cascadeDelete: true)
                 .Index(t => t.ParentSpecificationId)
                 .Index(t => t.SpecificationTypeId)
@@ -139,7 +139,7 @@ namespace CustomWise.Data.Migrations
                 .Index(t => t.SpecificationId);
             
             CreateTable(
-                "dbo.SpecificationType",
+                "dbo.SpecificationTypes",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -175,11 +175,11 @@ namespace CustomWise.Data.Migrations
             DropForeignKey("dbo.MetaData", "Artifact_Id", "dbo.Artifacts");
             DropForeignKey("dbo.MetaData", "SpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.Specifications", "SpecificationVersionId", "dbo.SpecificationVersions");
-            DropForeignKey("dbo.Specifications", "SpecificationTypeId", "dbo.SpecificationType");
+            DropForeignKey("dbo.Specifications", "SpecificationTypeId", "dbo.SpecificationTypes");
             DropForeignKey("dbo.Specifications", "ParentSpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.Configurations", "SpecificationId", "dbo.Specifications");
-            DropForeignKey("dbo.MetaData", "MetaDataDefinitionId", "dbo.MetaDataTypes");
-            DropForeignKey("dbo.MetaDataDefinitionDetails", "MetaDataDefinitionId", "dbo.MetaDataTypes");
+            DropForeignKey("dbo.MetaData", "MetaDataDefinitionId", "dbo.MetaDataDefinitions");
+            DropForeignKey("dbo.MetaDataDefinitionDetails", "MetaDataDefinitionId", "dbo.MetaDataDefinitions");
             DropForeignKey("dbo.Artifacts", "ArtifactTypeId", "dbo.ArtifactTypes");
             DropIndex("dbo.Configurations", new[] { "SpecificationId" });
             DropIndex("dbo.Specifications", new[] { "SpecificationVersionId" });
@@ -192,11 +192,11 @@ namespace CustomWise.Data.Migrations
             DropIndex("dbo.Artifacts", new[] { "ArtifactTypeId" });
             DropIndex("dbo.Artifacts", new[] { "ParentArtifactId" });
             DropTable("dbo.SpecificationVersions");
-            DropTable("dbo.SpecificationType");
+            DropTable("dbo.SpecificationTypes");
             DropTable("dbo.Configurations");
             DropTable("dbo.Specifications");
             DropTable("dbo.MetaDataDefinitionDetails");
-            DropTable("dbo.MetaDataTypes");
+            DropTable("dbo.MetaDataDefinitions");
             DropTable("dbo.MetaData");
             DropTable("dbo.ArtifactTypes");
             DropTable("dbo.Artifacts");

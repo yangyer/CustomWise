@@ -6,7 +6,6 @@ namespace CustomWise.Data.Entities {
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Runtime.Serialization;
 
-    [Table("SpecificationType"), DataContract]
     public class SpecificationType 
         : BaseEntity {
         [Key]

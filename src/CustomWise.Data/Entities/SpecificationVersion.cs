@@ -5,9 +5,9 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("SpecificationVersions")]
     public class SpecificationVersion 
         : BaseEntity {
+
         [Key]
         public int Id { get; set; }
         [Required, StringLength(64)]

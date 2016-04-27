@@ -1,12 +1,8 @@
-﻿
-namespace CustomWise.Data.Entities {
-    using System;
+﻿namespace CustomWise.Data.Entities {
+    using Base;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Runtime.Serialization;
-    using Base;
 
-    [Table("Configurations")]
     public class Configuration 
         : BaseEntity {
         [Key]

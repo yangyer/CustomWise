@@ -3,6 +3,11 @@ namespace CustomWise.Data.Entities {
     using Base;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
+    /// <summary>
+    /// Class that defines the detail metadata.
+    /// </summary>
+    /// <seealso cref="CustomWise.Data.Entities.Base.BaseEntity" />
     public class MetaDataDefinitionDetail 
         : BaseEntity {
         /// <summary>

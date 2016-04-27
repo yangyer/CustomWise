@@ -3,11 +3,12 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     /// <summary>
     /// Contains data that describes a <see cref="MetaData"/> instance.
     /// </summary>
     /// <seealso cref="CustomWise.Data.Entities.Base.BaseEntity" />
-    [Table("MetaDataTypes")]
+    [Table("MetaDataDefinitions")]
     public class MetaDataDefinition 
         : BaseEntity {
         /// <summary>

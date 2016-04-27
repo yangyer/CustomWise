@@ -4,7 +4,6 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("Artifacts")]
     public class Artifact 
         : BaseEntity {
         [Key,]
