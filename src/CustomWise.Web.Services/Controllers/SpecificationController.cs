@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Sophcon.Collections;
 
 namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/recordtype")]
@@ -51,7 +52,7 @@ namespace CustomWise.Web.Services.Controllers {
             var flattenSpecificationList = specToSaveList.Flatten(e => e.SubSpecifications).ToList();
 
             if (specVersion.Published) {
-                specVersion = await CreateNewVersion(specVersion.Name);
+                specVersion = await CreateNewSpecificationVersion(specVersion.Name);
                 flattenSpecificationList.ForEach(spec => {
                     spec.Id = 0;
                     spec.SpecificationVersionId = specVersion.Id;
@@ -84,7 +85,7 @@ namespace CustomWise.Web.Services.Controllers {
         }
 
 
-        internal async Task<DalEntities.SpecificationVersion> CreateNewVersion(string oldName) {
+        internal async Task<DalEntities.SpecificationVersion> CreateNewSpecificationVersion(string oldName) {
             var newVersion = new DalEntities.SpecificationVersion {
                 Name = "Created from : " + oldName,
                 Published = false,
@@ -94,74 +95,6 @@ namespace CustomWise.Web.Services.Controllers {
             await _context.SaveChangesAsync();
 
             return newVersion;
-        }
-    }
-
-    /// <summary>
-    /// Custom extensions
-    /// </summary>
-    public static class Extensions {
-        /// <summary>
-        /// Get dictionary by key, if key does not exist return default instance.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="U"></typeparam>
-        /// <param name="dictionary">The dictionary.</param>
-        /// <param name="key">The key.</param>
-        /// <returns>Returns item at the provided key.</returns>
-        public static U ByKey<T, U>(this IDictionary<T, U> dictionary, T key) {
-            return dictionary == null ? default(U)
-                : dictionary.ContainsKey(key) ? dictionary[key]
-                : default(U);
-        }
-
-        /// <summary>
-        /// Flattens a generic type  and it's children of the same type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="item">The item.</param>
-        /// <param name="getSubItems">The function to get the sub items.</param>
-        /// <param name="initialList">The initial list.</param>
-        /// <returns>Returns an <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T> Flatten<T>(this T item, Func<T, IEnumerable<T>> getSubItems, IList<T> initialList = null) {
-            initialList = initialList ?? new List<T>();
-
-            if (initialList.Contains(item)) {
-                return initialList;
-            }
-
-            initialList.Add(item);
-
-            foreach (var subItem in getSubItems(item)) {
-                subItem.Flatten(getSubItems, initialList);
-            }
-
-            return initialList;
-        }
-
-        /// <summary>
-        /// Flattens an <see cref="IEnumerable{T}"/> and returns an <see cref="IEnumerable{T}"/> back.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="items">The items to flatten.</param>
-        /// <param name="getSubItems">The function to get the sub items.</param>
-        /// <returns>Returns an <see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T> Flatten<T>(this IEnumerable<T> items, Func<T, IEnumerable<T>> getSubItems) {
-            return items.SelectMany(item => item.Flatten(getSubItems));
-        }
-
-        /// <summary>
-        /// Check as list to see if an item exist In the list.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="item">The item.</param>
-        /// <param name="testList">The test list.</param>
-        /// <returns>Returns <c>true</c> if item was found in list; else <c>false</c></returns>
-        public static bool In<T>(this T item, params T[] testList) {
-            if (testList == null)
-                return false;
-
-            return testList.Contains(item);
         }
     }
 }

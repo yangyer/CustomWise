@@ -62,6 +62,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sophcon, Version=1.0.5962.30002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5962.30002\lib\net452\Sophcon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
