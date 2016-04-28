@@ -8,7 +8,10 @@ namespace CustomWise.Data {
     using Entities.Base;
     using System.Data.Entity.Infrastructure;
     using System.Collections.Generic;
-    public class CustomWiseModel : DbContext {
+
+    public class CustomWiseModel 
+        : DbContext,
+        ICustomWiseContext {
         // Your context has been configured to use a 'CustomWiseModel' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
         // 'CustomWise.Data.CustomWiseModel' database on your LocalDb instance. 
@@ -33,17 +36,8 @@ namespace CustomWise.Data {
         public virtual DbSet<Specification> Specifications { get; set; }
         public virtual DbSet<SpecificationType> SpecificationTypes { get; set; }
         public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
-
-        public struct SaveToken {
-            public bool ExistSave { get; private set; }
-            public bool ExitAll { get; private set; }
-            public void ThrowExitSave() => ExistSave = true;
-            public void ThrowExitAll() => ExitAll = ExistSave = true;
-            public static SaveToken Empty() => new SaveToken();
-        }
-
-        public async Task<int> SaveChangesAsync<T>(Action<IEnumerable<T>, SaveToken> preSave, Action<IEnumerable<T>> postSave)
-            where T : BaseEntity {
+        
+        public async Task<int> SaveChangesAsync<T>(Action<IEnumerable<T>, SaveToken> preSave, Action<IEnumerable<T>> postSave) {
             var entities = this.ChangeTracker.Entries()
                                              .Where(e => e.State != EntityState.Unchanged && e.State != EntityState.Detached)
                                              .Select(e => (T)e.Entity);

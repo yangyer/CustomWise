@@ -5,10 +5,11 @@ namespace CustomWise.Web.Services.Controllers.Base {
     public class BaseController
         : ApiController {
 
-        protected IConfigurationProvider AutoMapperConfigProvier { get; private set; }
-
-        public BaseController(IConfigurationProvider autoMapperConfigProvier) {
-            AutoMapperConfigProvier = autoMapperConfigProvier;
+        protected IConfigurationProvider AutoMapperConfigProvider { get; private set; }
+        protected IMapper AutoMapper { get; private set; }
+        public BaseController(IConfigurationProvider autoMapperConfigProvier, IMapper mapper) {
+            AutoMapperConfigProvider = autoMapperConfigProvier;
+            AutoMapper = mapper;
         }
     }
 }

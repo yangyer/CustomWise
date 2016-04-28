@@ -16,13 +16,13 @@ namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/specificationType")]
     public class SpecificationTypeController 
         : BaseController {
-        private CustomWiseModel _context;
+        private ICustomWiseContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance()) {
+            : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperInstance()) {
             _context = new CustomWiseModel();
         }
 
@@ -31,8 +31,8 @@ namespace CustomWise.Web.Services.Controllers {
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="configProvider">The configuration provider.</param>
-        public SpecificationTypeController(CustomWiseModel context, IConfigurationProvider autoMapperConfigProvier)
-            : base(autoMapperConfigProvier) {
+        public SpecificationTypeController(ICustomWiseContext context, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
+            : base(autoMapperConfigProvier, mapper) {
             _context = context;
         }
 
@@ -43,7 +43,7 @@ namespace CustomWise.Web.Services.Controllers {
         [Route]
         public async Task<IEnumerable<DtoEntities.SpecificationType>> Get() {
             return await _context.SpecificationTypes
-                .ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvier);
+                .ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace CustomWise.Web.Services.Controllers {
         public async Task<DtoEntities.SpecificationType> Get(int id) {
             return await _context.SpecificationTypes
                                        .Where(r => r.Id == id)
-                                       .ProjectToSingleAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvier);
+                                       .ProjectToSingleAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
         }
 
         /// <summary>

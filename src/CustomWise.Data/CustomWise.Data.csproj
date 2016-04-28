@@ -66,12 +66,14 @@
     <Compile Include="Entities\Specification.cs" />
     <Compile Include="Entities\SpecificationType.cs" />
     <Compile Include="Entities\SpecificationVersion.cs" />
+    <Compile Include="ICustomWiseContext.cs" />
     <Compile Include="Migrations\201604261919368_Initial.cs" />
     <Compile Include="Migrations\201604261919368_Initial.Designer.cs">
       <DependentUpon>201604261919368_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveToken.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

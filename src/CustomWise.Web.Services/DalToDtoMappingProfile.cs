@@ -9,13 +9,13 @@
         public override string ProfileName { get; } = "DalToDtoMappingProfile";
 
         protected override void Configure() {
-            CreateMap<DalEntities.Configuration, DtoEntities.Configuration>();
-            CreateMap<DalEntities.MetaData, DtoEntities.MetaData>();
-            CreateMap<DalEntities.MetaDataDefinition, DtoEntities.MetaDataDefinition>();
-            CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>();
-            CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>();
-            CreateMap<DalEntities.Specification, DtoEntities.Specification>();
-            CreateMap<DalEntities.SpecificationVersion, DtoEntities.SpecificationVersion>();
+            CreateMap<DalEntities.Configuration, DtoEntities.Configuration>().ReverseMap();
+            CreateMap<DalEntities.MetaData, DtoEntities.MetaData>().ReverseMap();
+            CreateMap<DalEntities.MetaDataDefinition, DtoEntities.MetaDataDefinition>().ReverseMap();
+            CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
+            CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
+            CreateMap<DalEntities.Specification, DtoEntities.Specification>().ReverseMap();
+            CreateMap<DalEntities.SpecificationVersion, DtoEntities.SpecificationVersion>().ReverseMap();
         }
     }
 }
