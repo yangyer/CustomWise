@@ -1,11 +1,11 @@
 namespace CustomWise.Data.Migrations {
     using Entities;
+    using Sophcon;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using Entities.Base;
-    using System.Collections;
+    using System.Linq;
+
     internal sealed class Configuration : DbMigrationsConfiguration<CustomWise.Data.CustomWiseModel> {
         readonly string _system = "system";
         readonly DateTime _now = DateTime.Now;

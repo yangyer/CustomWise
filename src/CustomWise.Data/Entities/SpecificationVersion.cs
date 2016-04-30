@@ -1,5 +1,5 @@
 ﻿namespace CustomWise.Data.Entities {
-    using Base;
+    using Sophcon;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

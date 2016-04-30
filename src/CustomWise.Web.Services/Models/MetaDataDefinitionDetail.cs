@@ -1,4 +1,4 @@
-﻿using CustomWise.Data.Entities.Base;
+﻿using Sophcon;
 
 namespace CustomWise.Web.Services.Models {
     public class MetaDataDefinitionDetail

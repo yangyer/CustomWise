@@ -1,4 +1,4 @@
-﻿using CustomWise.Data.Entities.Base;
+﻿using Sophcon;
 using System;
 using System.ComponentModel.DataAnnotations;
 

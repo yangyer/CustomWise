@@ -22,7 +22,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperInstance()) {
+            : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
             _context = new CustomWiseModel();
         }
 
