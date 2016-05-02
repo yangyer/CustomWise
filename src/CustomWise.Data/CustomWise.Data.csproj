@@ -66,6 +66,7 @@
     <Compile Include="CustomWiseModel.cs" />
     <Compile Include="Entities\Artifact.cs" />
     <Compile Include="Entities\ArtifactType.cs" />
+    <Compile Include="Entities\ArtifactVersion.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\MetaData.cs" />
     <Compile Include="Entities\MetaDataDefinition.cs" />

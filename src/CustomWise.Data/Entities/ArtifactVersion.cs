@@ -5,21 +5,21 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class SpecificationVersion 
+    public class ArtifactVersion 
         : BaseEntity {
 
         [Key]
         public int Id { get; set; }
-        [ForeignKey(nameof(PreviousVersion))]
-        public int PreviousVersionId { get; set; }
+        [ForeignKey(nameof(PreviousArtifactVersion))]
+        public int PreviousArtifactVersionId { get; set; }
         [Required, StringLength(64)]
         public string Name { get; set; }
         public bool Published { get; set; }
         public DateTime? PublishedDate { get; set; }
-        public virtual SpecificationVersion PreviousVersion { get; set; }
-        public virtual ICollection<Specification> Specifications { get; set; } = new HashSet<Specification>();
+        public virtual Artifact PreviousArtifactVersion { get; set; }
+        public virtual ICollection<Artifact> Artifacts { get; set; } = new HashSet<Artifact>();
 
-        public SpecificationVersion()
+        public ArtifactVersion()
             : base() { }
     }
 }

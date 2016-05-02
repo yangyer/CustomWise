@@ -5,6 +5,8 @@
 
     public interface ICustomWiseContext 
         : ISophconContext {
+
+        DbSet<ArtifactVersion> ArtifactVersions { get; set; }
         DbSet<Artifact> Artifacts { get; set; }
         DbSet<ArtifactType> ArtifactTypes { get; set; }
         DbSet<Configuration> Configurations { get; set; }

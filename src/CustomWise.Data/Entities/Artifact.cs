@@ -8,6 +8,8 @@
         : BaseEntity {
         [Key,]
         public int Id { get; set; }
+        [ForeignKey(nameof(ArtifactVersion))]
+        public int ArtifactVersionId { get; set; }
         [ForeignKey(nameof(ParentArtifact))]
         public int? ParentArtifactId { get; set; }
         [Required, MaxLength(64)]
@@ -18,6 +20,7 @@
         public bool Deleted { get; set; }
         public int Order { get; set; }
         public string ArtifactReferenceId { get; set; }
+        public virtual ArtifactVersion ArtifactVersion { get; set; }
         public virtual ArtifactType ArtifactType { get; set; }
         public virtual Artifact ParentArtifact { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();

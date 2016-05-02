@@ -20,6 +20,7 @@ namespace CustomWise.Data {
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
 
+        public virtual DbSet<ArtifactVersion> ArtifactVersions { get; set; }
         public virtual DbSet<Artifact> Artifacts { get; set; }
         public virtual DbSet<ArtifactType> ArtifactTypes { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }

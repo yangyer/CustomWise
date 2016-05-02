@@ -27,15 +27,80 @@ namespace CustomWise.Data.Migrations {
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
+            var artificatVersions = CreateModelCodeArtifactVersions();
+            var specificationVersions = CreateModelSpecificationVersions();
+            
             context.SpecificationTypes.AddOrUpdate(CreateSpecificationTypes());
-
             context.ArtifactTypes.AddOrUpdate(CreateArtifactTypes());
-
             context.MetaDataDefinitions.AddOrUpdate(CreateMetaDataDefinitions());
+            context.SaveChanges();
+
+            context.Artifacts.AddOrUpdate(CreateModelCodeArtifacts(artificatVersions));
+            context.SaveChanges();
+
+            context.Specifications.AddOrUpdate(CreateModelSpecifications(specificationVersions));
+            context.SaveChanges();
         }
 
         #region Seed Methods
+        private ArtifactVersion[] CreateModelCodeArtifactVersions() {
+            var entities = new ArtifactVersion[] {
+                new ArtifactVersion { Name = "Tomcat F21", Published = false },
+                new ArtifactVersion { Name = "Tomcat F22", Published = false },
+                new ArtifactVersion { Name = "Tomcat F24", Published = false },
+                new ArtifactVersion { Name = "B52 21",     Published = false },
+                new ArtifactVersion { Name = "B52 23",     Published = false }
+            };
+
+            return entities.SetId().SetAuditData();
+        }
+
+        private SpecificationVersion[] CreateModelSpecificationVersions() {
+            var entities = new SpecificationVersion[] {
+                new SpecificationVersion { Name = "Tomcat F21", Published = false },
+                new SpecificationVersion { Name = "Tomcat F22", Published = false },
+                new SpecificationVersion { Name = "Tomcat F24", Published = false },
+                new SpecificationVersion { Name = "B52 21",     Published = false },
+                new SpecificationVersion { Name = "B52 23",     Published = false }
+            };
+
+            return entities.SetId().SetAuditData();
+        }
+
+        private Artifact[] CreateModelCodeArtifacts(ArtifactVersion[] versions) {
+            var entities = new Artifact[] {
+                new Artifact { DisplayName = "Tomcat F21", IsActive = true, Deleted = false, ArtifactTypeId = 1 },
+                new Artifact { DisplayName = "Tomcat F22", IsActive = true, Deleted = false, ArtifactTypeId = 1 },
+                new Artifact { DisplayName = "Tomcat F24", IsActive = true, Deleted = false, ArtifactTypeId = 1 },
+                new Artifact { DisplayName = "B52 21",     IsActive = true, Deleted = false, ArtifactTypeId = 1 },
+                new Artifact { DisplayName = "B52 23",     IsActive = true, Deleted = false, ArtifactTypeId = 1 }
+            };
+
+            entities = entities.Select(e => {
+                e.ArtifactVersion = versions.First(v => v.Name == e.DisplayName);
+                return e;
+            }).ToArray();
+
+            return entities.SetId().SetAuditData();
+        }
+
+        private Specification[] CreateModelSpecifications(SpecificationVersion[] versions) {
+            var entities = new Specification[] {
+                new Specification { DisplayName = "Tomcat F21", IsActive = true, Deleted = false, SpecificationTypeId = 1 },
+                new Specification { DisplayName = "Tomcat F22", IsActive = true, Deleted = false, SpecificationTypeId = 1 },
+                new Specification { DisplayName = "Tomcat F24", IsActive = true, Deleted = false, SpecificationTypeId = 1 },
+                new Specification { DisplayName = "B52 21",     IsActive = true, Deleted = false, SpecificationTypeId = 1 },
+                new Specification { DisplayName = "B52 23",     IsActive = true, Deleted = false, SpecificationTypeId = 1 }
+            };
+
+            entities = entities.Select(e => {
+                e.SpecificationVersion = versions.First(v => v.Name == e.DisplayName);
+                return e;
+            }).ToArray();
+
+            return entities.SetId().SetAuditData();
+        }
+
         private SpecificationType[] CreateSpecificationTypes() {
             var entities = new SpecificationType[] {
                 new SpecificationType { DisplayName = "Root",              SystemName = "root"         },
@@ -104,7 +169,7 @@ namespace CustomWise.Data.Migrations {
         #endregion
     }
 
-    static class EfSeedHelper {
+    static class ConfigurationExtensions {
         public static T[] SetId<T>(this IEnumerable<T> source)
             where T : BaseEntity {
 
@@ -123,18 +188,18 @@ namespace CustomWise.Data.Migrations {
             var temp = source.ToList();
             var defaultFields = new List<string> { "CreatedBy", "CreatedDate", "ModifiedBy", "ModifiedDate" };
             temp.ToList()
-                  .ForEach((e) => {
-                      defaultFields.ForEach(propName => {
-                          var prop = e.GetType().GetProperty(propName);
-                          if(prop != null) {
-                              if (prop.Name.Contains("Date")) {
-                                  prop.SetValue(e, DateTime.Now);
-                              } else {
-                                  prop.SetValue(e, "system");
-                              }
-                          }
-                      });
-                  });
+                .ForEach((e) => {
+                    defaultFields.ForEach(propName => {
+                        var prop = e.GetType().GetProperty(propName);
+                        if(prop != null) {
+                            if (prop.Name.Contains("Date")) {
+                                prop.SetValue(e, DateTime.Now);
+                            } else {
+                                prop.SetValue(e, "system");
+                            }
+                        }
+                    });
+                });
 
             return temp.ToArray();
         }
