@@ -8,8 +8,8 @@
         private static MapperConfiguration _mapperConfig;
         private static IMapper _mapper;
 
-        public static MapperConfiguration CreateAutoMapperConfigProviderInstance() => _mapperConfig != null ? _mapperConfig : _mapperConfig = new MapperConfiguration(config => config.AddProfile<DalToDtoMappingProfile>());
+        public static MapperConfiguration CreateAutoMapperConfigProviderInstance() => _mapperConfig ?? new MapperConfiguration(config => config.AddProfile<DalToDtoMappingProfile>());
 
-        public static IMapper CreateAutoMapperMapperInstance() => _mapper != null ? _mapper : _mapper = CreateAutoMapperConfigProviderInstance().CreateMapper();
+        public static IMapper CreateAutoMapperMapperInstance() => _mapper ?? CreateAutoMapperConfigProviderInstance().CreateMapper();
     }
 }
