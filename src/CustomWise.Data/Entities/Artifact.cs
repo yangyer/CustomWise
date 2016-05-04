@@ -12,10 +12,10 @@
         public int ArtifactVersionId { get; set; }
         [ForeignKey(nameof(ParentArtifact))]
         public int? ParentArtifactId { get; set; }
-        [Required, MaxLength(64)]
-        public string DisplayName { get; set; }
         [ForeignKey(nameof(ArtifactType))]
         public int ArtifactTypeId { get; set; }
+        [Required, MaxLength(64)]
+        public string DisplayName { get; set; }
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public int Order { get; set; }

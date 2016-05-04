@@ -7,7 +7,7 @@ namespace CustomWise.Data.Entities {
     /// <summary>
     /// Class that defines the detail metadata.
     /// </summary>
-    /// <seealso cref="CustomWise.Data.Entities.Base.BaseEntity" />
+    /// <seealso cref="Sophcon.BaseEntity" />
     public class MetaDataDefinitionDetail 
         : BaseEntity {
         /// <summary>

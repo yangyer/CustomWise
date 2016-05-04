@@ -1,0 +1,38 @@
+Id,Section,Hex Color,Color Name,Texture Name,Swatch Number
+0,Upholstery,#fcfbf9,Mystic White X,standard,1
+1,Upholstery,#A69078,Puma X,standard,2
+2,Upholstery,#BFA991,Khaki X,standard,3
+3,Upholstery,#d1d1d1,Sky Grey X,standard,4
+4,Upholstery,#86837E,Pearl Grey,standard,5
+5,Upholstery,#5C615B,Dove Grey,standard,6
+6,Upholstery,#23241E,Zeus Black X,standard,7
+7,Upholstery,#024F7D,True Blue X,standard,8
+8,Upholstery,#A41D23,Cherry,standard,9
+9,Upholstery,#fcea00,Yellow X,standard,10
+10,Upholstery,#fcfbf9,Pearl White X,carbonfiber,11
+11,Upholstery,#bebebe,Silver,carbonfiber,12
+12,Upholstery,#717679,Met. Graphite X,carbonfiber,13
+13,Upholstery,#292A24,Soft Black,carbonfiber,14
+14,Upholstery,#086092,Blue X,carbonfiber,15
+15,Upholstery,#AF1F25,Red X,carbonfiber,16
+16,Upholstery,#E9E8E4,Ice,denim,17
+17,Upholstery,#A7A29E,Plata,denim,18
+18,Upholstery,#51443C,Meteor,denim,19
+19,Upholstery,#2C2D27,Carbon,denim,20
+30,Upholstery,#AC383B,Red X,denim,21
+31,Upholstery,#90e313,Kiwi,denim,22
+32,Upholstery,#9F9A96,Silver,rattan,23
+33,Upholstery,#5E5B56,Cityscape,rattan,24
+34,Upholstery,#B8B3AF,Silver Strike X,gemini,25
+35,Upholstery,#f2e04b,Yellow X,gemini,26
+36,Upholstery,#7cd622,Lime X,gemini,27
+37,Upholstery,#FE7207,Tangerine,gemini,28
+38,Upholstery,#006ead,Electric,gemini,29
+39,Upholstery,#A8805D,Honey,diamond,30
+40,Upholstery,#1c3a5e,Electric Blue X,diamond,31
+41,Upholstery,#444540,Met. Black X,diamond,32
+42,Upholstery,#A51B2A,Red X,diamond,33
+43,Upholstery,#E6C101,Yellow X,diamond,34
+44,Upholstery,#086092,Captain,trexx,35
+45,Upholstery,#AE262A,Blaze,trexx,36
+46,Upholstery,#E16738,Marigold,trexx,37

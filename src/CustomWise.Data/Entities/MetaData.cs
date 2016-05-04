@@ -9,15 +9,18 @@
         [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Specification))]
-        public int SpecificationId { get; set; }
+        public int? SpecificationId { get; set; }
+        [ForeignKey(nameof(Artifact))]
+        public int? ArtifactId { get; set; }
         [ForeignKey(nameof(MetaDataDefinition))]
         public int MetaDataDefinitionId { get; set; }
         [Required, MaxLength(64)]
         public string Key { get; set; }
         [Required, MaxLength(256)]
         public string Value { get; set; }
-        public MetaDataDefinition MetaDataDefinition { get; set; }
+        public virtual MetaDataDefinition MetaDataDefinition { get; set; }
         public virtual Specification Specification { get; set; }
+        public virtual Artifact Artifact { get; set; }
 
         public MetaData()
             : base() { }

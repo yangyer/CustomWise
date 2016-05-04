@@ -48,6 +48,22 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FSharp.PowerPack, Version=4.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSPowerPack.Core.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FSharp.PowerPack.Linq, Version=4.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSPowerPack.Linq.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FSharp.PowerPack.Metadata, Version=4.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSPowerPack.Metadata.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FSharp.PowerPack.Parallel.Seq, Version=4.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSPowerPack.Parallel.Seq.Community.3.0.0.0\lib\Net40\FSharp.PowerPack.Parallel.Seq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -57,6 +73,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sophcon, Version=1.0.5967.23044, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5967.23044\lib\net452\Sophcon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.3.2\lib\net40\Swashbuckle.Core.dll</HintPath>
       <Private>True</Private>
@@ -64,6 +84,22 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -119,6 +155,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Toolkit.Csv, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Toolkit.Csv.1.0.6.3\lib\net40\Toolkit.Csv.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
@@ -183,6 +223,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MigrationSeedConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
@@ -265,6 +306,33 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Migrations\gelcoat-color-pallets.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\gelcoat-colors.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\model-color-areas.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\model-feature-pricing-f24.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\model-feature-pricing.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\model-features.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\pricing-levels.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\upholstery-color-pallets.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Migrations\upholstery-colors.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -305,6 +373,10 @@
     <Content Include="Scripts\jquery-2.2.3.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomWise.Data\CustomWise.Data.csproj">
+      <Project>{DECFBA94-41EE-4757-9728-81A42333D808}</Project>
+      <Name>CustomWise.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomWise.Web.Services\CustomWise.Web.Services.csproj">
       <Project>{a0a85c06-cd12-4cd0-a9e6-127100532623}</Project>
       <Name>CustomWise.Web.Services</Name>

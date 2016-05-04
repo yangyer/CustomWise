@@ -14,8 +14,8 @@ namespace CustomWise.Data.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         ArtifactVersionId = c.Int(nullable: false),
                         ParentArtifactId = c.Int(),
-                        DisplayName = c.String(nullable: false, maxLength: 64),
                         ArtifactTypeId = c.Int(nullable: false),
+                        DisplayName = c.String(nullable: false, maxLength: 64),
                         IsActive = c.Boolean(nullable: false),
                         Deleted = c.Boolean(nullable: false),
                         Order = c.Int(nullable: false),
@@ -24,17 +24,14 @@ namespace CustomWise.Data.Migrations
                         CreatedDate = c.DateTime(nullable: false),
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
                         ModifiedDate = c.DateTime(nullable: false),
-                        ArtifactVersion_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.ArtifactTypes", t => t.ArtifactTypeId, cascadeDelete: true)
-                .ForeignKey("dbo.ArtifactVersions", t => t.ArtifactVersion_Id)
                 .ForeignKey("dbo.ArtifactVersions", t => t.ArtifactVersionId, cascadeDelete: true)
                 .ForeignKey("dbo.Artifacts", t => t.ParentArtifactId)
                 .Index(t => t.ArtifactVersionId)
                 .Index(t => t.ParentArtifactId)
-                .Index(t => t.ArtifactTypeId)
-                .Index(t => t.ArtifactVersion_Id);
+                .Index(t => t.ArtifactTypeId);
             
             CreateTable(
                 "dbo.ArtifactTypes",
@@ -55,7 +52,7 @@ namespace CustomWise.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        PreviousArtifactVersionId = c.Int(nullable: false),
+                        PreviousArtifactVersionId = c.Int(),
                         Name = c.String(nullable: false, maxLength: 64),
                         Published = c.Boolean(nullable: false),
                         PublishedDate = c.DateTime(),
@@ -65,7 +62,7 @@ namespace CustomWise.Data.Migrations
                         ModifiedDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Artifacts", t => t.PreviousArtifactVersionId, cascadeDelete: true)
+                .ForeignKey("dbo.ArtifactVersions", t => t.PreviousArtifactVersionId)
                 .Index(t => t.PreviousArtifactVersionId);
             
             CreateTable(
@@ -73,7 +70,8 @@ namespace CustomWise.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        SpecificationId = c.Int(nullable: false),
+                        SpecificationId = c.Int(),
+                        ArtifactId = c.Int(),
                         MetaDataDefinitionId = c.Int(nullable: false),
                         Key = c.String(nullable: false, maxLength: 64),
                         Value = c.String(nullable: false, maxLength: 256),
@@ -81,15 +79,14 @@ namespace CustomWise.Data.Migrations
                         CreatedDate = c.DateTime(nullable: false),
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
                         ModifiedDate = c.DateTime(nullable: false),
-                        Artifact_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Artifacts", t => t.ArtifactId)
                 .ForeignKey("dbo.MetaDataDefinitions", t => t.MetaDataDefinitionId, cascadeDelete: true)
-                .ForeignKey("dbo.Specifications", t => t.SpecificationId, cascadeDelete: true)
-                .ForeignKey("dbo.Artifacts", t => t.Artifact_Id)
+                .ForeignKey("dbo.Specifications", t => t.SpecificationId)
                 .Index(t => t.SpecificationId)
-                .Index(t => t.MetaDataDefinitionId)
-                .Index(t => t.Artifact_Id);
+                .Index(t => t.ArtifactId)
+                .Index(t => t.MetaDataDefinitionId);
             
             CreateTable(
                 "dbo.MetaDataDefinitions",
@@ -181,6 +178,7 @@ namespace CustomWise.Data.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        PreviousVersionId = c.Int(nullable: false),
                         Name = c.String(nullable: false, maxLength: 64),
                         Published = c.Boolean(nullable: false),
                         PublishedDate = c.DateTime(),
@@ -189,35 +187,37 @@ namespace CustomWise.Data.Migrations
                         ModifiedBy = c.String(nullable: false, maxLength: 64),
                         ModifiedDate = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SpecificationVersions", t => t.PreviousVersionId)
+                .Index(t => t.PreviousVersionId);
             
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.Artifacts", "ParentArtifactId", "dbo.Artifacts");
-            DropForeignKey("dbo.MetaData", "Artifact_Id", "dbo.Artifacts");
             DropForeignKey("dbo.MetaData", "SpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.Specifications", "SpecificationVersionId", "dbo.SpecificationVersions");
+            DropForeignKey("dbo.SpecificationVersions", "PreviousVersionId", "dbo.SpecificationVersions");
             DropForeignKey("dbo.Specifications", "SpecificationTypeId", "dbo.SpecificationTypes");
             DropForeignKey("dbo.Specifications", "ParentSpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.Configurations", "SpecificationId", "dbo.Specifications");
             DropForeignKey("dbo.MetaData", "MetaDataDefinitionId", "dbo.MetaDataDefinitions");
             DropForeignKey("dbo.MetaDataDefinitionDetails", "MetaDataDefinitionId", "dbo.MetaDataDefinitions");
+            DropForeignKey("dbo.MetaData", "ArtifactId", "dbo.Artifacts");
             DropForeignKey("dbo.Artifacts", "ArtifactVersionId", "dbo.ArtifactVersions");
-            DropForeignKey("dbo.ArtifactVersions", "PreviousArtifactVersionId", "dbo.Artifacts");
-            DropForeignKey("dbo.Artifacts", "ArtifactVersion_Id", "dbo.ArtifactVersions");
+            DropForeignKey("dbo.ArtifactVersions", "PreviousArtifactVersionId", "dbo.ArtifactVersions");
             DropForeignKey("dbo.Artifacts", "ArtifactTypeId", "dbo.ArtifactTypes");
+            DropIndex("dbo.SpecificationVersions", new[] { "PreviousVersionId" });
             DropIndex("dbo.Configurations", new[] { "SpecificationId" });
             DropIndex("dbo.Specifications", new[] { "SpecificationVersionId" });
             DropIndex("dbo.Specifications", new[] { "SpecificationTypeId" });
             DropIndex("dbo.Specifications", new[] { "ParentSpecificationId" });
             DropIndex("dbo.MetaDataDefinitionDetails", new[] { "MetaDataDefinitionId" });
-            DropIndex("dbo.MetaData", new[] { "Artifact_Id" });
             DropIndex("dbo.MetaData", new[] { "MetaDataDefinitionId" });
+            DropIndex("dbo.MetaData", new[] { "ArtifactId" });
             DropIndex("dbo.MetaData", new[] { "SpecificationId" });
             DropIndex("dbo.ArtifactVersions", new[] { "PreviousArtifactVersionId" });
-            DropIndex("dbo.Artifacts", new[] { "ArtifactVersion_Id" });
             DropIndex("dbo.Artifacts", new[] { "ArtifactTypeId" });
             DropIndex("dbo.Artifacts", new[] { "ParentArtifactId" });
             DropIndex("dbo.Artifacts", new[] { "ArtifactVersionId" });

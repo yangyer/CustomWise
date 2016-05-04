@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CustomWise.Data;
+using CustomWise.Data.Entities;
+using Sophcon.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +18,7 @@ namespace CustomWise.Web {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            CustomWiseMigration.Create().RegisterMigration(MigrationSeedConfig.Seed);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace CustomWise.Web.Services.Controllers {
 
         [Route]
         public async Task<int> Post(DtoEntities.Specification specification, bool published = false) {
-            var version = await GetOrCreateVersion(specification.SpecificationVersionId, published, true);
+            var version = await GetOrCreateVersion(specification, published, true);
             var newSpecification = AutoMapper.Map<DalEntities.Specification>(specification);
             var newSubSpecifications = newSpecification.SubSpecifications.Flatten(s => s.SubSpecifications);
 
@@ -78,7 +78,7 @@ namespace CustomWise.Web.Services.Controllers {
             if(currSpecification == null) {
                 return 0;
             }
-            var version = await GetOrCreateVersion(specification.SpecificationVersionId, published);
+            var version = await GetOrCreateVersion(specification, published);
             if (version == null) {
                 return 0;
             }
@@ -125,19 +125,20 @@ namespace CustomWise.Web.Services.Controllers {
             return currSpecification.Id;
         }
 
-        internal async Task<DalEntities.SpecificationVersion> GetOrCreateVersion(int versionId, bool published, bool createIfNotFound = false) {
-            var version = await _context.SpecificationVersions.FindAsync(versionId);
+        internal async Task<DalEntities.SpecificationVersion> GetOrCreateVersion(DtoEntities.Specification specification, bool published, bool createIfNotFound = false) {
+            var version = await _context.SpecificationVersions.FindAsync(specification.SpecificationVersionId);
             if(version == default(DalEntities.SpecificationVersion)) {
                 if(!createIfNotFound) {
                     return version;
                 }
 
-                version = new DalEntities.SpecificationVersion();
+                version = new DalEntities.SpecificationVersion { Name = specification.DisplayName };
+                _context.SpecificationVersions.Add(version);
             }
             version = version.Published ? new DalEntities.SpecificationVersion { Name = version.Name } : version;
             version.Published = published;
             version.PublishedDate = published ? DateTime.Now : (Nullable<DateTime>)null;
-            _context.SpecificationVersions.Add(version);
+            
             return version;
         }
     }

@@ -7,7 +7,7 @@
     /// <summary>
     /// Contains data that describes a <see cref="MetaData"/> instance.
     /// </summary>
-    /// <seealso cref="CustomWise.Data.Entities.Base.BaseEntity" />
+    /// <seealso cref="Sophcon.BaseEntity" />
     [Table("MetaDataDefinitions")]
     public class MetaDataDefinition 
         : BaseEntity {

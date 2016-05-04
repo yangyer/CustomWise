@@ -42,12 +42,12 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon, Version=1.0.5963.30615, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.1.0.5963.30615\lib\net452\Sophcon.dll</HintPath>
+    <Reference Include="Sophcon, Version=1.0.5967.23044, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5967.23044\lib\net452\Sophcon.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon.Data, Version=1.0.5963.30617, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.Data.1.0.5963.30617\lib\net452\Sophcon.Data.dll</HintPath>
+    <Reference Include="Sophcon.Data, Version=1.0.5967.23046, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.Data.1.0.5967.23046\lib\net452\Sophcon.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomWiseMigration.cs" />
     <Compile Include="CustomWiseModel.cs" />
     <Compile Include="Entities\Artifact.cs" />
     <Compile Include="Entities\ArtifactType.cs" />
@@ -75,9 +76,10 @@
     <Compile Include="Entities\SpecificationType.cs" />
     <Compile Include="Entities\SpecificationVersion.cs" />
     <Compile Include="ICustomWiseContext.cs" />
-    <Compile Include="Migrations\201604261919368_Initial.cs" />
-    <Compile Include="Migrations\201604261919368_Initial.Designer.cs">
-      <DependentUpon>201604261919368_Initial.cs</DependentUpon>
+    <Compile Include="ICustomWiseMigrationContext.cs" />
+    <Compile Include="Migrations\201605032347536_Initial.cs" />
+    <Compile Include="Migrations\201605032347536_Initial.Designer.cs">
+      <DependentUpon>201605032347536_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,8 +92,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604261919368_Initial.resx">
-      <DependentUpon>201604261919368_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605032347536_Initial.resx">
+      <DependentUpon>201605032347536_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -62,12 +62,12 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon, Version=1.0.5963.30615, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.1.0.5963.30615\lib\net452\Sophcon.dll</HintPath>
+    <Reference Include="Sophcon, Version=1.0.5967.23044, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5967.23044\lib\net452\Sophcon.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon.Data, Version=1.0.5963.30617, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.Data.1.0.5963.30617\lib\net452\Sophcon.Data.dll</HintPath>
+    <Reference Include="Sophcon.Data, Version=1.0.5967.23046, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.Data.1.0.5967.23046\lib\net452\Sophcon.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

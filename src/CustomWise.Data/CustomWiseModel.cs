@@ -195,7 +195,13 @@ namespace CustomWise.Data {
                 preSave(entities, pipeLineState);
             }
 
-            var result = pipeLineState.ExitSave ? 0 : base.SaveChanges();
+            var result = 0;
+
+            try {
+                result = pipeLineState.ExitSave ? 0 : base.SaveChanges();
+            } catch (Exception ex) {
+                throw ex;
+            }
 
             foreach (var postSave in post) {
                 if (pipeLineState.ExitPostSave) {
