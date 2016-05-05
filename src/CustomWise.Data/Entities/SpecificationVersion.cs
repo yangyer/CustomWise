@@ -1,23 +1,24 @@
 ﻿namespace CustomWise.Data.Entities {
-    using Sophcon;
-    using System;
-    using System.Collections.Generic;
+    using Base;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Versioning;
 
+    [Table(nameof(SpecificationVersion) + "s")]
     public class SpecificationVersion 
-        : BaseEntity {
+        : BaseItemDefinition,
+        IEntityVersion {
 
-        [Key]
-        public int Id { get; set; }
-        [ForeignKey(nameof(PreviousVersion))]
-        public int PreviousVersionId { get; set; }
-        [Required, StringLength(64)]
-        public string Name { get; set; }
-        public bool Published { get; set; }
-        public DateTime? PublishedDate { get; set; }
-        public virtual SpecificationVersion PreviousVersion { get; set; }
-        public virtual ICollection<Specification> Specifications { get; set; } = new HashSet<Specification>();
+        [ForeignKey(nameof(Specification))]
+        public override int Id {
+            get { return base.Id; }
+            set { base.Id = value; }
+        }
+        [Key, Column(Order = 2), MaxLength(256), Required(AllowEmptyStrings = false)]
+        public string VersionNumber { get; set; }
+        [Required, MaxLength(64)]
+        public string Action { get; set; }
+        public virtual Specification Specification { get; set; }
 
         public SpecificationVersion()
             : base() { }

@@ -1,14 +1,15 @@
 ﻿namespace CustomWise.Data.Entities {
     using Base;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using Versioning;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.ComponentModel.DataAnnotations;
 
-    [Table(nameof(ArtifactVersion) + "s")]
-    public class ArtifactVersion 
-        : BaseItemDefinition, 
+    [Table(nameof(MetaDataVersion) + "s")]
+    public class MetaDataVersion
+        : BaseMetaData,
         IEntityVersion {
-        [ForeignKey(nameof(Artifact))]
+
+        [Key, Column(Order = 1), ForeignKey(nameof(MetaData))]
         public override int Id {
             get { return base.Id; }
             set { base.Id = value; }
@@ -17,9 +18,9 @@
         public string VersionNumber { get; set; }
         [Required, MaxLength(64)]
         public string Action { get; set; }
-        public virtual Artifact Artifact { get; set; }
+        public virtual MetaData MetaData { get; set; }
 
-        public ArtifactVersion()
+        public MetaDataVersion() 
             : base() { }
     }
 }

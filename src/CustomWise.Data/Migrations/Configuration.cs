@@ -1,5 +1,6 @@
 namespace CustomWise.Data.Migrations {
     using Entities;
+    using Entities.Base;
     using Sophcon;
     using Sophcon.Collections;
     using System;
@@ -28,7 +29,6 @@ namespace CustomWise.Data.Migrations {
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            
             context.SpecificationTypes.AddOrUpdate(CreateSpecificationTypes());
             context.ArtifactTypes.AddOrUpdate(CreateArtifactTypes());
             context.MetaDataDefinitions.AddOrUpdate(CreateMetaDataDefinitions());
@@ -40,6 +40,7 @@ namespace CustomWise.Data.Migrations {
         }
         
         #region Seed Methods
+
         private SpecificationType[] CreateSpecificationTypes() {
             var entities = new SpecificationType[] {
                 new SpecificationType { DisplayName = "Root",              SystemName = "root"         },

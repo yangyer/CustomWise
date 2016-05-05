@@ -25,6 +25,7 @@ namespace CustomWise.Data {
         public virtual DbSet<ArtifactType> ArtifactTypes { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<MetaData> MetaData { get; set; }
+        public virtual DbSet<MetaDataVersion> MetaDataVersions { get; set; }
         public virtual DbSet<MetaDataDefinition> MetaDataDefinitions { get; set; }
         public virtual DbSet<MetaDataDefinitionDetail> MetaDataDefinitionDetails { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
@@ -187,7 +188,7 @@ namespace CustomWise.Data {
             if (customPostSave != null) {
                 post.Add(customPostSave);
             }
-
+            
             foreach (var preSave in pre) {
                 if (pipeLineState.ExitPreSave) {
                     break;
