@@ -45,6 +45,7 @@ namespace CustomWise.Data {
             : base("name=CustomWiseModel") {
             _preSaveEvents = new List<Action<IEnumerable<BaseEntity>, IPreSavePipeline>>();
             _postSaveEvents = new List<Action<IEnumerable<BaseEntity>, IPostSavePipeline>>();
+            
         }
         
         /// <summary>
@@ -196,14 +197,8 @@ namespace CustomWise.Data {
                 preSave(entities, pipeLineState);
             }
 
-            var result = 0;
-
-            try {
-                result = pipeLineState.ExitSave ? 0 : base.SaveChanges();
-            } catch (Exception ex) {
-                throw ex;
-            }
-
+            var result = pipeLineState.ExitSave ? 0 : base.SaveChanges();
+            
             foreach (var postSave in post) {
                 if (pipeLineState.ExitPostSave) {
                     break;

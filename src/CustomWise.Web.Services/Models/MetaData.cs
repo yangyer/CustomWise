@@ -6,7 +6,8 @@ namespace CustomWise.Web.Services.Models {
         : BaseEntity {
 
         public int Id { get; set; }
-        public int SpecificationId { get; set; }
+        public int? SpecificationId { get; set; }
+        public int? ArtifactId { get; set; }
         public int MetaDataDefinitionId { get; set; }
         [Required, MaxLength(64)]
         public string Key { get; set; }

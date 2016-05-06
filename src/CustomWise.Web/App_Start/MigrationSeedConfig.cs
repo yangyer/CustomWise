@@ -315,8 +315,10 @@ namespace CustomWise.Web {
         }
 
         public static void Seed(ICustomWiseMigrationContext context) {
-            var instance = new MigrationSeedConfig(context);
-            instance.Seed();
+            if (context.Specifications.Count() < 1) {
+                var instance = new MigrationSeedConfig(context);
+                instance.Seed();
+            }
         }
 
     }

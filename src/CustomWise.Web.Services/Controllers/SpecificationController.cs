@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Sophcon.Collections;
+using System.Data.Entity;
 
 namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/specification")]
@@ -36,14 +37,18 @@ namespace CustomWise.Web.Services.Controllers {
 
         [Route]
         public async Task<IEnumerable<DtoEntities.Specification>> Get() {
-            return await _context.Specifications.ProjectToListAsync<DtoEntities.Specification>(AutoMapperConfigProvider);
+            var specifications = await _context.Specifications.ToListAsync();
+
+            return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }
 
         [Route("{id:int}")]
         public async Task<DtoEntities.Specification> Get(int id) {
-            return await _context.Specifications
-                                 .Where(s => s.Id == id)
-                                 .ProjectToSingleAsync<DtoEntities.Specification>(AutoMapperConfigProvider);
+            var specification = await _context.Specifications
+                                              .Where(s => s.Id == id)
+                                              .FirstOrDefaultAsync();
+
+            return AutoMapper.Map<DtoEntities.Specification>(specification);
         }
 
 //        [Route]
