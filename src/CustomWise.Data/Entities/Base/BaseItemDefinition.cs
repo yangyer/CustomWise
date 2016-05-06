@@ -9,7 +9,7 @@
         [Key, Column(Order = 1)]
         public virtual int Id { get; set; }
         public virtual int? ParentId { get; set; }
-        [Required, MaxLength(256)]
+        [MaxLength(256)]
         public string DisplayName { get; set; }
         public int ItemTypeId { get; set; }
         public bool IsActive { get; set; }

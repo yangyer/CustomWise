@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using Toolkit.Csv;
 using Sophcon.Linq;
+using System.Data.Entity;
 
 namespace CustomWise.Web {
     public class MigrationSeedConfig {
@@ -121,157 +122,372 @@ namespace CustomWise.Web {
             _context = migrationContext;
         }
 
+        internal IDictionary<string, string>[] ParseCsv(string fileName) {
+            return CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath($"~/Migrations/{fileName}"));
+        }
+
         void Seed() {
             var priceLevelMetaDataDefinitionDetails = _context.MetaDataDefinitions.Single(detail => detail.Name == "Pricing").MetaDataDefinitionDetails.ToList();
-            var colorMetaDataDefinitionDetails = _context.MetaDataDefinitions.Single(mdd => mdd.Name == "Color").MetaDataDefinitionDetails.ToList();
-            var specificationTypes = _context.SpecificationTypes.ToList();
-            var artifactTypes = _context.ArtifactTypes.ToList();
-            var pricingLevelData = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/pricing-levels.csv"));
-            var modelFeaturesData = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/model-features.csv"));
-            var modelFeaturePricingData = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/model-feature-pricing.csv"));
-            var modelFeaturePricingF24Data = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/model-feature-pricing-f24.csv"));
-            var modelColorAreasData = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/model-color-areas.csv"));
-            var gPallets = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/gelcoat-color-pallets.csv"));
-            var uPallets = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/upholstery-color-pallets.csv"));
-            var gColors = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/gelcoat-colors.csv"));
-            var uColors = CsvParser.ParseFileAsDictionaries(',', HttpContext.Current.Server.MapPath("~/Migrations/upholstery-colors.csv"));
-            var myDefinition = new MetaDataDefinition {
+            var colorMetaDataDefinitionDetails      = _context.MetaDataDefinitions.Single(mdd => mdd.Name == "Color").MetaDataDefinitionDetails.ToList();
+            var specificationTypes                  = _context.SpecificationTypes.ToList();
+            var artifactTypes                       = _context.ArtifactTypes.ToList();
+
+            var modelfeaturesSource       = ParseCsv("model-features.csv")              .Select(r => new { Raw = r, Model = r["Model"], FeatureId = r["Feature Id"], FeatureName = r["Feature Name"], Price = r["Price"] });
+            var modelFeaturePricingSource = ParseCsv("model-feature-pricing.csv")       .Select(r => new { Raw = r, Model = r["Model"], PriceLevelId = r["Price Level Id"], FeatureId = r["Feature Id"], Price = r["Price"] });
+            var modelColorAreasSource     = ParseCsv("model-color-areas.csv")           .Select(r => new { Raw = r, Model = r["Model"], Section = r["Section"], Area = r["Area"], Pallet = r["Pallet"] });
+            var pricingLevelSource        = ParseCsv("pricing-levels.csv")              .Select(r => new { Raw = r, PriceLevelId = r["Price Level Id"], PriceLevelName = r["Price Level Name"], Active = r["Active"] });
+            var gelPallets                = ParseCsv("gelcoat-color-pallets.csv")       .Select(r => new { Raw = r, PalletName = r["Pallet Name"], ColorId = r["Color Id"] });
+            var upholPallets              = ParseCsv("upholstery-color-pallets.csv")    .Select(r => new { Raw = r, PalletName = r["Pallet Name"], ColorId = r["Color Id"] });
+            var gelColors                 = ParseCsv("gelcoat-colors.csv")              .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"] });
+            var upholColors               = ParseCsv("upholstery-colors.csv")           .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"], TextureName = r["Texture Name"], SwatchNumber = r["Swatch Number"] });
+
+            #region Version Funcs
+            Func<Artifact, ArtifactVersion> generateArtifactVersion = (artifact) => {
+                return new ArtifactVersion {
+                    Id = artifact.Id,
+                    VersionNumber = "1",
+                    ArtifactReferenceId = artifact.ArtifactReferenceId,
+                    Action = "Insert",
+                    IsActive = artifact.IsActive,
+                    DisplayName = artifact.DisplayName,
+                    ItemTypeId = artifact.ItemTypeId,
+                    Order = artifact.Order,
+                    ParentId = artifact.ParentId,
+                    CreatedBy = artifact.CreatedBy,
+                    CreatedDate = artifact.CreatedDate,
+                    ModifiedBy = artifact.ModifiedBy,
+                    ModifiedDate = artifact.ModifiedDate
+                };
+            };
+            Func<Specification, SpecificationVersion> generateSpecificationVersion = (spec) => {
+                return new SpecificationVersion {
+                    Id = spec.Id,
+                    VersionNumber = "1",
+                    ArtifactReferenceId = spec.ArtifactReferenceId,
+                    Action = "Insert",
+                    IsActive = spec.IsActive,
+                    DisplayName = spec.DisplayName,
+                    ItemTypeId = spec.ItemTypeId,
+                    Order = spec.Order,
+                    ParentId = spec.ParentId,
+                    CreatedBy = spec.CreatedBy,
+                    CreatedDate = spec.CreatedDate,
+                    ModifiedBy = spec.ModifiedBy,
+                    ModifiedDate = spec.ModifiedDate
+                };
+            };
+            Func<MetaData, MetaDataVersion> generateMetaDataVersion = (metaData) => {
+                return new MetaDataVersion {
+                    Id = metaData.Id,
+                    Action = "Insert",
+                    VersionNumber = "1",
+                    ArtifactId = metaData.ArtifactId,
+                    SpecificationId = metaData.SpecificationId,
+                    Key = metaData.Key,
+                    Value = metaData.Value,
+                    MetaDataDefinitionId = metaData.MetaDataDefinitionId,
+                    CreatedBy = metaData.CreatedBy,
+                    CreatedDate = metaData.CreatedDate,
+                    ModifiedBy = metaData.ModifiedBy,
+                    ModifiedDate = metaData.ModifiedDate
+                };
+            };
+            #endregion
+
+            #region Root Entities
+            var modelYearDefinition = new MetaDataDefinition {
                 Name = "Model",
                 CreatedBy = "system",
                 CreatedDate = DateTime.Now,
                 ModifiedBy = "system",
                 ModifiedDate = DateTime.Now,
                 MetaDataDefinitionDetails = new MetaDataDefinitionDetail[] {
-                        new MetaDataDefinitionDetail {
-                            Name = "Model Year",
-                            CreatedBy = "system",
-                            CreatedDate = DateTime.Now,
-                            ModifiedBy = "system",
-                            ModifiedDate = DateTime.Now
-                        }
+                    new MetaDataDefinitionDetail {
+                        Name = "Model Year",
+                        CreatedBy = "system",
+                        CreatedDate = DateTime.Now,
+                        ModifiedBy = "system",
+                        ModifiedDate = DateTime.Now
                     }
+                }
             };
+            _context.MetaDataDefinitions.Add(modelYearDefinition);
+            _context.SaveChanges();
 
-            var models = modelFeaturesData.Select(r => r["Model"]).Distinct().Select(modelName => new Specification {
-                DisplayName = modelName,
-                ItemTypeId = specificationTypes.Single(t => t.SystemName == "root").Id,
+            var featureArtifactRoot = new Artifact {
+                DisplayName = "Features",
                 IsActive = true,
-                MetaData = GenerateModelMetaData(myDefinition),
+                ItemTypeId = artifactTypes.Single(i => i.SystemName == "root").Id,
                 CreatedBy = "system",
                 CreatedDate = DateTime.Now,
                 ModifiedBy = "system",
                 ModifiedDate = DateTime.Now
-            }).ToList();
-
-            _context.Specifications.AddRange(models);
+            };
+            _context.Artifacts.Add(featureArtifactRoot);
             _context.SaveChanges();
 
-            var features = (from m in models
-                            join f in modelFeaturesData on m.DisplayName equals f["Model"]
-                            select new Specification {
-                                DisplayName = f["Feature Name"],
-                                IsActive = true,
-                                ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
-                                Parent = m,
-                                ParentId = m.Id,
-                                MetaData = modelFeaturePricingData.Where(mfp => mfp["Model"] == m.DisplayName && mfp["Feature Id"] == f["Feature Id"]).SelectMany(r => GenerateFeaturePriceMetaData(priceLevelMetaDataDefinitionDetails, r)).ToList(),
-                                CreatedBy = "system",
-                                CreatedDate = DateTime.Now,
-                                ModifiedBy = "system",
-                                ModifiedDate = DateTime.Now
-                            }).ToList();
+            var colorPalletArtifactRoot = new Artifact {
+                DisplayName = "Color Pallets",
+                IsActive = true,
+                ItemTypeId = artifactTypes.Single(i => i.SystemName == "root").Id,
+                CreatedBy = "system",
+                CreatedDate = DateTime.Now,
+                ModifiedBy = "system",
+                ModifiedDate = DateTime.Now
+            };
+            _context.Artifacts.Add(colorPalletArtifactRoot);
+            _context.SaveChanges();
+            #endregion
+
+            #region Models
+            var models =
+                    (from modelName in modelfeaturesSource.Select(f => f.Model).Distinct()
+                     select new Specification {
+                         DisplayName = modelName,
+                         ItemTypeId = specificationTypes.Single(t => t.SystemName == "root").Id,
+                         IsActive = true,
+                         MetaData = GenerateModelMetaData(modelYearDefinition),
+                         CreatedBy = "system",
+                         CreatedDate = DateTime.Now,
+                         ModifiedBy = "system",
+                         ModifiedDate = DateTime.Now
+                     }).ToList();
+
+            _context.Specifications.AddRange(models);
+            _context.SaveChanges(); 
+            #endregion
+
+            #region Model Features
+            // artifacts
+            var featureArtifacts =
+                    (from f in modelfeaturesSource.Select(mf => new { mf.FeatureName, mf.FeatureId }).Distinct()
+                     select new Artifact {
+                         DisplayName = f.FeatureName,
+                         IsActive = true,
+                         ItemTypeId = artifactTypes.Single(i => i.SystemName == "item").Id,
+                         ParentId = featureArtifactRoot.Id,
+                         MetaData =
+                            (from m in models
+                             join p in modelFeaturePricingSource on new { Model = m.DisplayName, FeatureId = f.FeatureId } equals new { Model = p.Model, FeatureId = p.FeatureId }
+                             select GenerateFeaturePriceMetaData(priceLevelMetaDataDefinitionDetails, p.Raw)).SelectMany(meta => meta).ToList(),
+                         CreatedBy = "system",
+                         CreatedDate = DateTime.Now,
+                         ModifiedBy = "system",
+                         ModifiedDate = DateTime.Now
+                     }).ToList();
+
+            _context.Artifacts.AddRange(featureArtifacts.Flatten(s => s.SubItems));
+            _context.SaveChanges();
+
+            // ref-specification
+            var features =
+                (from m in models
+                 join f in modelfeaturesSource on m.DisplayName equals f.Model
+                 join a in featureArtifacts on f.FeatureName equals a.DisplayName
+                 select new Specification {
+                     ArtifactReferenceId = a.Id.ToString(),
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "ref_item").Id,
+                     Parent = m,
+                     ParentId = m.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
 
             _context.Specifications.AddRange(features.Flatten(s => s.SubItems));
             _context.SaveChanges();
 
-            var sections = (from m in models
-                            join ca in modelColorAreasData on m.DisplayName equals ca["Model"]
-                            select new Specification {
-                                DisplayName = ca["Section"],
-                                IsActive = true,
-                                ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
-                                Parent = m,
-                                ParentId = m.Id,
-                                CreatedBy = "system",
-                                CreatedDate = DateTime.Now,
-                                ModifiedBy = "system",
-                                ModifiedDate = DateTime.Now
-                            }).Distinct(new SpecificationComparer()).ToList();
+            // version
+            var featureArtifactVersions = featureArtifacts.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
+            _context.ArtifactVersions.AddRange(featureArtifactVersions);
+            _context.SaveChanges();
+
+            var featureArtifactMetaDataVersions = featureArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            _context.MetaDataVersions.AddRange(featureArtifactMetaDataVersions);
+            _context.SaveChanges();
+
+            var featureSpecificationVersions = features.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            _context.SpecificationVersions.AddRange(featureSpecificationVersions);
+            _context.SaveChanges();
+            #endregion
+
+            #region Sections & Areas
+            var sections =
+                    (from m in models
+                     join ca in modelColorAreasSource.Select(s => new { s.Section, s.Model }).Distinct() on m.DisplayName equals ca.Model
+                     select new Specification {
+                         DisplayName = ca.Section,
+                         IsActive = true,
+                         ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                         Parent = m,
+                         ParentId = m.Id,
+                         CreatedBy = "system",
+                         CreatedDate = DateTime.Now,
+                         ModifiedBy = "system",
+                         ModifiedDate = DateTime.Now
+                     }).ToList();
 
             _context.Specifications.AddRange(sections.Flatten(s => s.SubItems));
             _context.SaveChanges();
 
-            var colorAreas = (from s in sections
-                              join ca in modelColorAreasData on new { Model = s.Parent.DisplayName, Section = s.DisplayName } equals new { Model = ca["Model"], Section = ca["Section"] }
-                              select new Specification {
-                                  DisplayName = ca["Area"],
-                                  IsActive = true,
-                                  ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
-                                  Parent = s,
-                                  ParentId = s.Id,
-                                  CreatedBy = "system",
-                                  CreatedDate = DateTime.Now,
-                                  ModifiedBy = "system",
-                                  ModifiedDate = DateTime.Now
-                              }).ToList();
+            var colorAreas =
+                (from s in sections
+                 join ca in modelColorAreasSource on new { Model = s.Parent.DisplayName, Section = s.DisplayName } equals new { Model = ca.Model, Section = ca.Section }
+                 select new Specification {
+                     DisplayName = ca.Area,
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     Parent = s,
+                     ParentId = s.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
 
             _context.Specifications.AddRange(colorAreas.Flatten(s => s.SubItems));
             _context.SaveChanges();
+            #endregion
 
-            var colorPallets = (from ca in colorAreas
-                                join cp in modelColorAreasData on new { Model = ca.Parent.Parent.DisplayName, Section = ca.Parent.DisplayName, Area = ca.DisplayName } equals new { Model = cp["Model"], Section = cp["Section"], Area = cp["Area"] }
-                                select new Specification {
-                                    DisplayName = cp["Pallet"],
-                                    IsActive = true,
-                                    ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
-                                    Parent = ca,
-                                    ParentId = ca.Id,
-                                    CreatedBy = "system",
-                                    CreatedDate = DateTime.Now,
-                                    ModifiedBy = "system",
-                                    ModifiedDate = DateTime.Now
-                                }).ToList();
+            #region Pallets & Colors
+            // pallet artifacts
+            var colorPalletArtificats =
+                (from pallet in modelColorAreasSource.Select(r => r.Pallet).Distinct()
+                 select new Artifact {
+                     DisplayName = pallet,
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     Parent = colorPalletArtifactRoot,
+                     ParentId = colorPalletArtifactRoot.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
+
+            _context.Artifacts.AddRange(colorPalletArtificats.Flatten(s => s.SubItems));
+            _context.SaveChanges();
+
+            // pallet specifications
+            var colorPallets =
+                (from ca in colorAreas
+                 join cp in modelColorAreasSource on new { Model = ca.Parent.Parent.DisplayName, Section = ca.Parent.DisplayName, Area = ca.DisplayName } equals new { Model = cp.Model, Section = cp.Section, Area = cp.Area }
+                 join a in colorPalletArtificats on cp.Pallet equals a.DisplayName
+                 select new Specification {
+                     ArtifactReferenceId = a.Id.ToString(),
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "ref_item").Id,
+                     Parent = ca,
+                     ParentId = ca.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
 
             _context.Specifications.AddRange(colorPallets.Flatten(s => s.SubItems));
             _context.SaveChanges();
 
-            var gelColors = (from cp in colorPallets
-                             join cpd in gPallets on cp.DisplayName equals cpd["Pallet Name"]
-                             join c in gColors on cpd["Color Id"] equals c["Id"]
-                             select new Specification {
-                                 DisplayName = c["Color Name"],
-                                 IsActive = true,
-                                 ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
-                                 MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c)).ToList(),
-                                 Parent = cp,
-                                 ParentId = cp.Id,
-                                 CreatedBy = "system",
-                                 CreatedDate = DateTime.Now,
-                                 ModifiedBy = "system",
-                                 ModifiedDate = DateTime.Now
-                             }).ToList();
+            // color artifacts
+            var gelcoatColorArtifacts =
+                (from cp in colorPalletArtificats
+                 join p in gelPallets on cp.DisplayName equals p.PalletName
+                 join c in gelColors on p.ColorId equals c.Id
+                 select new Artifact {
+                     DisplayName = c.ColorName,
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+                     MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
+                     Parent = cp,
+                     ParentId = cp.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
 
-            _context.Specifications.AddRange(gelColors.Flatten(s => s.SubItems));
+            _context.Artifacts.AddRange(gelcoatColorArtifacts.Flatten(s => s.SubItems));
             _context.SaveChanges();
 
-            var upColors = (from cp in colorPallets
-                             join cpd in uPallets on cp.DisplayName equals cpd["Pallet Name"]
-                             join c in uColors on cpd["Color Id"] equals c["Id"]
-                             select new Specification {
-                                 DisplayName = c["Color Name"],
-                                 IsActive = true,
-                                 ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
-                                 MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c)).ToList(),
-                                 Parent = cp,
-                                 ParentId = cp.Id,
-                                 CreatedBy = "system",
-                                 CreatedDate = DateTime.Now,
-                                 ModifiedBy = "system",
-                                 ModifiedDate = DateTime.Now
-                             }).ToList();
+            //var gelcoatColors =
+            //    (from cp in colorPallets
+            //     join p in gelPallets on cp.DisplayName equals p.PalletName
+            //     join c in gelColors on p.ColorId equals c.Id
+            //     select new Specification {
+            //         DisplayName = c.ColorName,
+            //         IsActive = true,
+            //         ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+            //         MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
+            //         Parent = cp,
+            //         ParentId = cp.Id,
+            //         CreatedBy = "system",
+            //         CreatedDate = DateTime.Now,
+            //         ModifiedBy = "system",
+            //         ModifiedDate = DateTime.Now
+            //     }).ToList();
 
-            _context.Specifications.AddRange(upColors.Flatten(s => s.SubItems));
+            //_context.Specifications.AddRange(gelcoatColors.Flatten(s => s.SubItems));
+            //_context.SaveChanges();
+
+            var upholColorArtifacts =
+                (from cp in colorPalletArtificats
+                 join p in upholPallets on cp.DisplayName equals p.PalletName
+                 join c in upholColors on p.ColorId equals c.Id
+                 select new Artifact {
+                     DisplayName = c.ColorName,
+                     IsActive = true,
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+                     MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
+                     Parent = cp,
+                     ParentId = cp.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
+
+            _context.Artifacts.AddRange(upholColorArtifacts.Flatten(s => s.SubItems));
             _context.SaveChanges();
+
+            //var upColors =
+            //    (from cp in colorPallets
+            //     join p in upholPallets on cp.DisplayName equals p.PalletName
+            //     join c in upholColors on p.ColorId equals c.Id
+            //     select new Specification {
+            //         DisplayName = c.ColorName,
+            //         IsActive = true,
+            //         ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+            //         MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
+            //         Parent = cp,
+            //         ParentId = cp.Id,
+            //         CreatedBy = "system",
+            //         CreatedDate = DateTime.Now,
+            //         ModifiedBy = "system",
+            //         ModifiedDate = DateTime.Now
+            //     }).ToList();
+
+            //_context.Specifications.AddRange(upColors.Flatten(s => s.SubItems));
+            //_context.SaveChanges(); 
+
+            // version
+            var colorPalletArtifactVersions = colorPalletArtificats.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
+            _context.ArtifactVersions.AddRange(colorPalletArtifactVersions);
+            _context.SaveChanges();
+
+            var gelColorArtifactMetaDataVersions = gelcoatColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            _context.MetaDataVersions.AddRange(gelColorArtifactMetaDataVersions);
+            _context.SaveChanges();
+
+            var upholColorArtifactMetaDataVersions = upholColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            _context.MetaDataVersions.AddRange(upholColorArtifactMetaDataVersions);
+            _context.SaveChanges();
+
+            var colorPalletSpecificationVersions = colorPallets.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            _context.SpecificationVersions.AddRange(colorPalletSpecificationVersions);
+            _context.SaveChanges();
+            #endregion
         }
 
         // **
@@ -321,10 +537,5 @@ namespace CustomWise.Web {
             }
         }
 
-    }
-
-    public class SpecificationComparer : IEqualityComparer<Specification> {
-        public bool Equals(Specification x, Specification y) => x.DisplayName == y.DisplayName && x.Parent?.DisplayName == y.Parent?.DisplayName;
-        public int GetHashCode(Specification obj) => obj.DisplayName.GetHashCode();
     }
 }
