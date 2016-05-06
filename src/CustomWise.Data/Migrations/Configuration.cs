@@ -14,6 +14,7 @@ namespace CustomWise.Data.Migrations {
 
         public Configuration() {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(CustomWise.Data.CustomWiseModel context) {
@@ -97,9 +98,8 @@ namespace CustomWise.Data.Migrations {
                 },
                 {
                     MetaDataDefinitionTypes.Pricing, new MetaDataDefinitionDetail[] {
-                        new MetaDataDefinitionDetail { Name = "Level" },
-                        new MetaDataDefinitionDetail { Name = "Price" },
-                        new MetaDataDefinitionDetail { Name = "Order" }
+                        new MetaDataDefinitionDetail { Name = "Price Level Id" },
+                        new MetaDataDefinitionDetail { Name = "Price" }
                     }
                 }
             };
