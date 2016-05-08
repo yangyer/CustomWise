@@ -22,8 +22,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
-            _context = new CustomWiseModel();
+            : base(new CustomWiseModel(), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
 
         /// <summary>
@@ -32,8 +31,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// <param name="context">The context.</param>
         /// <param name="configProvider">The configuration provider.</param>
         public SpecificationTypeController(ICustomWiseContext context, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
-            : base(autoMapperConfigProvier, mapper) {
-            _context = context;
+            : base(context, autoMapperConfigProvier, mapper) {
         }
 
         /// <summary>

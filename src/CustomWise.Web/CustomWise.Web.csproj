@@ -73,8 +73,8 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon, Version=1.0.5967.23044, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.1.0.5967.23044\lib\net452\Sophcon.dll</HintPath>
+    <Reference Include="Sophcon, Version=1.0.5971.19473, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5971.19473\lib\net452\Sophcon.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
