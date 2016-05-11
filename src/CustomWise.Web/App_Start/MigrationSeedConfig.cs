@@ -116,9 +116,9 @@ namespace CustomWise.Web {
         //                                             .Select(generateModelSpecification);
         //}
 
-        internal ICustomWiseMigrationContext _context;
+        internal ICustomWiseContext _context;
 
-        public MigrationSeedConfig(ICustomWiseMigrationContext migrationContext) {
+        public MigrationSeedConfig(ICustomWiseContext migrationContext) {
             _context = migrationContext;
         }
 
@@ -530,7 +530,7 @@ namespace CustomWise.Web {
             };
         }
 
-        public static void Seed(ICustomWiseMigrationContext context) {
+        public static void Seed(ICustomWiseContext context) {
             if (context.Specifications.Count() < 1) {
                 var instance = new MigrationSeedConfig(context);
                 instance.Seed();

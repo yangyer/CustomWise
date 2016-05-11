@@ -1,39 +1,30 @@
 ﻿using AutoMapper;
-using CustomWise.Data;
 using CustomWise.Web.Services.Controllers.Base;
-using DalEntities = CustomWise.Data.Entities;
-using DtoEntities = CustomWise.Web.Services.Models;
+using Sophcon.Data;
+using Sophcon.Data.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Data.Entity;
+using DtoEntities = CustomWise.Web.Services.Models;
 
 namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/specification")]
     public class SpecificationController
         : BaseController {
-       
+        
         public SpecificationController()
-            : base(new CustomWiseModel(), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
-            Context.RegisterPreSave((entityList, state) => {
-                entityList.ToList().ForEach(entity => {
-                    entity.CreatedBy = entity.State == Sophcon.SophconEntityState.Added ? RequestContext.Principal.Identity.Name : entity.CreatedBy;
-                    entity.CreatedDate = entity.State == Sophcon.SophconEntityState.Added ? DateTime.Now : entity.CreatedDate;
-                    entity.ModifiedBy = RequestContext.Principal.Identity.Name;
-                    entity.ModifiedDate = DateTime.Now;
-                });
-            });
+            : base(new EfUnitOfWork(CustomWiseServiceLocator.CreateServiceLocator()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
 
-        public SpecificationController(ICustomWiseContext context, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
-            : base(context, autoMapperConfigProvier, mapper) {
+        public SpecificationController(IUnitOfWork unitOfWork, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
+            : base(unitOfWork, autoMapperConfigProvier, mapper) {
         }
 
         [Route]
         public async Task<IEnumerable<DtoEntities.Specification>> Get() {
-            var specifications = await Context.Specifications.ToListAsync();
+            var specifications = await SpecificationRepository.Get().ToListAsync();
 
             return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }

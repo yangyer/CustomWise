@@ -11,27 +11,28 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using DalEntities = CustomWise.Data.Entities;
 using DtoEntities = CustomWise.Web.Services.Models;
+using Sophcon.Data.EntityFramework;
+using Sophcon.Data;
 
 namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/specificationType")]
     public class SpecificationTypeController 
         : BaseController {
-        private ICustomWiseContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(new CustomWiseModel(), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
+            : base(new EfUnitOfWork(CustomWiseServiceLocator.CreateServiceLocator()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="configProvider">The configuration provider.</param>
-        public SpecificationTypeController(ICustomWiseContext context, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
-            : base(context, autoMapperConfigProvier, mapper) {
+        /// <param name="unitOfWork">The unit of work.</param>
+        /// <param name="autoMapperConfigProvier">The automatic mapper configuration provier.</param>
+        /// <param name="mapper">The mapper.</param>
+        public SpecificationTypeController(IUnitOfWork unitOfWork, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
+            : base(unitOfWork, autoMapperConfigProvier, mapper) {
         }
 
         /// <summary>
@@ -40,8 +41,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// <returns>Returns <see cref="IEnumerable{T}"/>.</returns>
         [Route]
         public async Task<IEnumerable<DtoEntities.SpecificationType>> Get() {
-            return await _context.SpecificationTypes
-                .ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
+            return await SpecificationTypeRepository.Get().ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// <returns>Returns <see cref="DtoEntities.SpecificationType"/></returns>
         [Route("{id:int}")]
         public async Task<DtoEntities.SpecificationType> Get(int id) {
-            return await _context.SpecificationTypes
+            return await SpecificationTypeRepository.Get()
                                        .Where(r => r.Id == id)
                                        .ProjectToSingleAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
         }
@@ -66,7 +66,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// <exception cref="System.NullReferenceException"></exception>
         [Route]
         public async Task<int> Post(DtoEntities.SpecificationType specificationType) {
-            if (await _context.SpecificationTypes.AnyAsync(r => r.Id == specificationType.Id)) {
+            if (await SpecificationTypeRepository.Get().AnyAsync(r => r.Id == specificationType.Id)) {
                 throw new NullReferenceException($"The {nameof(specificationType)} already exist in the system.");
             }
 
@@ -75,8 +75,8 @@ namespace CustomWise.Web.Services.Controllers {
                     DisplayName = specificationType.DisplayName,
                     SystemName = specificationType.SystemName
                 };
-                _context.SpecificationTypes.Add(recordTypeToAdd);
-                var result = await _context.SaveChangesAsync();
+                SpecificationTypeRepository.Add(recordTypeToAdd);
+                var result = await UnitOfWork.SaveChangesAsync();
 
                 return recordTypeToAdd.Id;
             } catch (DbUpdateConcurrencyException dbUpdateConcurrencyExc) {
@@ -102,7 +102,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// <exception cref="System.NullReferenceException"></exception>
         [Route]
         public async Task Put(DtoEntities.SpecificationType specificationType) {
-            var recordTypeToUpdate = await _context.SpecificationTypes.SingleOrDefaultAsync(r => r.Id == specificationType.Id);
+            var recordTypeToUpdate = await SpecificationTypeRepository.Get().SingleOrDefaultAsync(r => r.Id == specificationType.Id);
 
             if (recordTypeToUpdate == null) {
                 throw new NullReferenceException($"The {nameof(specificationType)} does not exist in the system.");
@@ -111,7 +111,7 @@ namespace CustomWise.Web.Services.Controllers {
                 recordTypeToUpdate.DisplayName = specificationType.DisplayName;
                 recordTypeToUpdate.SystemName = specificationType.SystemName;
 
-                var result = await _context.SaveChangesAsync();
+                var result = await UnitOfWork.SaveChangesAsync();
             } catch (DbUpdateConcurrencyException dbUpdateConcurrencyExc) {
                 throw;
             } catch (DbUpdateException dbUpdateExc) {

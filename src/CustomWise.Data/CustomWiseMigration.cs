@@ -8,7 +8,7 @@
             _context = context;
         }
 
-        public void RegisterMigration(Action<ICustomWiseMigrationContext> customMigration) {
+        public void RegisterMigration(Action<ICustomWiseContext> customMigration) {
             customMigration(_context);
             _context.SaveChanges();
         }
