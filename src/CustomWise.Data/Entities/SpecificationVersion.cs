@@ -1,13 +1,13 @@
 ﻿namespace CustomWise.Data.Entities {
     using Base;
+    using Sophcon.Data.Versioning;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Versioning;
 
     [Table(nameof(SpecificationVersion) + "s")]
     public class SpecificationVersion 
         : BaseItemDefinition,
-        IEntityVersion {
+        IVersionable {
 
         [ForeignKey(nameof(Specification))]
         public override int Id {

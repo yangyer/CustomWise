@@ -2,6 +2,7 @@
 using CustomWise.Web.Services.Controllers.Base;
 using Sophcon.Data;
 using Sophcon.Data.EntityFramework;
+using Sophcon.Data.EntityFramework.Versioning;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,7 +16,7 @@ namespace CustomWise.Web.Services.Controllers {
         : BaseController {
         
         public SpecificationController()
-            : base(new EfUnitOfWork(CustomWiseServiceLocator.CreateServiceLocator()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
+            : base(new VersionUnitOfWork(CustomWiseServiceLocator.CreateServiceLocator()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
 
         public SpecificationController(IUnitOfWork unitOfWork, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
@@ -32,6 +33,12 @@ namespace CustomWise.Web.Services.Controllers {
         [Route("{id:int}")]
         public async Task<DtoEntities.Specification> Get(int id) {
             var specification = await SpecificationRepository.FindAsync(id);
+            return AutoMapper.Map<DtoEntities.Specification>(specification);
+        }
+
+        [Route("{version:int}/{id:int}")]
+        public async Task<DtoEntities.Specification> Get(int id, int version) {
+            var specification = await SpecificationRepository.FindVersionAsync(version, id);
             return AutoMapper.Map<DtoEntities.Specification>(specification);
         }
 

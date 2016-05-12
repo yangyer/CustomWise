@@ -1,13 +1,14 @@
 ﻿namespace CustomWise.Data.Entities {
     using Base;
+    using Sophcon.Data.Versioning;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Versioning;
 
     [Table(nameof(ArtifactVersion) + "s")]
     public class ArtifactVersion 
         : BaseItemDefinition, 
-        IEntityVersion {
+        IVersionable {
+
         [ForeignKey(nameof(Artifact))]
         public override int Id {
             get { return base.Id; }
