@@ -15,8 +15,9 @@
             CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
             CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
             CreateMap<DalEntities.Specification, DtoEntities.Specification>()
-                .ForMember(m => m.ReferenceId, opts => opts.MapFrom(s => s.ArtifactReferenceId)).ReverseMap();
-            CreateMap<DalEntities.SpecificationVersion, DalEntities.Specification>();
+                .ForMember(m => m.ReferenceId, opts => opts.MapFrom(s => s.ArtifactReferenceId))
+                .ReverseMap();
+            CreateMap<DalEntities.SpecificationVersion, DalEntities.Specification>().ReverseMap();
         }
     }
 }

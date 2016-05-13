@@ -11,6 +11,7 @@ using System.Web;
 using Toolkit.Csv;
 using Sophcon.Linq;
 using System.Data.Entity;
+using Sophcon;
 
 namespace CustomWise.Web {
     public class MigrationSeedConfig {
@@ -141,13 +142,17 @@ namespace CustomWise.Web {
             var gelColors                 = ParseCsv("gelcoat-colors.csv")              .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"] });
             var upholColors               = ParseCsv("upholstery-colors.csv")           .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"], TextureName = r["Texture Name"], SwatchNumber = r["Swatch Number"] });
 
+            var version = new VersionHeader { Id = 1 }.SetCreatedByModifiedBy();
+            _context.VersionHeaders.Add(version);
+            _context.SaveChanges();
+
             #region Version Funcs
             Func<Artifact, ArtifactVersion> generateArtifactVersion = (artifact) => {
                 return new ArtifactVersion {
-                    Id = artifact.Id,
+                    ArtifactId = artifact.Id,
                     VersionNumber = "1",
                     ArtifactReferenceId = artifact.ArtifactReferenceId,
-                    Action = "Insert",
+                    Action = SophconEntityState.Added.ToString(),
                     IsActive = artifact.IsActive,
                     DisplayName = artifact.DisplayName,
                     ItemTypeId = artifact.ItemTypeId,
@@ -156,15 +161,16 @@ namespace CustomWise.Web {
                     CreatedBy = artifact.CreatedBy,
                     CreatedDate = artifact.CreatedDate,
                     ModifiedBy = artifact.ModifiedBy,
-                    ModifiedDate = artifact.ModifiedDate
+                    ModifiedDate = artifact.ModifiedDate,
+                    VersionHeaderId = version.Id
                 };
             };
             Func<Specification, SpecificationVersion> generateSpecificationVersion = (spec) => {
                 return new SpecificationVersion {
-                    Id = spec.Id,
+                    SpecificationId = spec.Id,
                     VersionNumber = "1",
                     ArtifactReferenceId = spec.ArtifactReferenceId,
-                    Action = "Insert",
+                    Action = SophconEntityState.Added.ToString(),
                     IsActive = spec.IsActive,
                     DisplayName = spec.DisplayName,
                     ItemTypeId = spec.ItemTypeId,
@@ -173,13 +179,14 @@ namespace CustomWise.Web {
                     CreatedBy = spec.CreatedBy,
                     CreatedDate = spec.CreatedDate,
                     ModifiedBy = spec.ModifiedBy,
-                    ModifiedDate = spec.ModifiedDate
+                    ModifiedDate = spec.ModifiedDate,
+                    VersionHeaderId = version.Id
                 };
             };
             Func<MetaData, MetaDataVersion> generateMetaDataVersion = (metaData) => {
                 return new MetaDataVersion {
-                    Id = metaData.Id,
-                    Action = "Insert",
+                    MetaDataId = metaData.Id,
+                    Action = SophconEntityState.Added.ToString(),
                     VersionNumber = "1",
                     ArtifactId = metaData.ArtifactId,
                     SpecificationId = metaData.SpecificationId,
@@ -189,7 +196,8 @@ namespace CustomWise.Web {
                     CreatedBy = metaData.CreatedBy,
                     CreatedDate = metaData.CreatedDate,
                     ModifiedBy = metaData.ModifiedBy,
-                    ModifiedDate = metaData.ModifiedDate
+                    ModifiedDate = metaData.ModifiedDate,
+                    VersionHeaderId = version.Id
                 };
             };
             #endregion
@@ -225,6 +233,7 @@ namespace CustomWise.Web {
             };
             _context.Artifacts.Add(featureArtifactRoot);
             _context.SaveChanges();
+            _context.ArtifactVersions.Add(generateArtifactVersion(featureArtifactRoot));
 
             var colorPalletArtifactRoot = new Artifact {
                 DisplayName = "Color Pallets",
@@ -237,6 +246,8 @@ namespace CustomWise.Web {
             };
             _context.Artifacts.Add(colorPalletArtifactRoot);
             _context.SaveChanges();
+            _context.ArtifactVersions.Add(generateArtifactVersion(colorPalletArtifactRoot));
+
             #endregion
 
             #region Models
@@ -254,7 +265,11 @@ namespace CustomWise.Web {
                      }).ToList();
 
             _context.Specifications.AddRange(models);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
+
+            var modelSpecificationVersions = models.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            _context.SpecificationVersions.AddRange(modelSpecificationVersions);
+            _context.SaveChanges();
             #endregion
 
             #region Model Features

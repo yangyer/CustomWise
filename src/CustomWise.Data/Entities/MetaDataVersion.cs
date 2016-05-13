@@ -9,16 +9,20 @@
         : BaseMetaData,
         IVersionable {
 
-        [Key, Column(Order = 1), ForeignKey(nameof(MetaData))]
         public override int Id {
             get { return base.Id; }
             set { base.Id = value; }
         }
-        [Key, Column(Order = 2), MaxLength(256), Required(AllowEmptyStrings = false)]
+        [ForeignKey(nameof(MetaData))]
+        public int MetaDataId { get; set; }
+        [MaxLength(256), Required(AllowEmptyStrings = false)]
         public string VersionNumber { get; set; }
+        [ForeignKey(nameof(VersionHeader))]
+        public int VersionHeaderId { get; set; }
         [Required, MaxLength(64)]
         public string Action { get; set; }
         public virtual MetaData MetaData { get; set; }
+        public virtual VersionHeader VersionHeader { get; set; }
 
         public MetaDataVersion() 
             : base() { }

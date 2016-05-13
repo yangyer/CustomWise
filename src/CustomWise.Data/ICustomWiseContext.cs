@@ -22,6 +22,7 @@
         DbSet<Specification> Specifications { get; set; }
         DbSet<SpecificationType> SpecificationTypes { get; set; }
         DbSet<SpecificationVersion> SpecificationVersions { get; set; }
+        DbSet<VersionHeader> VersionHeaders { get; set; }
 
         int SaveChanges();
     }

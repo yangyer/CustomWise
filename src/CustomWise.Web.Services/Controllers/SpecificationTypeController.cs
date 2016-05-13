@@ -23,7 +23,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(new EfUnitOfWork(CustomWiseServiceLocator.CreateServiceLocator()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
+            : base(new EfUnitOfWork(DataContextFactory.CreateDataContextFactory().GetContext()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
@@ -41,7 +41,8 @@ namespace CustomWise.Web.Services.Controllers {
         /// <returns>Returns <see cref="IEnumerable{T}"/>.</returns>
         [Route]
         public async Task<IEnumerable<DtoEntities.SpecificationType>> Get() {
-            return await SpecificationTypeRepository.Get().ProjectToListAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
+            var result = await SpecificationTypeRepository.Get().ToListAsync();
+            return AutoMapper.Map<IEnumerable<DtoEntities.SpecificationType>>(result);
         }
 
         /// <summary>
@@ -51,9 +52,10 @@ namespace CustomWise.Web.Services.Controllers {
         /// <returns>Returns <see cref="DtoEntities.SpecificationType"/></returns>
         [Route("{id:int}")]
         public async Task<DtoEntities.SpecificationType> Get(int id) {
-            return await SpecificationTypeRepository.Get()
+            var result = await SpecificationTypeRepository.Get()
                                        .Where(r => r.Id == id)
-                                       .ProjectToSingleAsync<DtoEntities.SpecificationType>(AutoMapperConfigProvider);
+                                       .SingleAsync();
+            return AutoMapper.Map<DtoEntities.SpecificationType>(result);
         }
 
         /// <summary>

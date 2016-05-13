@@ -13,6 +13,7 @@
         public string DisplayName { get; set; }
         public int ItemTypeId { get; set; }
         public bool IsActive { get; set; }
+        public bool Deleted { get; set; }
         public int Order { get; set; }
         public string ArtifactReferenceId { get; set; }
     }
