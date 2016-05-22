@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using CustomWise.Data;
-using CustomWise.Web.Services.Controllers.Events;
+using CustomWise.Web.Services.Controllers.SaveEvents;
 using Sophcon.Data;
 using Sophcon.Data.EntityFramework;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Web.Http;
 using DalEntities = CustomWise.Data.Entities;
 
@@ -16,18 +13,21 @@ namespace CustomWise.Web.Services.Controllers.Base {
         protected IConfigurationProvider AutoMapperConfigProvider { get; private set; }
         protected IMapper AutoMapper { get; private set; }
         protected IUnitOfWork UnitOfWork { get; private set; }
-        protected RepositoryBase<DalEntities.SpecificationVersion, IDbContext> SpecificationVersionRepository { get; private set; }
-        protected RepositoryBase<DalEntities.Specification, IDbContext> SpecificationRepository { get; private set; }
-        protected RepositoryBase<DalEntities.SpecificationType, IDbContext> SpecificationTypeRepository { get; private set; }
+        protected IRepository<DalEntities.SpecificationVersion> SpecificationVersionRepository { get; private set; }
+        protected IRepository<DalEntities.Specification> SpecificationRepository { get; private set; }
+        protected IRepository<DalEntities.SpecificationType> SpecificationTypeRepository { get; private set; }
+        protected IRepository<DalEntities.MetaDataVersion> MetaDataVersionRepository { get; private set; }
 
-        public BaseController(IUnitOfWork unitOfWork, IConfigurationProvider autoMapperConfigProvier, IMapper mapper) {
-            var dataContextFactory = DataContextFactory.CreateDataContextFactory();
-            UnitOfWork = unitOfWork;
+
+        public BaseController(IDbContext dataContext, IConfigurationProvider autoMapperConfigProvier, IMapper mapper) {
+            UnitOfWork = new EfUnitOfWork(dataContext);
             AutoMapperConfigProvider = autoMapperConfigProvier;
             AutoMapper = mapper;
-            SpecificationVersionRepository = new EfRepository<DalEntities.SpecificationVersion>(dataContextFactory.GetContext());
-            SpecificationRepository = new EfRepository<DalEntities.Specification>(dataContextFactory.GetContext());
-            SpecificationTypeRepository = new EfRepository<DalEntities.SpecificationType>(dataContextFactory.GetContext());
+            SpecificationVersionRepository = new EfRepository<DalEntities.SpecificationVersion>(dataContext);
+            SpecificationRepository = new EfRepository<DalEntities.Specification>(dataContext);
+            SpecificationTypeRepository = new EfRepository<DalEntities.SpecificationType>(dataContext);
+            MetaDataVersionRepository = new EfRepository<DalEntities.MetaDataVersion>(dataContext);
+
             UnitOfWork.RegisterPreSave(new SetCreatedModifiedDataPreSaveEvent(RequestContext.Principal.Identity.Name));
         }
     }
@@ -49,7 +49,6 @@ namespace CustomWise.Web.Services.Controllers.Base {
             return _contextInstance;
         }
 
-        private static DataContextFactory _dataContextFactory;
-        public static DataContextFactory CreateDataContextFactory() => _dataContextFactory ?? (_dataContextFactory = new DataContextFactory());
+        public static DataContextFactory CreateDataContextFactory() => new DataContextFactory();
     }
 }

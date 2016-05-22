@@ -8,8 +8,6 @@ namespace CustomWise.Data.Entities.Base {
         : BaseEntity {
         [Key, Column(Order = 1)]
         public virtual int Id { get; set; }
-        public virtual int? SpecificationId { get; set; }
-        public virtual int? ArtifactId { get; set; }
         public virtual int MetaDataDefinitionId { get; set; }
         [Required, MaxLength(64)]
         public string Key { get; set; }

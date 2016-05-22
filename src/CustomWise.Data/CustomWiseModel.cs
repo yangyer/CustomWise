@@ -1,17 +1,8 @@
 namespace CustomWise.Data {
     using Entities;
-    using System;
-    using System.Data.Entity;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Threading;
-    using System.Data.Entity.Infrastructure;
-    using System.Collections.Generic;
-    using System.Data.Entity.Validation;
-    using Sophcon.Data;
-    using Sophcon;
-    using Sophcon.Collections;
     using Sophcon.Data.EntityFramework;
+    using System.Data.Entity;
+    
     public class CustomWiseModel 
         : DbContext,
         IDbContext,
@@ -32,7 +23,6 @@ namespace CustomWise.Data {
         public virtual DbSet<Specification> Specifications { get; set; }
         public virtual DbSet<SpecificationType> SpecificationTypes { get; set; }
         public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
-        public virtual DbSet<VersionHeader> VersionHeaders { get; set; }
 
         // Your context has been configured to use a 'CustomWiseModel' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 
@@ -42,14 +32,6 @@ namespace CustomWise.Data {
         // connection string in the application configuration file.
         public CustomWiseModel()
             : base("name=CustomWiseModel") {
-        }
-
-        public override async Task<int> SaveChangesAsync() {
-            return await base.SaveChangesAsync();
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) {
-            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

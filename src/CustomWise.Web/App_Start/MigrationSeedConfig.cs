@@ -142,15 +142,14 @@ namespace CustomWise.Web {
             var gelColors                 = ParseCsv("gelcoat-colors.csv")              .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"] });
             var upholColors               = ParseCsv("upholstery-colors.csv")           .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"], TextureName = r["Texture Name"], SwatchNumber = r["Swatch Number"] });
 
-            var version = new VersionHeader { Id = 1 }.SetCreatedByModifiedBy();
-            _context.VersionHeaders.Add(version);
+            var version = new { CurrentVersionNumber = 1 };
             _context.SaveChanges();
 
             #region Version Funcs
             Func<Artifact, ArtifactVersion> generateArtifactVersion = (artifact) => {
                 return new ArtifactVersion {
                     ArtifactId = artifact.Id,
-                    VersionNumber = "1",
+                    VersionNumber = version.CurrentVersionNumber.ToString(),
                     ArtifactReferenceId = artifact.ArtifactReferenceId,
                     Action = SophconEntityState.Added.ToString(),
                     IsActive = artifact.IsActive,
@@ -161,14 +160,13 @@ namespace CustomWise.Web {
                     CreatedBy = artifact.CreatedBy,
                     CreatedDate = artifact.CreatedDate,
                     ModifiedBy = artifact.ModifiedBy,
-                    ModifiedDate = artifact.ModifiedDate,
-                    VersionHeaderId = version.Id
+                    ModifiedDate = artifact.ModifiedDate
                 };
             };
             Func<Specification, SpecificationVersion> generateSpecificationVersion = (spec) => {
                 return new SpecificationVersion {
                     SpecificationId = spec.Id,
-                    VersionNumber = "1",
+                    VersionNumber = version.CurrentVersionNumber.ToString(),
                     ArtifactReferenceId = spec.ArtifactReferenceId,
                     Action = SophconEntityState.Added.ToString(),
                     IsActive = spec.IsActive,
@@ -179,25 +177,21 @@ namespace CustomWise.Web {
                     CreatedBy = spec.CreatedBy,
                     CreatedDate = spec.CreatedDate,
                     ModifiedBy = spec.ModifiedBy,
-                    ModifiedDate = spec.ModifiedDate,
-                    VersionHeaderId = version.Id
+                    ModifiedDate = spec.ModifiedDate
                 };
             };
             Func<MetaData, MetaDataVersion> generateMetaDataVersion = (metaData) => {
                 return new MetaDataVersion {
                     MetaDataId = metaData.Id,
                     Action = SophconEntityState.Added.ToString(),
-                    VersionNumber = "1",
-                    ArtifactId = metaData.ArtifactId,
-                    SpecificationId = metaData.SpecificationId,
+                    VersionNumber = version.CurrentVersionNumber.ToString(),
                     Key = metaData.Key,
                     Value = metaData.Value,
                     MetaDataDefinitionId = metaData.MetaDataDefinitionId,
                     CreatedBy = metaData.CreatedBy,
                     CreatedDate = metaData.CreatedDate,
                     ModifiedBy = metaData.ModifiedBy,
-                    ModifiedDate = metaData.ModifiedDate,
-                    VersionHeaderId = version.Id
+                    ModifiedDate = metaData.ModifiedDate
                 };
             };
             #endregion
@@ -269,6 +263,7 @@ namespace CustomWise.Web {
 
             var modelSpecificationVersions = models.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
             _context.SpecificationVersions.AddRange(modelSpecificationVersions);
+            _context.MetaDataVersions.AddRange(models.SelectMany(m => m.MetaData.Select(generateMetaDataVersion)).ToList());
             _context.SaveChanges();
             #endregion
 
@@ -295,14 +290,33 @@ namespace CustomWise.Web {
             _context.SaveChanges();
 
             // ref-specification
-            var features =
+            var modelFeatureGroupSpec =
                 (from m in models
-                 join f in modelfeaturesSource on m.DisplayName equals f.Model
+                 select new Specification {
+                     IsActive = true,
+                     DisplayName = "Options",
+                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     Parent = m,
+                     ParentId = m.Id,
+                     CreatedBy = "system",
+                     CreatedDate = DateTime.Now,
+                     ModifiedBy = "system",
+                     ModifiedDate = DateTime.Now
+                 }).ToList();
+
+            _context.Specifications.AddRange(modelFeatureGroupSpec);
+            _context.SaveChanges();
+
+            var features =
+                (from m in modelFeatureGroupSpec
+                 join f in modelfeaturesSource on m.Parent.DisplayName equals f.Model
                  join a in featureArtifacts on f.FeatureName equals a.DisplayName
                  select new Specification {
                      ArtifactReferenceId = a.Id.ToString(),
                      IsActive = true,
+                     DisplayName = a.DisplayName,
                      ItemTypeId = specificationTypes.Single(i => i.SystemName == "ref_item").Id,
+                     MetaData = a.MetaData,
                      Parent = m,
                      ParentId = m.Id,
                      CreatedBy = "system",

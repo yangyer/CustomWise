@@ -23,7 +23,7 @@ namespace CustomWise.Web.Services.Controllers {
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
         /// </summary>
         public SpecificationTypeController()
-            : base(new EfUnitOfWork(DataContextFactory.CreateDataContextFactory().GetContext()), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
+            : base(DataContextFactory.CreateDataContextFactory().GetContext(), AutoMapperFactory.CreateAutoMapperConfigProviderInstance(), AutoMapperFactory.CreateAutoMapperMapperInstance()) {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTypeController"/> class.
@@ -31,8 +31,8 @@ namespace CustomWise.Web.Services.Controllers {
         /// <param name="unitOfWork">The unit of work.</param>
         /// <param name="autoMapperConfigProvier">The automatic mapper configuration provier.</param>
         /// <param name="mapper">The mapper.</param>
-        public SpecificationTypeController(IUnitOfWork unitOfWork, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
-            : base(unitOfWork, autoMapperConfigProvier, mapper) {
+        public SpecificationTypeController(IDbContext context, IConfigurationProvider autoMapperConfigProvier, IMapper mapper)
+            : base(context, autoMapperConfigProvier, mapper) {
         }
 
         /// <summary>

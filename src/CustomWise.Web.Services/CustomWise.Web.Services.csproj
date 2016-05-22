@@ -66,21 +66,22 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon, Version=1.0.5977.21703, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.1.0.5977.21703\lib\net452\Sophcon.dll</HintPath>
+    <Reference Include="Sophcon, Version=1.0.5977.27698, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.1.0.5977.27698\lib\net452\Sophcon.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon.Data, Version=1.0.5977.21704, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.Data.1.0.5977.21704\lib\net452\Sophcon.Data.dll</HintPath>
+    <Reference Include="Sophcon.Data, Version=1.0.5977.27699, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.Data.1.0.5977.27699\lib\net452\Sophcon.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sophcon.Data.EntityFramework, Version=1.0.5977.21706, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sophcon.Data.EntityFramework.1.0.5977.21706\lib\net452\Sophcon.Data.EntityFramework.dll</HintPath>
+    <Reference Include="Sophcon.Data.EntityFramework, Version=1.0.5977.27701, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sophcon.Data.EntityFramework.1.0.5977.27701\lib\net452\Sophcon.Data.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -100,7 +101,8 @@
   <ItemGroup>
     <Compile Include="AutoMapperFactory.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
-    <Compile Include="Controllers\Events\SetCreatedModifiedDataPreSaveEvent.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="SaveEvents\SetCreatedModifiedDataPreSaveEvent.cs" />
     <Compile Include="Controllers\SpecificationTypeController.cs" />
     <Compile Include="DalToDtoMappingProfile.cs" />
     <Compile Include="Models\Configuration.cs" />
@@ -124,7 +126,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <Folder Include="Wrappers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

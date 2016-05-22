@@ -16,7 +16,7 @@ namespace CustomWise.Web.Services.Models {
         public int ReferenceId { get; set; }
         public virtual SpecificationType ItemType { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();
-        public virtual ICollection<Specification> Subitems { get; set; } = new HashSet<Specification>();
+        public virtual ICollection<Specification> SubItems { get; set; } = new HashSet<Specification>();
         public virtual ICollection<Configuration> Configurations { get; set; } = new HashSet<Configuration>();
 
         public Specification() 

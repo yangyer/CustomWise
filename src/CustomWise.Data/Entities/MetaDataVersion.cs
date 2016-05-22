@@ -13,16 +13,14 @@
             get { return base.Id; }
             set { base.Id = value; }
         }
-        [ForeignKey(nameof(MetaData))]
-        public int MetaDataId { get; set; }
         [MaxLength(256), Required(AllowEmptyStrings = false)]
         public string VersionNumber { get; set; }
-        [ForeignKey(nameof(VersionHeader))]
-        public int VersionHeaderId { get; set; }
         [Required, MaxLength(64)]
         public string Action { get; set; }
+
+        [ForeignKey(nameof(MetaData))]
+        public int MetaDataId { get; set; }
         public virtual MetaData MetaData { get; set; }
-        public virtual VersionHeader VersionHeader { get; set; }
 
         public MetaDataVersion() 
             : base() { }

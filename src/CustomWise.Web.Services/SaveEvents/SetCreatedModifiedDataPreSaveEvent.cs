@@ -4,14 +4,13 @@ using Sophcon.Data;
 using System;
 using System.Collections.Generic;
 
-namespace CustomWise.Web.Services.Controllers.Events {
+namespace CustomWise.Web.Services.Controllers.SaveEvents {
     public class SetCreatedModifiedDataPreSaveEvent
         : PreSaveEventBase {
 
         private string _userName;
 
-        public SetCreatedModifiedDataPreSaveEvent(string userName) 
-            : base(typeof(BaseEntity)) {
+        public SetCreatedModifiedDataPreSaveEvent(string userName) {
             _userName = !string.IsNullOrWhiteSpace(userName) ? userName : "system";
         }
 
