@@ -329,6 +329,9 @@ namespace CustomWise.Web {
             _context.SaveChanges();
 
             // version
+            _context.SpecificationVersions.AddRange(modelFeatureGroupSpec.Select(generateSpecificationVersion));
+            _context.SaveChanges();
+
             var featureArtifactVersions = featureArtifacts.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
             _context.ArtifactVersions.AddRange(featureArtifactVersions);
             _context.SaveChanges();
