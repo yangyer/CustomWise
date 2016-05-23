@@ -3,7 +3,7 @@
     using DalEntities = Data.Entities;
     using DtoEntities = Models;
     using System.Linq;
-
+    using Extensions;
     internal class DalToDtoMappingProfile
         : Profile {
         public override string ProfileName { get; } = "DalToDtoMappingProfile";
@@ -33,8 +33,9 @@
                 .ForMember(m => m.Id, opts => opts.Ignore())
                 .ForMember(m => m.ArtifactId, opts => opts.MapFrom(s => s.Id));
 
-            CreateMap<DalEntities.Artifact, DalEntities.Specification>().ReverseMap();
-            CreateMap<DalEntities.ArtifactType, DalEntities.SpecificationType>().ReverseMap();
+            CreateMap<DalEntities.Artifact, DtoEntities.Specification>()
+                .ForMember(m => m.Configurations, opts => opts.Ignore());
+            CreateMap<DalEntities.ArtifactType, DtoEntities.SpecificationType>();
         }
     }
 }
