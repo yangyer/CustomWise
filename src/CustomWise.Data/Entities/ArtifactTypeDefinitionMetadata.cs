@@ -13,7 +13,9 @@ namespace CustomWise.Data.Entities {
         [Required, MaxLength(960)]
         public string DefaultValue { get; set; }
         public bool AllowOverride { get; set; }
+        public bool AllowReferenceOverride { get; set; }
         public bool Required { get; set; }
+        public bool ReferenceRequired { get; set; }
         public bool Localized { get; set; }
 
         [ForeignKey(nameof(ArtifactTypeDefinition))]
