@@ -107,6 +107,7 @@
     <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="CustomWiseMigration.cs" />
     <Compile Include="Configuration\MigrationSettingElement.cs" />
+    <Compile Include="ImageRendererController.cs" />
     <Compile Include="Models\Artifact.cs" />
     <Compile Include="SaveEvents\SetCreatedModifiedDataPreSaveEvent.cs" />
     <Compile Include="DalToDtoMappingProfile.cs" />
