@@ -53,7 +53,7 @@ namespace CustomWise.Web.Services.Controllers {
         [Route("{id:int}")]
         public async Task<DtoEntities.SpecificationType> Get(int id) {
             var result = await SpecificationTypeRepository.Get()
-                                       .Where(r => r.Id == id)
+                                       .Where(r => r.ID == id)
                                        .SingleAsync();
             return AutoMapper.Map<DtoEntities.SpecificationType>(result);
         }

@@ -69,19 +69,19 @@
   <ItemGroup>
     <Compile Include="CustomWiseModel.cs" />
     <Compile Include="Entities\Artifact.cs" />
+    <Compile Include="Entities\ArtifactTypeDefinitionMetadata.cs" />
+    <Compile Include="Entities\ArtifactSystemType.cs" />
     <Compile Include="Entities\ArtifactType.cs" />
-    <Compile Include="Entities\ArtifactVersion.cs" />
-    <Compile Include="Entities\Base\BaseItemDefinition.cs" />
-    <Compile Include="Entities\Base\BaseItemType.cs" />
-    <Compile Include="Entities\Base\BaseMetaData.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\MetaData.cs" />
     <Compile Include="Entities\MetaDataDefinition.cs" />
     <Compile Include="Entities\MetaDataDefinitionDetail.cs" />
-    <Compile Include="Entities\MetaDataVersion.cs" />
     <Compile Include="Entities\Specification.cs" />
+    <Compile Include="Entities\SpecificationSystemType.cs" />
     <Compile Include="Entities\SpecificationType.cs" />
-    <Compile Include="Entities\SpecificationVersion.cs" />
+    <Compile Include="Entities\ArtifactTypeDefinition.cs" />
+    <Compile Include="Entities\SpecificationTypeDefinition.cs" />
+    <Compile Include="Entities\SpecificationTypeDefinitionMetadata.cs" />
     <Compile Include="ICustomWiseContext.cs" />
     <Compile Include="Migrations\201605220457240_Intial.cs" />
     <Compile Include="Migrations\201605220457240_Intial.Designer.cs">

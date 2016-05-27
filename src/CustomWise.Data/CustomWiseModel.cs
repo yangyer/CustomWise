@@ -12,17 +12,23 @@ namespace CustomWise.Data {
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
 
-        public virtual DbSet<ArtifactVersion> ArtifactVersions { get; set; }
+        //public virtual DbSet<ArtifactVersion> ArtifactVersions { get; set; }
         public virtual DbSet<Artifact> Artifacts { get; set; }
         public virtual DbSet<ArtifactType> ArtifactTypes { get; set; }
+        public virtual DbSet<ArtifactSystemType> ArtifactSystemTypes { get; set; }
+        public virtual DbSet<ArtifactTypeDefinition> ArtifactTypeDefinitions { get; set; }
+        public virtual DbSet<ArtifactTypeDefinitionMetadata> ArtifactTypeDefinitionMetadata { get; set; }
         public virtual DbSet<Configuration> Configurations { get; set; }
         public virtual DbSet<MetaData> MetaData { get; set; }
-        public virtual DbSet<MetaDataVersion> MetaDataVersions { get; set; }
+        //public virtual DbSet<MetaDataVersion> MetaDataVersions { get; set; }
         public virtual DbSet<MetaDataDefinition> MetaDataDefinitions { get; set; }
         public virtual DbSet<MetaDataDefinitionDetail> MetaDataDefinitionDetails { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
         public virtual DbSet<SpecificationType> SpecificationTypes { get; set; }
-        public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
+        //public virtual DbSet<SpecificationVersion> SpecificationVersions { get; set; }
+        public virtual DbSet<SpecificationSystemType> SpecificationSystemTypes { get; set; }
+        public virtual DbSet<SpecificationTypeDefinition> SpecificationTypeDefinitions { get; set; }
+        public virtual DbSet<SpecificationTypeDefinitionMetadata> SpecificationTypeDefinitionMetadata { get; set; }
 
         // Your context has been configured to use a 'CustomWiseModel' connection string from your application's 
         // configuration file (App.config or Web.config). By default, this connection string targets the 

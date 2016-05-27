@@ -1,17 +1,11 @@
 ﻿using CustomWise.Data;
 using CustomWise.Data.Entities;
 using Sophcon.Collections;
-using Sophcon.Objects;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
-using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Toolkit.Csv;
-using Sophcon.Linq;
-using System.Data.Entity;
-using Sophcon;
 
 namespace CustomWise.Web {
     public class MigrationSeedConfig {
@@ -146,54 +140,54 @@ namespace CustomWise.Web {
             _context.SaveChanges();
 
             #region Version Funcs
-            Func<Artifact, ArtifactVersion> generateArtifactVersion = (artifact) => {
-                return new ArtifactVersion {
-                    ArtifactId = artifact.Id,
-                    VersionNumber = version.CurrentVersionNumber.ToString(),
-                    ArtifactReferenceId = artifact.ArtifactReferenceId,
-                    Action = SophconEntityState.Added.ToString(),
-                    IsActive = artifact.IsActive,
-                    DisplayName = artifact.DisplayName,
-                    ItemTypeId = artifact.ItemTypeId,
-                    Order = artifact.Order,
-                    ParentId = artifact.ParentId,
-                    CreatedBy = artifact.CreatedBy,
-                    CreatedDate = artifact.CreatedDate,
-                    ModifiedBy = artifact.ModifiedBy,
-                    ModifiedDate = artifact.ModifiedDate
-                };
-            };
-            Func<Specification, SpecificationVersion> generateSpecificationVersion = (spec) => {
-                return new SpecificationVersion {
-                    SpecificationId = spec.Id,
-                    VersionNumber = version.CurrentVersionNumber.ToString(),
-                    ArtifactReferenceId = spec.ArtifactReferenceId,
-                    Action = SophconEntityState.Added.ToString(),
-                    IsActive = spec.IsActive,
-                    DisplayName = spec.DisplayName,
-                    ItemTypeId = spec.ItemTypeId,
-                    Order = spec.Order,
-                    ParentId = spec.ParentId,
-                    CreatedBy = spec.CreatedBy,
-                    CreatedDate = spec.CreatedDate,
-                    ModifiedBy = spec.ModifiedBy,
-                    ModifiedDate = spec.ModifiedDate
-                };
-            };
-            Func<MetaData, MetaDataVersion> generateMetaDataVersion = (metaData) => {
-                return new MetaDataVersion {
-                    MetaDataId = metaData.Id,
-                    Action = SophconEntityState.Added.ToString(),
-                    VersionNumber = version.CurrentVersionNumber.ToString(),
-                    Key = metaData.Key,
-                    Value = metaData.Value,
-                    MetaDataDefinitionId = metaData.MetaDataDefinitionId,
-                    CreatedBy = metaData.CreatedBy,
-                    CreatedDate = metaData.CreatedDate,
-                    ModifiedBy = metaData.ModifiedBy,
-                    ModifiedDate = metaData.ModifiedDate
-                };
-            };
+            //Func<Artifact, ArtifactVersion> generateArtifactVersion = (artifact) => {
+            //    return new ArtifactVersion {
+            //        ArtifactId = artifact.Id,
+            //        VersionNumber = version.CurrentVersionNumber.ToString(),
+            //        ArtifactReferenceId = artifact.ArtifactReferenceId,
+            //        Action = SophconEntityState.Added.ToString(),
+            //        IsActive = artifact.IsActive,
+            //        DisplayName = artifact.DisplayName,
+            //        ItemTypeId = artifact.ItemTypeId,
+            //        Order = artifact.Order,
+            //        ParentID = artifact.ParentID,
+            //        CreatedBy = artifact.CreatedBy,
+            //        CreatedDate = artifact.CreatedDate,
+            //        ModifiedBy = artifact.ModifiedBy,
+            //        ModifiedDate = artifact.ModifiedDate
+            //    };
+            //};
+            //Func<Specification, SpecificationVersion> generateSpecificationVersion = (spec) => {
+            //    return new SpecificationVersion {
+            //        SpecificationId = spec.Id,
+            //        VersionNumber = version.CurrentVersionNumber.ToString(),
+            //        ArtifactReferenceId = spec.ArtifactReferenceId,
+            //        Action = SophconEntityState.Added.ToString(),
+            //        IsActive = spec.IsActive,
+            //        DisplayName = spec.DisplayName,
+            //        ItemTypeId = spec.ItemTypeId,
+            //        Order = spec.Order,
+            //        ParentID = spec.ParentID,
+            //        CreatedBy = spec.CreatedBy,
+            //        CreatedDate = spec.CreatedDate,
+            //        ModifiedBy = spec.ModifiedBy,
+            //        ModifiedDate = spec.ModifiedDate
+            //    };
+            //};
+            //Func<MetaData, MetaDataVersion> generateMetaDataVersion = (metaData) => {
+            //    return new MetaDataVersion {
+            //        MetaDataId = metaData.Id,
+            //        Action = SophconEntityState.Added.ToString(),
+            //        VersionNumber = version.CurrentVersionNumber.ToString(),
+            //        Key = metaData.Key,
+            //        Value = metaData.Value,
+            //        MetaDataDefinitionId = metaData.MetaDataDefinitionId,
+            //        CreatedBy = metaData.CreatedBy,
+            //        CreatedDate = metaData.CreatedDate,
+            //        ModifiedBy = metaData.ModifiedBy,
+            //        ModifiedDate = metaData.ModifiedDate
+            //    };
+            //};
             #endregion
 
             #region Root Entities
@@ -219,7 +213,7 @@ namespace CustomWise.Web {
             var featureArtifactRoot = new Artifact {
                 DisplayName = "Features",
                 IsActive = true,
-                ItemTypeId = artifactTypes.Single(i => i.SystemName == "root").Id,
+                ArtifactSystemTypeID = artifactTypes.Single(i => i.SystemName == "root").ID,
                 CreatedBy = "system",
                 CreatedDate = DateTime.Now,
                 ModifiedBy = "system",
@@ -227,12 +221,12 @@ namespace CustomWise.Web {
             };
             _context.Artifacts.Add(featureArtifactRoot);
             _context.SaveChanges();
-            _context.ArtifactVersions.Add(generateArtifactVersion(featureArtifactRoot));
+            //_context.ArtifactVersions.Add(generateArtifactVersion(featureArtifactRoot));
 
             var colorPalletArtifactRoot = new Artifact {
                 DisplayName = "Color Pallets",
                 IsActive = true,
-                ItemTypeId = artifactTypes.Single(i => i.SystemName == "root").Id,
+                ArtifactTypeID = artifactTypes.Single(i => i.SystemName == "root").ID,
                 CreatedBy = "system",
                 CreatedDate = DateTime.Now,
                 ModifiedBy = "system",
@@ -240,7 +234,7 @@ namespace CustomWise.Web {
             };
             _context.Artifacts.Add(colorPalletArtifactRoot);
             _context.SaveChanges();
-            _context.ArtifactVersions.Add(generateArtifactVersion(colorPalletArtifactRoot));
+            //_context.ArtifactVersions.Add(generateArtifactVersion(colorPalletArtifactRoot));
 
             #endregion
 
@@ -249,7 +243,7 @@ namespace CustomWise.Web {
                     (from modelName in modelfeaturesSource.Select(f => f.Model).Distinct()
                      select new Specification {
                          DisplayName = modelName,
-                         ItemTypeId = specificationTypes.Single(t => t.SystemName == "root").Id,
+                         SpecificationTypeID = specificationTypes.Single(t => t.SystemName == "root").ID,
                          IsActive = true,
                          MetaData = GenerateModelMetaData(modelYearDefinition),
                          CreatedBy = "system",
@@ -261,10 +255,10 @@ namespace CustomWise.Web {
             _context.Specifications.AddRange(models);
             _context.SaveChanges();
 
-            var modelSpecificationVersions = models.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
-            _context.SpecificationVersions.AddRange(modelSpecificationVersions);
-            _context.MetaDataVersions.AddRange(models.SelectMany(m => m.MetaData.Select(generateMetaDataVersion)).ToList());
-            _context.SaveChanges();
+            //var modelSpecificationVersions = models.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            //_context.SpecificationVersions.AddRange(modelSpecificationVersions);
+            //_context.MetaDataVersions.AddRange(models.SelectMany(m => m.MetaData.Select(generateMetaDataVersion)).ToList());
+            //_context.SaveChanges();
             #endregion
 
             #region Model Features
@@ -274,8 +268,8 @@ namespace CustomWise.Web {
                      select new Artifact {
                          DisplayName = f.FeatureName,
                          IsActive = true,
-                         ItemTypeId = artifactTypes.Single(i => i.SystemName == "item").Id,
-                         ParentId = featureArtifactRoot.Id,
+                         ArtifactTypeID = artifactTypes.Single(i => i.SystemName == "item").ID,
+                         ParentID = featureArtifactRoot.ID,
                          MetaData =
                             (from m in models
                              join p in modelFeaturePricingSource on new { Model = m.DisplayName, FeatureId = f.FeatureId } equals new { Model = p.Model, FeatureId = p.FeatureId }
@@ -295,9 +289,9 @@ namespace CustomWise.Web {
                  select new Specification {
                      IsActive = true,
                      DisplayName = "Options",
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     SpecificationTypeID = specificationTypes.Single(i => i.SystemName == "group").ID,
                      Parent = m,
-                     ParentId = m.Id,
+                     ParentID = m.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -312,13 +306,13 @@ namespace CustomWise.Web {
                  join f in modelfeaturesSource on m.Parent.DisplayName equals f.Model
                  join a in featureArtifacts on f.FeatureName equals a.DisplayName
                  select new Specification {
-                     ArtifactReferenceId = a.Id.ToString(),
+                     ArtifactReferenceID = a.ID.ToString(),
                      IsActive = true,
                      DisplayName = a.DisplayName,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "ref_item").Id,
+                     SpecificationTypeID = specificationTypes.Single(i => i.SystemName == "ref_item").ID,
                      MetaData = a.MetaData,
                      Parent = m,
-                     ParentId = m.Id,
+                     ParentID = m.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -329,20 +323,20 @@ namespace CustomWise.Web {
             _context.SaveChanges();
 
             // version
-            _context.SpecificationVersions.AddRange(modelFeatureGroupSpec.Select(generateSpecificationVersion));
-            _context.SaveChanges();
+            //_context.SpecificationVersions.AddRange(modelFeatureGroupSpec.Select(generateSpecificationVersion));
+            //_context.SaveChanges();
 
-            var featureArtifactVersions = featureArtifacts.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
-            _context.ArtifactVersions.AddRange(featureArtifactVersions);
-            _context.SaveChanges();
+            //var featureArtifactVersions = featureArtifacts.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
+            //_context.ArtifactVersions.AddRange(featureArtifactVersions);
+            //_context.SaveChanges();
 
-            var featureArtifactMetaDataVersions = featureArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
-            _context.MetaDataVersions.AddRange(featureArtifactMetaDataVersions);
-            _context.SaveChanges();
+            //var featureArtifactMetaDataVersions = featureArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            //_context.MetaDataVersions.AddRange(featureArtifactMetaDataVersions);
+            //_context.SaveChanges();
 
-            var featureSpecificationVersions = features.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
-            _context.SpecificationVersions.AddRange(featureSpecificationVersions);
-            _context.SaveChanges();
+            //var featureSpecificationVersions = features.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            //_context.SpecificationVersions.AddRange(featureSpecificationVersions);
+            //_context.SaveChanges();
             #endregion
 
             #region Sections & Areas
@@ -352,9 +346,9 @@ namespace CustomWise.Web {
                      select new Specification {
                          DisplayName = ca.Section,
                          IsActive = true,
-                         ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                         SpecificationTypeID = specificationTypes.Single(i => i.SystemName == "group").ID,
                          Parent = m,
-                         ParentId = m.Id,
+                         ParentID = m.ID,
                          CreatedBy = "system",
                          CreatedDate = DateTime.Now,
                          ModifiedBy = "system",
@@ -370,9 +364,9 @@ namespace CustomWise.Web {
                  select new Specification {
                      DisplayName = ca.Area,
                      IsActive = true,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     SpecificationTypeID = specificationTypes.Single(i => i.SystemName == "group").ID,
                      Parent = s,
-                     ParentId = s.Id,
+                     ParentID = s.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -390,9 +384,9 @@ namespace CustomWise.Web {
                  select new Artifact {
                      DisplayName = pallet,
                      IsActive = true,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "group").Id,
+                     ArtifactTypeID = specificationTypes.Single(i => i.SystemName == "group").ID,
                      Parent = colorPalletArtifactRoot,
-                     ParentId = colorPalletArtifactRoot.Id,
+                     ParentID = colorPalletArtifactRoot.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -408,11 +402,11 @@ namespace CustomWise.Web {
                  join cp in modelColorAreasSource on new { Model = ca.Parent.Parent.DisplayName, Section = ca.Parent.DisplayName, Area = ca.DisplayName } equals new { Model = cp.Model, Section = cp.Section, Area = cp.Area }
                  join a in colorPalletArtificats on cp.Pallet equals a.DisplayName
                  select new Specification {
-                     ArtifactReferenceId = a.Id.ToString(),
+                     ArtifactReferenceID = a.ID.ToString(),
                      IsActive = true,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "ref_item").Id,
+                     SpecificationTypeID = specificationTypes.Single(i => i.SystemName == "ref_item").ID,
                      Parent = ca,
-                     ParentId = ca.Id,
+                     ParentID = ca.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -430,10 +424,10 @@ namespace CustomWise.Web {
                  select new Artifact {
                      DisplayName = c.ColorName,
                      IsActive = true,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+                     ArtifactTypeID = specificationTypes.Single(i => i.SystemName == "item").ID,
                      MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
                      Parent = cp,
-                     ParentId = cp.Id,
+                     ParentID = cp.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -453,7 +447,7 @@ namespace CustomWise.Web {
             //         ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
             //         MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
             //         Parent = cp,
-            //         ParentId = cp.Id,
+            //         ParentID = cp.ID,
             //         CreatedBy = "system",
             //         CreatedDate = DateTime.Now,
             //         ModifiedBy = "system",
@@ -470,10 +464,10 @@ namespace CustomWise.Web {
                  select new Artifact {
                      DisplayName = c.ColorName,
                      IsActive = true,
-                     ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
+                     ArtifactTypeID = specificationTypes.Single(i => i.SystemName == "item").ID,
                      MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
                      Parent = cp,
-                     ParentId = cp.Id,
+                     ParentID = cp.ID,
                      CreatedBy = "system",
                      CreatedDate = DateTime.Now,
                      ModifiedBy = "system",
@@ -493,7 +487,7 @@ namespace CustomWise.Web {
             //         ItemTypeId = specificationTypes.Single(i => i.SystemName == "item").Id,
             //         MetaData = colorMetaDataDefinitionDetails.Select(detail => GenerateColorMetaData(detail, c.Raw)).ToList(),
             //         Parent = cp,
-            //         ParentId = cp.Id,
+            //         ParentID = cp.ID,
             //         CreatedBy = "system",
             //         CreatedDate = DateTime.Now,
             //         ModifiedBy = "system",
@@ -504,21 +498,21 @@ namespace CustomWise.Web {
             //_context.SaveChanges(); 
 
             // version
-            var colorPalletArtifactVersions = colorPalletArtificats.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
-            _context.ArtifactVersions.AddRange(colorPalletArtifactVersions);
-            _context.SaveChanges();
+            //var colorPalletArtifactVersions = colorPalletArtificats.Flatten(s => s.SubItems).Select(generateArtifactVersion).ToList();
+            //_context.ArtifactVersions.AddRange(colorPalletArtifactVersions);
+            //_context.SaveChanges();
 
-            var gelColorArtifactMetaDataVersions = gelcoatColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
-            _context.MetaDataVersions.AddRange(gelColorArtifactMetaDataVersions);
-            _context.SaveChanges();
+            //var gelColorArtifactMetaDataVersions = gelcoatColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            //_context.MetaDataVersions.AddRange(gelColorArtifactMetaDataVersions);
+            //_context.SaveChanges();
 
-            var upholColorArtifactMetaDataVersions = upholColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
-            _context.MetaDataVersions.AddRange(upholColorArtifactMetaDataVersions);
-            _context.SaveChanges();
+            //var upholColorArtifactMetaDataVersions = upholColorArtifacts.Flatten(s => s.SubItems).SelectMany(s => s.MetaData).Select(generateMetaDataVersion);
+            //_context.MetaDataVersions.AddRange(upholColorArtifactMetaDataVersions);
+            //_context.SaveChanges();
 
-            var colorPalletSpecificationVersions = colorPallets.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
-            _context.SpecificationVersions.AddRange(colorPalletSpecificationVersions);
-            _context.SaveChanges();
+            //var colorPalletSpecificationVersions = colorPallets.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
+            //_context.SpecificationVersions.AddRange(colorPalletSpecificationVersions);
+            //_context.SaveChanges();
             #endregion
         }
 
@@ -550,7 +544,7 @@ namespace CustomWise.Web {
         internal IList<MetaData> GenerateModelMetaData(MetaDataDefinition modelMetaDataDefinition) {
             return new List<MetaData> {
                 new MetaData {
-                    Id    = 1,
+                    ID    = 1,
                     Key   = "Model Year",
                     Value = "2016",
                     MetaDataDefinition = modelMetaDataDefinition,

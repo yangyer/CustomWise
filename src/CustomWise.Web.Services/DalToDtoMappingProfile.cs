@@ -15,23 +15,23 @@
             CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
             CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
             CreateMap<DalEntities.Specification, DtoEntities.Specification>()
-                .ForMember(m => m.ReferenceId, opts => opts.MapFrom(s => s.ArtifactReferenceId))
+                .ForMember(m => m.ReferenceID, opts => opts.MapFrom(s => s.ArtifactReferenceID))
                 .ReverseMap();
-            CreateMap<DalEntities.SpecificationVersion, DalEntities.Specification>()
-                .ForMember(m => m.Id, opts => opts.MapFrom(s => s.SpecificationId))
-                .ReverseMap()
-                .ForMember(m => m.Id, opts => opts.Ignore())
-                .ForMember(m => m.SpecificationId, opts => opts.MapFrom(s => s.Id));
-            CreateMap<DalEntities.MetaDataVersion, DalEntities.MetaData>()
-                .ForMember(m => m.Id, opts => opts.MapFrom(s => s.MetaDataId))
-                .ReverseMap()
-                .ForMember(m => m.Id, opts => opts.Ignore())
-                .ForMember(m => m.MetaDataId, opts => opts.MapFrom(s => s.Id));
-            CreateMap<DalEntities.ArtifactVersion, DalEntities.Artifact>()
-                .ForMember(m => m.Id, opts => opts.MapFrom(s => s.ArtifactId))
-                .ReverseMap()
-                .ForMember(m => m.Id, opts => opts.Ignore())
-                .ForMember(m => m.ArtifactId, opts => opts.MapFrom(s => s.Id));
+            //CreateMap<DalEntities.SpecificationVersion, DalEntities.Specification>()
+            //    .ForMember(m => m.ID, opts => opts.MapFrom(s => s.SpecificationID))
+            //    .ReverseMap()
+            //    .ForMember(m => m.ID, opts => opts.Ignore())
+            //    .ForMember(m => m.SpecificationID, opts => opts.MapFrom(s => s.ID));
+            //CreateMap<DalEntities.MetaDataVersion, DalEntities.MetaData>()
+            //    .ForMember(m => m.ID, opts => opts.MapFrom(s => s.MetaDataID))
+            //    .ReverseMap()
+            //    .ForMember(m => m.ID, opts => opts.Ignore())
+            //    .ForMember(m => m.MetaDataID, opts => opts.MapFrom(s => s.ID));
+            //CreateMap<DalEntities.ArtifactVersion, DalEntities.Artifact>()
+            //    .ForMember(m => m.ID, opts => opts.MapFrom(s => s.ArtifactID))
+            //    .ReverseMap()
+            //    .ForMember(m => m.ID, opts => opts.Ignore())
+            //    .ForMember(m => m.ArtifactID, opts => opts.MapFrom(s => s.ID));
 
             CreateMap<DalEntities.Artifact, DtoEntities.Specification>()
                 .ForMember(m => m.Configurations, opts => opts.Ignore());

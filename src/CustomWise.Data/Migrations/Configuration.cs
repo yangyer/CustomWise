@@ -1,12 +1,8 @@
 namespace CustomWise.Data.Migrations {
     using Entities;
-    using Entities.Base;
-    using Sophcon;
     using Sophcon.Collections;
-    using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
-    using System.Diagnostics;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CustomWise.Data.CustomWiseModel> {
@@ -44,11 +40,11 @@ namespace CustomWise.Data.Migrations {
 
         private SpecificationType[] CreateSpecificationTypes() {
             var entities = new SpecificationType[] {
-                new SpecificationType { DisplayName = "Root",              SystemName = "root"         },
-                new SpecificationType { DisplayName = "Group",             SystemName = "group"        },
-                new SpecificationType { DisplayName = "Choice Group",      SystemName = "choice_group" },
-                new SpecificationType { DisplayName = "Item",              SystemName = "item"         },
-                new SpecificationType { DisplayName = "Reference Item",    SystemName = "ref_item"     }
+                new SpecificationType { Name = "Root",              SystemName = "root"         },
+                new SpecificationType { Name = "Group",             SystemName = "group"        },
+                new SpecificationType { Name = "Choice Group",      SystemName = "choice_groBup" },
+                new SpecificationType { Name = "Item",              SystemName = "item"         },
+                new SpecificationType { Name = "Reference Item",    SystemName = "ref_item"     }
             };
 
             return entities.SetId().SetCreatedByModifiedByList();
@@ -56,11 +52,11 @@ namespace CustomWise.Data.Migrations {
 
         private ArtifactType[] CreateArtifactTypes() {
             var entities = new ArtifactType[] {
-                new ArtifactType { DisplayName = "Root",              SystemName = "root"         },
-                new ArtifactType { DisplayName = "Group",             SystemName = "group"        },
-                new ArtifactType { DisplayName = "Choice Group",      SystemName = "choice_group" },
-                new ArtifactType { DisplayName = "Item",              SystemName = "item"         },
-                new ArtifactType { DisplayName = "Reference Item",    SystemName = "ref_item"     }
+                new ArtifactType { Name = "Root",              SystemName = "root"         },
+                new ArtifactType { Name = "Group",             SystemName = "group"        },
+                new ArtifactType { Name = "Choice Group",      SystemName = "choice_group" },
+                new ArtifactType { Name = "Item",              SystemName = "item"         },
+                new ArtifactType { Name = "Reference Item",    SystemName = "ref_item"     }
             };
 
             return entities.SetId().SetCreatedByModifiedByList();

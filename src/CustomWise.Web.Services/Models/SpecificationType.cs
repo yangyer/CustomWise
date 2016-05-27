@@ -5,7 +5,7 @@ namespace CustomWise.Web.Services.Models {
     public class SpecificationType
         : BaseEntity {
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
         [Required, MaxLength(64)]

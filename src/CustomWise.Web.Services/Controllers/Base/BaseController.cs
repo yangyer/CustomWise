@@ -13,20 +13,20 @@ namespace CustomWise.Web.Services.Controllers.Base {
         protected IConfigurationProvider AutoMapperConfigProvider { get; private set; }
         protected IMapper AutoMapper { get; private set; }
         protected IUnitOfWork UnitOfWork { get; private set; }
-        protected IRepository<DalEntities.SpecificationVersion> SpecificationVersionRepository { get; private set; }
+        //protected IRepository<DalEntities.SpecificationVersion> SpecificationVersionRepository { get; private set; }
         protected IRepository<DalEntities.Specification> SpecificationRepository { get; private set; }
         protected IRepository<DalEntities.SpecificationType> SpecificationTypeRepository { get; private set; }
-        protected IRepository<DalEntities.MetaDataVersion> MetaDataVersionRepository { get; private set; }
+        //protected IRepository<DalEntities.MetaDataVersion> MetaDataVersionRepository { get; private set; }
 
 
         public BaseController(IDbContext dataContext, IConfigurationProvider autoMapperConfigProvier, IMapper mapper) {
             UnitOfWork = new EfUnitOfWork(dataContext);
             AutoMapperConfigProvider = autoMapperConfigProvier;
             AutoMapper = mapper;
-            SpecificationVersionRepository = new EfRepository<DalEntities.SpecificationVersion>(dataContext);
+            //SpecificationVersionRepository = new EfRepository<DalEntities.SpecificationVersion>(dataContext);
             SpecificationRepository = new EfRepository<DalEntities.Specification>(dataContext);
             SpecificationTypeRepository = new EfRepository<DalEntities.SpecificationType>(dataContext);
-            MetaDataVersionRepository = new EfRepository<DalEntities.MetaDataVersion>(dataContext);
+            //MetaDataVersionRepository = new EfRepository<DalEntities.MetaDataVersion>(dataContext);
 
             UnitOfWork.RegisterPreSave(new SetCreatedModifiedDataPreSaveEvent(RequestContext.Principal.Identity.Name));
         }

@@ -32,7 +32,7 @@ namespace CustomWise.Web.Services.Controllers {
             using (var ctx = new CustomWise.Data.CustomWiseModel()) {
                 var specifications = await
                     (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceId equals a.Id.ToString() into g
+                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
                      from a in g.DefaultIfEmpty()
                      select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).ToListAsync();
 
@@ -48,9 +48,9 @@ namespace CustomWise.Web.Services.Controllers {
             using (var ctx = new CustomWise.Data.CustomWiseModel()) {
                 var obj = await
                     (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceId equals a.Id.ToString() into g
+                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
                      from a in g.DefaultIfEmpty()
-                     where s.Id == id
+                     where s.ID == id
                      select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).FirstOrDefaultAsync();
 
                 return obj.Artifact == null ? AutoMapper.Map<DtoEntities.Specification>(obj.Specification) : AutoMapper.Map<DtoEntities.Specification>(obj.Artifact);
@@ -65,18 +65,18 @@ namespace CustomWise.Web.Services.Controllers {
 
         [Route("{typeName}")]
         public async Task<IEnumerable<DtoEntities.Specification>> Get(string typeName) {
-            var specifications = await SpecificationRepository.Get().Where(s => s.ItemType.SystemName == typeName).ToListAsync();
+            var specifications = await SpecificationRepository.Get().Where(s => s.SpecificationType.SystemName == typeName).ToListAsync();
             return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }
 
         [Route("parent/{id:int}")]
-        public async Task<IEnumerable<DtoEntities.Specification>> GetByParentId(int id) {
+        public async Task<IEnumerable<DtoEntities.Specification>> GetByParentID(int id) {
             using (var ctx = new CustomWise.Data.CustomWiseModel()) {
                 var specifications = await
                     (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceId equals a.Id.ToString() into g
+                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
                      from a in g.DefaultIfEmpty()
-                     where s.ParentId == id 
+                     where s.ParentID == id 
                      select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).ToListAsync();
 
                 var specs = AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications.Where(obj => obj.Artifact == null).Select(obj => obj.Specification)).ToList();

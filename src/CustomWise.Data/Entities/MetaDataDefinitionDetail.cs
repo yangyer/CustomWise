@@ -1,8 +1,8 @@
-﻿
+﻿using Sophcon;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CustomWise.Data.Entities {
-    using Sophcon;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     /// <summary>
     /// Class that defines the detail metadata.
@@ -43,6 +43,7 @@ namespace CustomWise.Data.Entities {
         public MetaDataDefinition MetaDataDefinition { get; set; }
 
         public MetaDataDefinitionDetail()
-            : base() { }
+            : base() {
+        }
     }
 }

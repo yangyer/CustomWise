@@ -109,7 +109,6 @@
     <Compile Include="Configuration\MigrationSettingElement.cs" />
     <Compile Include="Models\Artifact.cs" />
     <Compile Include="SaveEvents\SetCreatedModifiedDataPreSaveEvent.cs" />
-    <Compile Include="Controllers\SpecificationTypeController.cs" />
     <Compile Include="DalToDtoMappingProfile.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\MetaData.cs" />

@@ -1,12 +1,13 @@
-﻿namespace CustomWise.Data.Entities {
-    using Sophcon;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using Sophcon;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CustomWise.Data.Entities {
 
     public class Configuration 
         : BaseEntity {
         [Key]
-        public int Id { get; set; }
+        public int ID { get; set; }
         [ForeignKey(nameof(Specification))]
         public int SpecificationId { get; set; }
         [Required, MaxLength(256)]

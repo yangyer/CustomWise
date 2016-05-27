@@ -6,7 +6,7 @@ namespace CustomWise.Web.Services.Models {
     public class MetaDataDefinition
         : BaseEntity {
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         [Required, MaxLength(64)]
         public string Name { get; set; }
         public IEnumerable<MetaData> MetaData { get; set; } = new List<MetaData>();

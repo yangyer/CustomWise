@@ -7,16 +7,16 @@ namespace CustomWise.Web.Services.Models {
     public class SpecificationVersion
         : BaseEntity {
 
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string VersionNumber { get; set; }
-        public int? ParentId { get; set; }
+        public int? ParentID { get; set; }
         [Required, MaxLength(64)]
         public string DisplayName { get; set; }
-        public int ItemTypeId { get; set; }
+        public int ItemTypeID { get; set; }
         public bool IsActive { get; set; }
         public bool Deleted { get; set; }
         public int Order { get; set; }
-        public int ReferenceId { get; set; }
+        public int ReferenceID { get; set; }
         public bool Published { get; set; }
         public DateTime? PublishedDate { get; set; }
         public virtual SpecificationType ItemType { get; set; }
