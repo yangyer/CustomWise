@@ -136,6 +136,12 @@ namespace CustomWise.Web {
             var gelColors                 = ParseCsv("gelcoat-colors.csv")              .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"] });
             var upholColors               = ParseCsv("upholstery-colors.csv")           .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"], TextureName = r["Texture Name"], SwatchNumber = r["Swatch Number"] });
 
+            #region new code
+
+            #endregion
+
+            #region old code
+            /*
             var version = new { CurrentVersionNumber = 1 };
             _context.SaveChanges();
 
@@ -513,6 +519,8 @@ namespace CustomWise.Web {
             //var colorPalletSpecificationVersions = colorPallets.Flatten(s => s.SubItems).Select(generateSpecificationVersion).ToList();
             //_context.SpecificationVersions.AddRange(colorPalletSpecificationVersions);
             //_context.SaveChanges();
+            #endregion
+            */
             #endregion
         }
 
