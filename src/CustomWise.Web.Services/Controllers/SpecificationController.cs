@@ -65,7 +65,7 @@ namespace CustomWise.Web.Services.Controllers {
 
         [Route("{typeName}")]
         public async Task<IEnumerable<DtoEntities.Specification>> Get(string typeName) {
-            var specifications = await SpecificationRepository.Get().Where(s => s.SpecificationType.SystemName == typeName).ToListAsync();
+            var specifications = await SpecificationRepository.Get().Where(s => s.SpecificationType.Name == typeName).ToListAsync();
             return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }
 

@@ -1,12 +1,9 @@
-﻿using Sophcon;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomWise.Data.Entities {
-
-    [Table("MetaData")]
-    public class MetaData : BaseEntity {
+    public class ArtifactMetadata {
         [Key]
         public int ID { get; set; }
         [Required, MaxLength(64)]
@@ -16,12 +13,12 @@ namespace CustomWise.Data.Entities {
 
         [ForeignKey(nameof(MetaDataDefinition))]
         public int MetaDataDefinitionId { get; set; }
-        public virtual MetaDataDefinition MetaDataDefinition { get; set; }
+        public virtual ArtifactTypeMetadataDefinition MetaDataDefinition { get; set; }
 
         public virtual ICollection<Specification> Specification { get; set; } = new HashSet<Specification>();
         public virtual ICollection<Artifact> Artifact { get; set; } = new HashSet<Artifact>();
 
-        public MetaData()
+        public ArtifactMetadata()
             : base() { }
     }
 }

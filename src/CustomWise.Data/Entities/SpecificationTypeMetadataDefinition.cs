@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomWise.Data.Entities {
-    public class ArtifactTypeDefinitionMetadata : BaseEntity {
+    public class SpecificationTypeMetadataDefinition : BaseEntity {
         [Key]
         public int ID { get; set; }
         [Required, MaxLength(64)]
@@ -18,11 +18,11 @@ namespace CustomWise.Data.Entities {
         public bool ReferenceRequired { get; set; }
         public bool Localized { get; set; }
 
-        [ForeignKey(nameof(ArtifactTypeDefinition))]
-        public int ArtifactTypeDefinitionID { get; set; }
-        public ArtifactTypeDefinition ArtifactTypeDefinition { get; set; }
+        [ForeignKey(nameof(SpecificationType))]
+        public int SpecificationTypeID { get; set; }
+        public SpecificationType SpecificationType { get; set; }
 
-        public ArtifactTypeDefinitionMetadata()
+        public SpecificationTypeMetadataDefinition() 
             : base() {
 
         }

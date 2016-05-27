@@ -9,7 +9,7 @@ namespace CustomWise.Web.Services.Models {
         public int ID { get; set; }
         [Required, MaxLength(64)]
         public string Name { get; set; }
-        public IEnumerable<MetaData> MetaData { get; set; } = new List<MetaData>();
+        public IEnumerable<SpecificationMetadata> MetaData { get; set; } = new List<SpecificationMetadata>();
         public IEnumerable<MetaDataDefinitionDetail> MetaDataDefinitionDetails { get; set; } = new List<MetaDataDefinitionDetail>();
 
         public MetaDataDefinition()

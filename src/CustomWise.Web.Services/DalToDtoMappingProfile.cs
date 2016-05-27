@@ -10,9 +10,9 @@
 
         protected override void Configure() {
             CreateMap<DalEntities.Configuration, DtoEntities.Configuration>().ReverseMap();
-            CreateMap<DalEntities.MetaData, DtoEntities.MetaData>().ReverseMap();
-            CreateMap<DalEntities.MetaDataDefinition, DtoEntities.MetaDataDefinition>().ReverseMap();
-            CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
+            CreateMap<DalEntities.SpecificationMetadata, DtoEntities.SpecificationMetadata>().ReverseMap();
+            //CreateMap<DalEntities.MetaDataDefinition, DtoEntities.MetaDataDefinition>().ReverseMap();
+            //CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
             CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
             CreateMap<DalEntities.Specification, DtoEntities.Specification>()
                 .ForMember(m => m.ReferenceID, opts => opts.MapFrom(s => s.ArtifactReferenceID))

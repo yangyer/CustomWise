@@ -29,7 +29,7 @@ namespace CustomWise.Data.Entities {
         public virtual int? ParentID { get; set; }
         public virtual Specification Parent { get; set; }
 
-        public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();
+        public virtual ICollection<SpecificationMetadata> MetaData { get; set; } = new HashSet<SpecificationMetadata>();
         public virtual ICollection<Specification> SubItems { get; set; } = new HashSet<Specification>();
 
         public Specification()

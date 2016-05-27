@@ -9,14 +9,15 @@ namespace CustomWise.Data.Entities {
         public int ID { get; set; }
         [Required, MaxLength(64)]
         public string Name { get; set; }
-        [Required, MaxLength(64)]
-        public string SystemName { get; set; }
+        [Required, MaxLength(256)]
+        public string Description { get; set; }
+        public bool SystemType { get; set; }
 
-        [ForeignKey(nameof(SpecificationTypeDefinition))]
-        public int SpecificationTypeDefinitionID { get; set; }
-        public virtual SpecificationTypeDefinition SpecificationTypeDefinition { get; set; }
-
-        public virtual ICollection<Specification> Specifications { get; set; } = new HashSet<Specification>();
+        [ForeignKey(nameof(ParentType))]
+        public int ParentID { get; set; }
+        public virtual SpecificationType ParentType { get; set; }
+        
+        public virtual ICollection<SpecificationTypeMetadataDefinition> MetadataDefinitions { get; set; }
 
         public SpecificationType() 
             : base() {

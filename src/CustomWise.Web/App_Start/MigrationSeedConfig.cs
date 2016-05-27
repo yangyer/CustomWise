@@ -122,10 +122,12 @@ namespace CustomWise.Web {
         }
 
         void Seed() {
-            var priceLevelMetaDataDefinitionDetails = _context.MetaDataDefinitions.Single(detail => detail.Name == "Pricing").MetaDataDefinitionDetails.ToList();
-            var colorMetaDataDefinitionDetails      = _context.MetaDataDefinitions.Single(mdd => mdd.Name == "Color").MetaDataDefinitionDetails.ToList();
+            //var priceLevelMetaDataDefinitionDetails = _context.MetaDataDefinitions.Single(detail => detail.Name == "Pricing").MetaDataDefinitionDetails.ToList();
+            //var colorMetaDataDefinitionDetails      = _context.MetaDataDefinitions.Single(mdd => mdd.Name == "Color").MetaDataDefinitionDetails.ToList();
             var specificationTypes                  = _context.SpecificationTypes.ToList();
             var artifactTypes                       = _context.ArtifactTypes.ToList();
+            var artifactSystemTypes                 = _context.ArtifactSystemTypes.ToList();
+
 
             var modelfeaturesSource       = ParseCsv("model-features.csv")              .Select(r => new { Raw = r, Model = r["Model"], FeatureId = r["Feature Id"], FeatureName = r["Feature Name"], Price = r["Price"] });
             var modelFeaturePricingSource = ParseCsv("model-feature-pricing.csv")       .Select(r => new { Raw = r, Model = r["Model"], PriceLevelId = r["Price Level Id"], FeatureId = r["Feature Id"], Price = r["Price"] });
@@ -137,7 +139,40 @@ namespace CustomWise.Web {
             var upholColors               = ParseCsv("upholstery-colors.csv")           .Select(r => new { Raw = r, Id = r["Id"], Section = r["Section"], HexColor = r["Hex Color"], ColorName = r["Color Name"], TextureName = r["Texture Name"], SwatchNumber = r["Swatch Number"] });
 
             #region new code
+            var modelNames = modelfeaturesSource.Select(mf => mf.Model).Distinct().OrderBy(name => name).ToList();
+            var sections = modelColorAreasSource.Select(mc => mc.Section).Distinct().ToList();
+            var colorPalletArtifacts =
+                (from section in sections
+                 select new Artifact {
+                     ID = section.IndexOf(section, StringComparison.Ordinal) + 1,
+                     DisplayName = section,
+                     ArtifactSystemType = artifactSystemTypes.First(ast => ast.Name.Equals("group", StringComparison.OrdinalIgnoreCase)),
+                     ArtifactType = artifactTypes.First(at => at.Name.Equals("color area", StringComparison.OrdinalIgnoreCase)),
+                     IsActive = true,
+                     Order = section.IndexOf(section, StringComparison.Ordinal),
+                     //SubItems = 
+                     //   (from ca in gelPallets
+                     //    where ca.)
+                 }).ToList();
 
+            var rootSpecifications =
+                (from modelName in modelNames
+                 select new Specification {
+                     Order = modelNames.IndexOf(modelName),
+                     DisplayName = modelName,
+                     // MetaData
+                     SubItems = new List<Specification> {
+                         new Specification {
+                             DisplayName = "Options",
+                             SpecificationSystemType = null, // Need to inject system type here
+                             SpecificationType = null,
+                             SubItems = (from mf in modelfeaturesSource
+                                         where mf.Model == modelName
+                                         select new Specification {
+                                         }).ToList()
+                         }
+                     }
+                 });
             #endregion
 
             #region old code
@@ -525,44 +560,44 @@ namespace CustomWise.Web {
         }
 
         // **
-        internal MetaData GenerateColorMetaData(MetaDataDefinitionDetail detail, IDictionary<string, string> record) {
-            return new MetaData {
-                Key = detail.Name,
-                Value = record[detail.Name],
-                MetaDataDefinitionId = detail.MetaDataDefinitionId,
-                CreatedBy = "system",
-                CreatedDate = DateTime.Now,
-                ModifiedBy = "system",
-                ModifiedDate = DateTime.Now,
-            };
-        }
-        // **
-        internal MetaData[] GenerateFeaturePriceMetaData(IEnumerable<MetaDataDefinitionDetail> priceMetaDetails, IDictionary<string, string> record) {
-            return priceMetaDetails.Select(detail => new MetaData {
-                Key = detail.Name,
-                Value = record[detail.Name],
-                MetaDataDefinitionId = detail.MetaDataDefinitionId,
-                CreatedBy = "system",
-                CreatedDate = DateTime.Now,
-                ModifiedBy = "system",
-                ModifiedDate = DateTime.Now
-            }).ToArray();
-        }
-        // **
-        internal IList<MetaData> GenerateModelMetaData(MetaDataDefinition modelMetaDataDefinition) {
-            return new List<MetaData> {
-                new MetaData {
-                    ID    = 1,
-                    Key   = "Model Year",
-                    Value = "2016",
-                    MetaDataDefinition = modelMetaDataDefinition,
-                    CreatedBy = "system",
-                    CreatedDate = DateTime.Now,
-                    ModifiedBy = "system",
-                    ModifiedDate = DateTime.Now
-                }
-            };
-        }
+        //internal SpecificationMetadata GenerateColorMetaData(MetaDataDefinitionDetail detail, IDictionary<string, string> record) {
+        //    return new SpecificationMetadata {
+        //        Key = detail.Name,
+        //        Value = record[detail.Name],
+        //        MetaDataDefinitionId = detail.MetaDataDefinitionId,
+        //        CreatedBy = "system",
+        //        CreatedDate = DateTime.Now,
+        //        ModifiedBy = "system",
+        //        ModifiedDate = DateTime.Now,
+        //    };
+        //}
+        //// **
+        //internal SpecificationMetadata[] GenerateFeaturePriceMetaData(IEnumerable<MetaDataDefinitionDetail> priceMetaDetails, IDictionary<string, string> record) {
+        //    return priceMetaDetails.Select(detail => new SpecificationMetadata {
+        //        Key = detail.Name,
+        //        Value = record[detail.Name],
+        //        MetaDataDefinitionId = detail.MetaDataDefinitionId,
+        //        CreatedBy = "system",
+        //        CreatedDate = DateTime.Now,
+        //        ModifiedBy = "system",
+        //        ModifiedDate = DateTime.Now
+        //    }).ToArray();
+        //}
+        //// **
+        //internal IList<SpecificationMetadata> GenerateModelMetaData(MetaDataDefinition modelMetaDataDefinition) {
+        //    return new List<SpecificationMetadata> {
+        //        new SpecificationMetadata {
+        //            ID    = 1,
+        //            Key   = "Model Year",
+        //            Value = "2016",
+        //            MetaDataDefinition = modelMetaDataDefinition,
+        //            CreatedBy = "system",
+        //            CreatedDate = DateTime.Now,
+        //            ModifiedBy = "system",
+        //            ModifiedDate = DateTime.Now
+        //        }
+        //    };
+        //}
 
         public static void Seed(ICustomWiseContext context) {
             if (context.Specifications.Count() < 1) {

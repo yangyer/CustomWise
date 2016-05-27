@@ -111,7 +111,7 @@
     <Compile Include="SaveEvents\SetCreatedModifiedDataPreSaveEvent.cs" />
     <Compile Include="DalToDtoMappingProfile.cs" />
     <Compile Include="Models\Configuration.cs" />
-    <Compile Include="Models\MetaData.cs" />
+    <Compile Include="Models\SpecificationMetadata.cs" />
     <Compile Include="Models\MetaDataDefinition.cs" />
     <Compile Include="Models\SpecificationType.cs" />
     <Compile Include="Models\Specification.cs" />

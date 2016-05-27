@@ -20,7 +20,7 @@ namespace CustomWise.Web.Services.Models {
         public bool Published { get; set; }
         public DateTime? PublishedDate { get; set; }
         public virtual SpecificationType ItemType { get; set; }
-        public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();
+        public virtual ICollection<SpecificationMetadata> MetaData { get; set; } = new HashSet<SpecificationMetadata>();
         public virtual ICollection<Specification> Subitems { get; set; } = new HashSet<Specification>();
         public virtual ICollection<Configuration> Configurations { get; set; } = new HashSet<Configuration>();
 

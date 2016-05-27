@@ -27,7 +27,7 @@ namespace CustomWise.Data.Entities {
         public virtual int? ParentID { get; set; }
         public virtual Artifact Parent { get; set; }
 
-        public virtual ICollection<MetaData> MetaData { get; set; } = new HashSet<MetaData>();
+        public virtual ICollection<SpecificationMetadata> MetaData { get; set; } = new HashSet<SpecificationMetadata>();
         public virtual ICollection<Artifact> SubItems { get; set; } = new HashSet<Artifact>();
 
         public Artifact()
