@@ -1,0 +1,23 @@
+SpecificationTypeDefinition,Name,Description,ParentId,SystemType,MetadataKey,ValueType,DefaultValue,AllowOverride,InputTemplate,Required,Localized
+1,Item,,0,TRUE,system.displayname,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.css.class,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.template.edit,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.template.read,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.template.new,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.template.disabled,text,,,,,
+2,UI Item,,1,TRUE,ui.item.template.read,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.item.template.edit,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.item.template.new,text,,TRUE,textbox,FALSE,FALSE
+2,UI Item,,1,TRUE,ui.item.template.disabled,text,,,,,
+3,UI Renderer Item,,2,TRUE,system.renderer.image.source,,,,,,
+3,UI Renderer Item,,2,TRUE,system.renderer.image.transformation,,,,,,
+3,UI Renderer Item,,2,TRUE,system.renderer.image.generator,,color({{domain.mb.color.rgb}}),,,,
+3,UI Renderer Item,,2,TRUE,system.renderer.render.order,,,,,,
+4,Color,,3,FALSE,domain.mb.color.rgb,text,,TRUE,textbox,TRUE,FALSE
+4,Color,,3,FALSE,domain.mb.color.texture,text,,TRUE,textbox,FALSE,FALSE
+4,Color,,3,FALSE,domain.mb.color.type,text,,TRUE,textbox,FALSE,FALSE
+5,Color Pallet,,2,FALSE,,,,,,,
+6,Color Area,,3,FALSE,,,,,,,
+7,Model,,3,FALSE,domain.mb.model.year,int,,TRUE,textbox,TRUE,FALSE
+7,Model,,3,FALSE,domain.mb.model.code,text,,TRUE,textbox,TRUE,FALSE
+8,Feature,,3,FALSE,domain.mb.feature.id,text,,TRUE,textbox,TRUE,FALSE
