@@ -13,8 +13,8 @@ namespace CustomWise.Data.Migrations {
         enum MetaDataDefinitionTypes { Color, Image, Pricing, All }
 
         public Configuration() {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationsEnabled = true;
+            //AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(CustomWise.Data.CustomWiseModel context) {

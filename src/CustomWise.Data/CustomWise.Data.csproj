@@ -67,7 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomWiseMigration.cs" />
     <Compile Include="CustomWiseModel.cs" />
     <Compile Include="Entities\Artifact.cs" />
     <Compile Include="Entities\ArtifactType.cs" />
