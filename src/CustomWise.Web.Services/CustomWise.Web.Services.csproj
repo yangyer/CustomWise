@@ -83,6 +83,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -125,6 +126,10 @@
     <ProjectReference Include="..\CustomWise.Data\CustomWise.Data.csproj">
       <Project>{DECFBA94-41EE-4757-9728-81A42333D808}</Project>
       <Name>CustomWise.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomWise.Imaging\CustomWise.Imaging.fsproj">
+      <Project>{4c604a96-9749-45e6-ad3d-60b7d2a87074}</Project>
+      <Name>CustomWise.Imaging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
