@@ -21,6 +21,3 @@ SpecificationTypeDefinition,Name,Description,ParentId,SystemType,MetadataKey,Val
 7,Model,,3,FALSE,domain.mb.model.year,int,,TRUE,textbox,TRUE,FALSE
 7,Model,,3,FALSE,domain.mb.model.code,text,,TRUE,textbox,TRUE,FALSE
 8,Feature,,3,FALSE,domain.mb.feature.id,text,,TRUE,textbox,TRUE,FALSE
-8,Feature,,3,FALSE,domain.mb.pricing.msrp,text,,TRUE,textbox,TRUE,FALSE
-8,Feature,,3,FALSE,domain.mb.pricing.level.id,int,,TRUE,textbox,TRUE,FALSE
-8,Feature,,3,FALSE,domain.mb.pricing.level.price,float,,TRUE,textbox,FALSE,FALSE

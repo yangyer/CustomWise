@@ -190,15 +190,8 @@ namespace CustomWise.Web {
                                     MetaData = specificationTypes
                                         .Where(st => st.Name.Equals("feature", StringComparison.OrdinalIgnoreCase))
                                         .SelectMany(st =>  st.MetadataDefinitions)
-                                        .Where(stmd => stmd.Key.In("domain.mb.pricing.level.id", "domain.mb.pricing.level.price") || !string.IsNullOrWhiteSpace(stmd.DefaultValue))
-                                        .Select(stmd => new SpecificationMetadata {
-                                            ID = specMetadataID++,
-                                            Key = stmd.Key,
-                                            Value = stmd.Key.Equals("domain.mb.pricing.level.id") ? modelFeaturePricingSource.First(mfp => mfp.Model.Equals(groupM.Key) && mfp.FeatureId.Equals(mf.FeatureId)).PriceLevelId
-                                                : stmd.Key.Equals("domain.mb.pricing.level.price") ? modelFeaturePricingSource.First(mfp => mfp.Model.Equals(groupM.Key) && mfp.FeatureId.Equals(mf.FeatureId)).Price
-                                                : stmd.DefaultValue,
-                                            MetadataDefinitionID = stmd.ID
-                                        })
+                                        .Where(stmd => !string.IsNullOrWhiteSpace(stmd.DefaultValue))
+                                        .Select(stmd => new SpecificationMetadata { ID = specMetadataID++, Key = stmd.Key, Value = stmd.DefaultValue, MetadataDefinitionID = stmd.ID })
                                         .SetCreatedByModifiedByList()
                                 }).SetOrder().SetCreatedByModifiedByList()
                          }
