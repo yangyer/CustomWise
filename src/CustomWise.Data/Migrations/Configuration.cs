@@ -6,6 +6,9 @@ namespace CustomWise.Data.Migrations {
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CustomWise.Data.CustomWiseModel> {
+        public Configuration() {
+            base.AutomaticMigrationsEnabled = true;
+        }
 
         protected override void Seed(CustomWise.Data.CustomWiseModel context) {
             context.SpecificationSystemTypes.AddOrUpdate(CreateSpecificationSystemTypes());
@@ -17,26 +20,31 @@ namespace CustomWise.Data.Migrations {
 
         private SpecificationSystemType[] CreateSpecificationSystemTypes() {
             var entities = new SpecificationSystemType[] {
-                new SpecificationSystemType { Name = "Root" },
-                new SpecificationSystemType { Name = "Group" },
-                new SpecificationSystemType { Name = "Choice Group" },
-                new SpecificationSystemType { Name = "Item" },
-                new SpecificationSystemType { Name = "Reference Item", }
+                new SpecificationSystemType { ID = 1, Name = "Root" },
+                new SpecificationSystemType { ID = 2, Name = "Group" },
+                new SpecificationSystemType { ID = 3, Name = "Choice Group" },
+                new SpecificationSystemType { ID = 4, Name = "Item" },
+                new SpecificationSystemType { ID = 5, Name = "Multiple Choice Group" },
+                new SpecificationSystemType { ID = 6, Name = "Reference Group" },
+                new SpecificationSystemType { ID = 7, Name = "Reference Choice Group" },
+                new SpecificationSystemType { ID = 8, Name = "Reference Multiple Choice Group" },
+                new SpecificationSystemType { ID = 9, Name = "Reference Item" }
             };
 
-            return entities.SetId().SetCreatedByModifiedByList();
+            return entities.SetCreatedByModifiedByList();
         }
 
         private ArtifactSystemType[] CreateArtifactSystemTypes() {
             var entities = new ArtifactSystemType[] {
-                new ArtifactSystemType { Name = "Root" },
-                new ArtifactSystemType { Name = "Group" },
-                new ArtifactSystemType { Name = "Choice Group" },
-                new ArtifactSystemType { Name = "Item" },
-                new ArtifactSystemType { Name = "Reference Item" }
+                new ArtifactSystemType { ID = 1, Name = "Root" },
+                new ArtifactSystemType { ID = 2, Name = "Group" },
+                new ArtifactSystemType { ID = 3, Name = "Choice Group" },
+                new ArtifactSystemType { ID = 4, Name = "Item" },
+                new ArtifactSystemType { ID = 5, Name = "Multiple Choice Group" },
+                new ArtifactSystemType { ID = 6, Name = "Reference Item" }
             };
 
-            return entities.SetId().SetCreatedByModifiedByList();
+            return entities.SetCreatedByModifiedByList();
         }
 
         #endregion

@@ -4,15 +4,15 @@ SpecificationTypeDefinition,Name,Description,ParentId,SystemType,MetadataKey,Val
 2,UI Item,,1,TRUE,ui.template.edit,text,,TRUE,textbox,FALSE,FALSE
 2,UI Item,,1,TRUE,ui.template.read,text,,TRUE,textbox,FALSE,FALSE
 2,UI Item,,1,TRUE,ui.template.new,text,,TRUE,textbox,FALSE,FALSE
-2,UI Item,,1,TRUE,ui.template.disabled,text,,,,,
+2,UI Item,,1,TRUE,ui.template.disabled,text,,TRUE,textbox,FALSE,FALSE
 2,UI Item,,1,TRUE,ui.item.template.read,text,,TRUE,textbox,FALSE,FALSE
 2,UI Item,,1,TRUE,ui.item.template.edit,text,,TRUE,textbox,FALSE,FALSE
 2,UI Item,,1,TRUE,ui.item.template.new,text,,TRUE,textbox,FALSE,FALSE
-2,UI Item,,1,TRUE,ui.item.template.disabled,text,,,,,
-3,UI Renderer Item,,2,TRUE,system.renderer.image.source,,,,,,
-3,UI Renderer Item,,2,TRUE,system.renderer.image.transformation,,,,,,
-3,UI Renderer Item,,2,TRUE,system.renderer.image.generator,,color({{domain.mb.color.rgb}}),,,,
-3,UI Renderer Item,,2,TRUE,system.renderer.render.order,,,,,,
+2,UI Item,,1,TRUE,ui.item.template.disabled,text,,TRUE,textbox,FALSE,FALSE
+3,UI Renderer Item,,2,TRUE,system.renderer.image.source,text,,TRUE,textbox,FALSE,FALSE
+3,UI Renderer Item,,2,TRUE,system.renderer.image.transformation,text,,TRUE,textbox,FALSE,FALSE
+3,UI Renderer Item,,2,TRUE,system.renderer.image.generator,text,color({{domain.mb.color.rgb}}),TRUE,textbox,FALSE,FALSE
+3,UI Renderer Item,,2,TRUE,system.renderer.render.order,text,,TRUE,textbox,FALSE,FALSE
 4,Color,,3,FALSE,domain.mb.color.rgb,text,,TRUE,textbox,TRUE,FALSE
 4,Color,,3,FALSE,domain.mb.color.texture,text,,TRUE,textbox,FALSE,FALSE
 4,Color,,3,FALSE,domain.mb.color.type,text,,TRUE,textbox,FALSE,FALSE
@@ -21,3 +21,6 @@ SpecificationTypeDefinition,Name,Description,ParentId,SystemType,MetadataKey,Val
 7,Model,,3,FALSE,domain.mb.model.year,int,,TRUE,textbox,TRUE,FALSE
 7,Model,,3,FALSE,domain.mb.model.code,text,,TRUE,textbox,TRUE,FALSE
 8,Feature,,3,FALSE,domain.mb.feature.id,text,,TRUE,textbox,TRUE,FALSE
+8,Feature,,3,FALSE,domain.mb.pricing.msrp,text,,TRUE,textbox,TRUE,FALSE
+8,Feature,,3,FALSE,domain.mb.pricing.level.id,int,,TRUE,textbox,TRUE,FALSE
+8,Feature,,3,FALSE,domain.mb.pricing.level.price,float,,TRUE,textbox,FALSE,FALSE

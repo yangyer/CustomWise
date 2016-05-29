@@ -7,7 +7,7 @@ namespace CustomWise.Data.Entities {
 
     public class Artifact : BaseEntity {
         [Key]
-        public virtual int ID { get; set; }
+        public int ID { get; set; }
         [MaxLength(256)]
         public string DisplayName { get; set; }
         public bool IsActive { get; set; }
@@ -15,19 +15,19 @@ namespace CustomWise.Data.Entities {
         public int Order { get; set; }
         public string ArtifactReferenceId { get; set; }
 
-        [ForeignKey(nameof(ArtifactType))]
+        [ForeignKey(nameof(ArtifactSystemType))]
         public int ArtifactSystemTypeID { get; set; }
         public ArtifactSystemType ArtifactSystemType { get; set; }
 
         [ForeignKey(nameof(ArtifactType))]
-        public int ArtifactTypeID { get; set; }
+        public int? ArtifactTypeID { get; set; }
         public virtual ArtifactType ArtifactType { get; set; }
 
         [ForeignKey(nameof(Parent))]
         public virtual int? ParentID { get; set; }
         public virtual Artifact Parent { get; set; }
 
-        public virtual ICollection<SpecificationMetadata> MetaData { get; set; } = new HashSet<SpecificationMetadata>();
+        public virtual ICollection<ArtifactMetadata> MetaData { get; set; } = new HashSet<ArtifactMetadata>();
         public virtual ICollection<Artifact> SubItems { get; set; } = new HashSet<Artifact>();
 
         public Artifact()

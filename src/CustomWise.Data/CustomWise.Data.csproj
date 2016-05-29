@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,9 +81,9 @@
     <Compile Include="Entities\SpecificationType.cs" />
     <Compile Include="Entities\SpecificationTypeMetadataDefinition.cs" />
     <Compile Include="ICustomWiseContext.cs" />
-    <Compile Include="Migrations\201605220457240_Intial.cs" />
-    <Compile Include="Migrations\201605220457240_Intial.Designer.cs">
-      <DependentUpon>201605220457240_Intial.cs</DependentUpon>
+    <Compile Include="Migrations\201605280058193_Initial.cs" />
+    <Compile Include="Migrations\201605280058193_Initial.Designer.cs">
+      <DependentUpon>201605280058193_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,8 +96,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605220457240_Intial.resx">
-      <DependentUpon>201605220457240_Intial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605280058193_Initial.resx">
+      <DependentUpon>201605280058193_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

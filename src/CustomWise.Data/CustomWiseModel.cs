@@ -32,5 +32,64 @@ namespace CustomWise.Data {
         public CustomWiseModel()
             : base("name=CustomWiseModel") {
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ArtifactMetadata>()
+                .HasRequired(e => e.MetadataDefinition)
+                .WithMany(e => e.ArtifactMetadata)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SpecificationMetadata>()
+                .HasRequired(e => e.MetadataDefinition)
+                .WithMany(e => e.SpecificationMetadata)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Specification>()
+                .HasRequired(e => e.SpecificationSystemType)
+                .WithMany(e => e.Specifications)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Specification>()
+               .HasOptional(e => e.SpecificationType)
+               .WithMany(e => e.Specifications)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SpecificationTypeMetadataDefinition>()
+                .HasRequired(e => e.SpecificationType)
+                .WithMany(e => e.MetadataDefinitions)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SpecificationMetadata>()
+                .HasRequired(e => e.Specification)
+                .WithMany(e => e.MetaData)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Configuration>()
+                .HasRequired(e => e.Specification)
+                .WithMany(e => e.Configurations)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Artifact>()
+                .HasOptional(e => e.ArtifactType)
+                .WithMany(e => e.Artifacts)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Artifact>()
+                .HasRequired(e => e.ArtifactSystemType)
+                .WithMany(e => e.Artifacts)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ArtifactTypeMetadataDefinition>()
+                .HasRequired(e => e.ArtifactType)
+                .WithMany(e => e.MetadataDefinitions)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ArtifactMetadata>()
+                .HasRequired(e => e.Artifact)
+                .WithMany(e => e.MetaData)
+                .WillCascadeOnDelete(false);
+        }
     }
 }

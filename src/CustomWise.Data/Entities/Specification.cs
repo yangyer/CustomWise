@@ -18,11 +18,11 @@ namespace CustomWise.Data.Entities {
         public string ArtifactReferenceID { get; set; }
         
         [ForeignKey(nameof(SpecificationSystemType))]
-        public int SpecificationSystemTypeId { get; set; }
+        public int SpecificationSystemTypeID { get; set; }
         public SpecificationSystemType SpecificationSystemType { get; set; }
 
         [ForeignKey(nameof(SpecificationType))]
-        public int SpecificationTypeID { get; set; }
+        public int? SpecificationTypeID { get; set; }
         public virtual SpecificationType SpecificationType { get; set; }
 
         [ForeignKey(nameof(Parent))]
@@ -31,6 +31,7 @@ namespace CustomWise.Data.Entities {
 
         public virtual ICollection<SpecificationMetadata> MetaData { get; set; } = new HashSet<SpecificationMetadata>();
         public virtual ICollection<Specification> SubItems { get; set; } = new HashSet<Specification>();
+        public virtual ICollection<Configuration> Configurations { get; set; } = new HashSet<Configuration>();
 
         public Specification()
             : base() {

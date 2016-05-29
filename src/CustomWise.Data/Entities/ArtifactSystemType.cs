@@ -14,7 +14,7 @@ namespace CustomWise.Data.Entities {
         [Required, MaxLength(64)]
         public string Name { get; set; }
 
-        public ICollection<Artifact> Artifacts { get; set; }
+        public virtual ICollection<Artifact> Artifacts { get; set; } = new HashSet<Artifact>();
 
         public ArtifactSystemType() 
             : base() {
