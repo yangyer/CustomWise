@@ -2,17 +2,15 @@
 using CustomWise.Web.Services.Controllers.Base;
 using Sophcon;
 using Sophcon.Collections;
-using Sophcon.Data;
 using Sophcon.Data.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using DalEntities = CustomWise.Data.Entities;
 using DtoEntities = CustomWise.Web.Services.Models;
-using CustomWise.Web.Services.Extensions;
 
 namespace CustomWise.Web.Services.Controllers {
     [RoutePrefix("api/customwise/specification")]
@@ -29,61 +27,34 @@ namespace CustomWise.Web.Services.Controllers {
 
         [Route]
         public async Task<IEnumerable<DtoEntities.Specification>> Get() {
-            using (var ctx = new CustomWise.Data.CustomWiseModel()) {
-                var specifications = await
-                    (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
-                     from a in g.DefaultIfEmpty()
-                     select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).ToListAsync();
-
-                var specs = AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications.Where(obj => obj.Artifact == null).Select(obj => obj.Specification)).ToList();
-                specs.AddRange(AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications.Where(obj => obj.Artifact != null).Select(obj => obj.Artifact)));
-
-                return specs;
-            }
+            var specifications = UnitOfWork.GetRepository<DalEntities.Specification>().List().ToList();
+            var specs = AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
+            return specs;
         }
 
         [Route("{id:int}")]
         public async Task<DtoEntities.Specification> Get(int id) {
-            using (var ctx = new CustomWise.Data.CustomWiseModel()) {
-                var obj = await
-                    (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
-                     from a in g.DefaultIfEmpty()
-                     where s.ID == id
-                     select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).FirstOrDefaultAsync();
-
-                return obj.Artifact == null ? AutoMapper.Map<DtoEntities.Specification>(obj.Specification) : AutoMapper.Map<DtoEntities.Specification>(obj.Artifact);
-            }
+            var specification = UnitOfWork.GetRepository<DalEntities.Specification>().Find(id);
+            var spec = AutoMapper.Map<DtoEntities.Specification>(specification);
+            return spec;
         }
 
         [Route("{version:int}/{id:int}")]
         public async Task<DtoEntities.Specification> Get(int id, int version) {
-            var specification = await SpecificationRepository.FindAsync(id);
+            var specification = await UnitOfWork.GetRepository<DtoEntities.Specification>().FindAsync(id);
             return AutoMapper.Map<DtoEntities.Specification>(specification);
         }
 
         [Route("{typeName}")]
         public async Task<IEnumerable<DtoEntities.Specification>> Get(string typeName) {
-            var specifications = await SpecificationRepository.Get().Where(s => s.SpecificationType.Name == typeName).ToListAsync();
+            var specifications = UnitOfWork.GetRepository<DalEntities.Specification>().List().Where(s => s.SpecificationSystemType.Name.Equals(typeName, System.StringComparison.OrdinalIgnoreCase)).ToList();
             return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }
 
         [Route("parent/{id:int}")]
         public async Task<IEnumerable<DtoEntities.Specification>> GetByParentID(int id) {
-            using (var ctx = new CustomWise.Data.CustomWiseModel()) {
-                var specifications = await
-                    (from s in ctx.Specifications
-                     join a in ctx.Artifacts on s.ArtifactReferenceID equals a.ID.ToString() into g
-                     from a in g.DefaultIfEmpty()
-                     where s.ParentID == id 
-                     select new DtoEntities.ArtifactSpecification { Specification = s, Artifact = a }).ToListAsync();
-
-                var specs = AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications.Where(obj => obj.Artifact == null).Select(obj => obj.Specification)).ToList();
-                specs.AddRange(AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications.Where(obj => obj.Artifact != null).Select(obj => obj.Artifact)));
-
-                return specs;
-            }
+            var specifications = await UnitOfWork.GetRepository<DalEntities.Specification>().FindAsync(id);
+            return AutoMapper.Map<IEnumerable<DtoEntities.Specification>>(specifications);
         }
 
         [Route]
@@ -94,17 +65,17 @@ namespace CustomWise.Web.Services.Controllers {
             var specifications = AutoMapper.Map<IEnumerable<DalEntities.Specification>>(specification).Flatten(s => s.SubItems);
 
             specifications = specifications.Select(s => {
-                if (s.State == SophconEntityState.Deleted) {
+                if (s.State == DataEntityState.Deleted) {
                     s.Deleted = true;
-                    s.State = SophconEntityState.Modified;
+                    s.State = DataEntityState.Modified;
                 }
                 return s;
             });
 
-            SpecificationRepository.AddRange(specifications.Where(s => s.State == SophconEntityState.Added));
-            SpecificationRepository.UpdateRange(specifications.Where(s => s.State == SophconEntityState.Modified));
+            UnitOfWork.GetRepository<DalEntities.Specification>().AddRange(specifications.Where(s => s.State == DataEntityState.Added));
+            UnitOfWork.GetRepository<DalEntities.Specification>().UpdateRange(specifications.Where(s => s.State == DataEntityState.Modified));
 
-            return await UnitOfWork.SaveChangesAsync();
+            return await UnitOfWork.CommitChangesAsync(new CancellationTokenSource().Token);
         }
 
         [Route]
@@ -116,17 +87,17 @@ namespace CustomWise.Web.Services.Controllers {
             var specifications = AutoMapper.Map<IEnumerable<DalEntities.Specification>>(specification).Flatten(s => s.SubItems);
             
             specifications = specifications.Select(s => {
-                if (s.State == SophconEntityState.Deleted) {
+                if (s.State == DataEntityState.Deleted) {
                     s.Deleted = true;
-                    s.State = SophconEntityState.Modified;
+                    s.State = DataEntityState.Modified;
                 }
                 return s;
             });
 
-            SpecificationRepository.AddRange(specifications.Where(s => s.State == SophconEntityState.Added));
-            SpecificationRepository.UpdateRange(specifications.Where(s => s.State == SophconEntityState.Modified));
+            UnitOfWork.GetRepository<DalEntities.Specification>().AddRange(specifications.Where(s => s.State == DataEntityState.Added));
+            UnitOfWork.GetRepository<DalEntities.Specification>().UpdateRange(specifications.Where(s => s.State == DataEntityState.Modified));
             
-            return await UnitOfWork.SaveChangesAsync();
+            return await UnitOfWork.CommitChangesAsync(new CancellationTokenSource().Token);
         }
     }
 }

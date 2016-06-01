@@ -13,10 +13,13 @@
             CreateMap<DalEntities.SpecificationMetadata, DtoEntities.SpecificationMetadata>().ReverseMap();
             //CreateMap<DalEntities.MetaDataDefinition, DtoEntities.MetaDataDefinition>().ReverseMap();
             //CreateMap<DalEntities.MetaDataDefinitionDetail, DtoEntities.MetaDataDefinitionDetail>().ReverseMap();
-            CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
             CreateMap<DalEntities.Specification, DtoEntities.Specification>()
                 .ForMember(m => m.ReferenceID, opts => opts.MapFrom(s => s.ArtifactReferenceID))
                 .ReverseMap();
+            CreateMap<DalEntities.SpecificationSystemType, DtoEntities.SpecificationSystemType>().ReverseMap();
+            CreateMap<DalEntities.SpecificationType, DtoEntities.SpecificationType>().ReverseMap();
+            CreateMap<DalEntities.SpecificationMetadata, DtoEntities.SpecificationMetadata>().ReverseMap();
+            
             //CreateMap<DalEntities.SpecificationVersion, DalEntities.Specification>()
             //    .ForMember(m => m.ID, opts => opts.MapFrom(s => s.SpecificationID))
             //    .ReverseMap()

@@ -1,12 +1,13 @@
 ﻿using Sophcon;
 using Sophcon.Collections;
 using Sophcon.Data;
+using Sophcon.Data.Infrastructure;
 using System;
 using System.Collections.Generic;
 
 namespace CustomWise.Web.Services.Controllers.SaveEvents {
-    public class SetCreatedModifiedDataPreSaveEvent
-        : PreSaveEventBase {
+    public class SetCreatedModifiedDataPreSaveEvent<TUnitOfWork> : SaveStrategyBase<TUnitOfWork> 
+        where TUnitOfWork : IUnitOfWork {
 
         private string _userName;
 
@@ -14,12 +15,12 @@ namespace CustomWise.Web.Services.Controllers.SaveEvents {
             _userName = !string.IsNullOrWhiteSpace(userName) ? userName : "system";
         }
 
-        public override void PreSaveAction(IEnumerable<BaseEntity> entities, IPreSavePipeline state) {
-            foreach(var entity in entities) {
-                entity.CreatedBy = entity.State == SophconEntityState.Added ? _userName : entity.CreatedBy;
-                entity.CreatedDate = entity.State == SophconEntityState.Added ? DateTime.Now : entity.CreatedDate;
-                entity.ModifiedBy = entity.State.In(SophconEntityState.Modified, SophconEntityState.Added) ? _userName : entity.ModifiedBy;
-                entity.ModifiedDate = entity.State.In(SophconEntityState.Modified, SophconEntityState.Added) ? DateTime.Now : entity.ModifiedDate;
+        public override void PreSaveHandler(IEnumerable<DataEntityWrapper> entries) {
+            foreach (var entry in entries) {
+                entry.Entity.CreatedBy = entry.State == DataEntityState.Added ? _userName : entry.Entity.CreatedBy;
+                entry.Entity.CreatedDate = entry.State == DataEntityState.Added ? DateTime.Now : entry.Entity.CreatedDate;
+                entry.Entity.ModifiedBy = entry.State.In(DataEntityState.Modified, DataEntityState.Added) ? _userName : entry.Entity.ModifiedBy;
+                entry.Entity.ModifiedDate = entry.State.In(DataEntityState.Modified, DataEntityState.Added) ? DateTime.Now : entry.Entity.ModifiedDate;
             }
         }
     }

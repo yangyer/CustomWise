@@ -19,7 +19,7 @@ namespace CustomWise.Data.Entities {
         
         [ForeignKey(nameof(SpecificationSystemType))]
         public int SpecificationSystemTypeID { get; set; }
-        public SpecificationSystemType SpecificationSystemType { get; set; }
+        public virtual SpecificationSystemType SpecificationSystemType { get; set; }
 
         [ForeignKey(nameof(SpecificationType))]
         public int? SpecificationTypeID { get; set; }
